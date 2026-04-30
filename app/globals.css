@@ -2,17 +2,73 @@
 
 @layer base {
   :root {
-    --background: 240 10% 3.9%; /* #0a0a0f */
-    --foreground: 0 0% 98%;
-    --card: 240 10% 10%; /* #13131f */
+    --background: 240 43% 4%; /* #0a0a0f */
+    --foreground: 244 55% 93%; /* #e2e0f9 */
+    
+    --card: 240 25% 10%; /* #13131f */
+    --card-foreground: 244 55% 93%;
+    
+    --popover: 240 25% 10%;
+    --popover-foreground: 244 55% 93%;
+    
     --primary: 236 91% 73%; /* #818cf8 */
-    --accent: 260 80% 90%; /* #fbbf24 */
-    --border: 240 5% 15%; /* #1e1e30 */
+    --primary-foreground: 240 76% 31%; /* #131e8c */
+    
+    --secondary: 201 100% 74%; /* #7bd0ff */
+    --secondary-foreground: 200 100% 15%; /* #00354a */
+    
+    --muted: 240 19% 25%; /* #333346 */
+    --muted-foreground: 242 15% 80%; /* #c6c5d5 */
+    
+    --accent: 236 91% 73%;
+    --accent-foreground: 240 76% 31%;
+    
+    --destructive: 0 100% 83%; /* #ffb4ab */
+    --destructive-foreground: 0 100% 21%; /* #690005 */
+    
+    --border: 240 23% 15%; /* #1e1e30 */
+    --input: 240 23% 15%;
+    --ring: 236 91% 73%;
+    
+    --radius: 0.875rem; /* 14px */
   }
 }
 
-body {
-  background: hsl(var(--background));
-  color: hsl(var(--foreground));
-  font-family: Arial, Helvetica, sans-serif;
+@theme {
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-space-grotesk);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading tracking-tight;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e1e30;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #333346;
 }
