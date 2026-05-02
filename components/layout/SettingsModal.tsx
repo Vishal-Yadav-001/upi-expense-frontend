@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { X, RefreshCw, Trash2, Shield, Info } from "lucide-react";
+import { X, RefreshCw, Trash2, Shield, Info, Loader2 } from "lucide-react";
 import { usePrivacy } from "@/context/PrivacyContext";
 
 interface SettingsModalProps {
@@ -13,6 +13,7 @@ interface SettingsModalProps {
 export const SettingsModal = ({ isOpen, onClose }: SettingsModalProps) => {
   const { isPrivacyEnabled, togglePrivacy } = usePrivacy();
   const [mounted, setMounted] = useState(false);
+  const [isClearing, setIsClearing] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -27,10 +28,37 @@ export const SettingsModal = ({ isOpen, onClose }: SettingsModalProps) => {
     }
   };
 
-  const handleClearAllData = () => {
-    if (confirm("Are you sure you want to clear ALL data, including your privacy settings and session? This cannot be undone.")) {
+  const handleClearAllData = async () => {
+    if (!confirm("Are you sure you want to clear ALL data, including your privacy settings and session? This cannot be undone.")) {
+      return;
+    }
+
+    setIsClearing(true);
+    try {
+      const sessionId = localStorage.getItem("upi_session_id");
+      
+      if (sessionId) {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+        const response = await fetch(`${apiUrl}/api/session/clear`, {
+          method: "DELETE",
+          headers: {
+            "X-Session-ID": sessionId
+          }
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.message || "Failed to clear data on server");
+        }
+      }
+
       localStorage.clear();
       window.location.reload();
+    } catch (error: any) {
+      console.error("Error clearing data:", error);
+      alert(`Failed to clear all data: ${error.message}`);
+    } finally {
+      setIsClearing(false);
     }
   };
 
@@ -102,14 +130,17 @@ export const SettingsModal = ({ isOpen, onClose }: SettingsModalProps) => {
 
             <button 
               onClick={handleClearAllData}
-              className="w-full flex items-center justify-between p-4 bg-destructive/5 border border-destructive/10 rounded-xl hover:bg-destructive/10 transition-colors text-left"
+              disabled={isClearing}
+              className="w-full flex items-center justify-between p-4 bg-destructive/5 border border-destructive/10 rounded-xl hover:bg-destructive/10 transition-colors text-left disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-destructive/10 text-destructive rounded-lg">
-                  <Trash2 size={18} />
+                  {isClearing ? <Loader2 size={18} className="animate-spin" /> : <Trash2 size={18} />}
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-destructive">Clear All Local Data</p>
+                  <p className="text-sm font-medium text-destructive">
+                    {isClearing ? "Clearing Server Data..." : "Clear All Local Data"}
+                  </p>
                   <p className="text-xs text-destructive/40">Reset everything to defaults</p>
                 </div>
               </div>
