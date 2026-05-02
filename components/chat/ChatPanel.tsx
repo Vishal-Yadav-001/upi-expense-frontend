@@ -4,15 +4,13 @@ import { useState, useRef, useEffect } from "react";
 import { useChat } from "@/hooks/useChat";
 import { ChatMessage } from "./ChatMessage";
 import { PDFUpload } from "./PDFUpload";
-import { Send, Loader2, Shield, ShieldOff, Plus, X } from "lucide-react";
-import { usePrivacy } from "@/context/PrivacyContext";
+import { Send, Loader2, Plus, X } from "lucide-react";
 import { motion } from "framer-motion";
 
 export const ChatPanel = () => {
   const [input, setInput] = useState("");
   const [showUpload, setShowUpload] = useState(false);
-  const { messages, sendMessage, loading } = useChat();
-  const { isPrivacyEnabled, togglePrivacy } = usePrivacy();
+  const { messages, sendMessage, addSystemMessage, askSilentQuestion, loading } = useChat();
   const [isMounted, setIsMounted] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -33,6 +31,13 @@ export const ChatPanel = () => {
     if (!input.trim() || loading) return;
     sendMessage(input.trim());
     setInput("");
+  };
+
+  const handleUploadSuccess = (data: { totalParsed?: number }) => {
+    setShowUpload(false);
+    const count = data?.totalParsed || 0;
+    addSystemMessage(`✅ Statement Processed! Successfully imported ${count} transactions.`);
+    askSilentQuestion("I just uploaded my statement. Please provide a 1-2 sentence summary including the total money spent and the time period covered by this statement.");
   };
 
   return (
@@ -81,7 +86,7 @@ export const ChatPanel = () => {
                 <X size={16} />
               </button>
             </div>
-            <PDFUpload onUploadSuccess={() => setShowUpload(false)} />
+            <PDFUpload onUploadSuccess={handleUploadSuccess} />
           </div>
         )}
         {messages.map((m) => (

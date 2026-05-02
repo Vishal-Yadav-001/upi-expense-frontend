@@ -62,9 +62,51 @@ export const useChat = () => {
     }
   };
 
+  const addSystemMessage = (content: string) => {
+    if (!isMounted) return;
+    
+    const systemMessage: Message = {
+      id: window.crypto.randomUUID(),
+      role: "assistant",
+      content,
+    };
+    
+    setMessages((prev) => [...prev, systemMessage]);
+  };
+
+  const askSilentQuestion = async (content: string) => {
+    if (!isMounted) return;
+    
+    try {
+      const response = await askAI({ variables: { question: content } });
+      const data = response.data;
+      
+      if (!data) throw new Error("No data received");
+
+      const assistantMessage: Message = {
+        id: window.crypto.randomUUID(),
+        role: "assistant",
+        content: data.askAI.answer,
+        data: data.askAI.data ? JSON.parse(data.askAI.data) : null,
+      };
+
+      setMessages((prev) => [...prev, assistantMessage]);
+    } catch (error) {
+      console.error("Failed to send silent message:", error);
+      const errorMessage: Message = {
+        id: window.crypto.randomUUID(),
+        role: "assistant",
+        content: "Sorry, I encountered an error while analyzing your statement. Please ask me a question to try again.",
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    }
+  };
+
   return {
     messages,
     sendMessage,
+    addSystemMessage,
+    askSilentQuestion,
     loading,
   };
 };
