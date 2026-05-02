@@ -39,8 +39,8 @@ export const SettingsModal = ({ isOpen, onClose }: SettingsModalProps) => {
       const sessionId = localStorage.getItem("upi_session_id");
       
       if (sessionId) {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-        const response = await fetch(`${apiUrl}/api/session/clear`, {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+        const response = await fetch(`${apiUrl}/api/session`, {
           method: "DELETE",
           headers: {
             "X-Session-ID": sessionId
