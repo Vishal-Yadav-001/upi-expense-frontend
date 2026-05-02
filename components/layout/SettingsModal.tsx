@@ -54,9 +54,10 @@ export const SettingsModal = ({ isOpen, onClose }: SettingsModalProps) => {
 
       localStorage.clear();
       window.location.reload();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error clearing data:", error);
-      alert(`Failed to clear all data: ${error.message}`);
+      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+      alert(`Failed to clear all data: ${errorMessage}`);
     } finally {
       setIsClearing(false);
     }
@@ -139,7 +140,7 @@ export const SettingsModal = ({ isOpen, onClose }: SettingsModalProps) => {
                 </div>
                 <div>
                   <p className="text-sm font-medium text-destructive">
-                    {isClearing ? "Clearing Server Data..." : "Clear All Local Data"}
+                    {isClearing ? "Clearing Server Data..." : "Clear All Data"}
                   </p>
                   <p className="text-xs text-destructive/40">Reset everything to defaults</p>
                 </div>
@@ -151,7 +152,7 @@ export const SettingsModal = ({ isOpen, onClose }: SettingsModalProps) => {
           <div className="p-4 bg-primary/5 rounded-xl flex gap-3 border border-primary/10">
             <Info size={18} className="text-primary shrink-0" />
             <p className="text-xs text-foreground/60 leading-relaxed">
-              Your data stays in your browser and your private MongoDB instance. Resetting the session does not delete files already processed on the server.
+              Your data stays in your browser and your private MongoDB instance. Resetting the session starts a fresh history, while &apos;Clear All Data&apos; removes everything including processed files on the server.
             </p>
           </div>
         </div>
