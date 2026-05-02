@@ -1,35 +1,67 @@
-import { Wallet, PiggyBank, Calendar } from "lucide-react";
+import { Wallet, ShieldCheck, Zap, Loader2 } from "lucide-react";
+import { usePrivacy } from "@/context/PrivacyContext";
+import { maskAmount } from "@/lib/privacy";
 
-export const SummaryBar = () => {
+interface SummaryBarProps {
+  totalSpend: number;
+  upcomingCount: number;
+  activeMandates: number;
+  loading?: boolean;
+}
+
+export const SummaryBar = ({ totalSpend, upcomingCount, activeMandates, loading }: SummaryBarProps) => {
+  const { isPrivacyEnabled } = usePrivacy();
+
+  const displayAmount = isPrivacyEnabled 
+    ? maskAmount(totalSpend) 
+    : `₹${totalSpend.toLocaleString()}`;
+
+  const isHighSpend = totalSpend > 30000;
+
   return (
-    <div className="grid grid-cols-3 gap-4 mb-6">
-      <div className="bg-card border border-border p-4 rounded-2xl">
-        <div className="flex items-center gap-2 text-foreground/50 mb-1">
-          <Wallet size={16} />
-          <span className="text-xs font-medium uppercase tracking-wider">Total Spend</span>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      {/* Monthly Spend - Bento Item 1 */}
+      <div className={`bg-card border ${isHighSpend ? 'border-destructive/30' : 'border-border'} p-6 rounded-[14px] flex flex-col justify-between relative overflow-hidden group transition-all hover:border-primary/30`}>
+        <div className="flex items-center justify-between mb-4">
+          <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/40">Monthly Spend</span>
+          <Wallet size={14} className="text-foreground/20" />
         </div>
-        <div className="text-2xl font-bold">₹12,450</div>
-      </div>
-
-      <div className="bg-card border border-border p-4 rounded-2xl">
-        <div className="flex items-center gap-2 text-foreground/50 mb-1">
-          <PiggyBank size={16} />
-          <span className="text-xs font-medium uppercase tracking-wider">Budget Status</span>
-        </div>
-        <div className="flex flex-col gap-1.5">
-          <div className="text-2xl font-bold">62%</div>
-          <div className="w-full h-1.5 bg-background rounded-full overflow-hidden">
-            <div className="h-full bg-primary w-[62%] rounded-full" />
-          </div>
+        <div className="flex items-baseline gap-2">
+          <span className={`text-2xl font-mono font-bold tracking-tighter ${isHighSpend ? 'text-destructive' : 'text-foreground'}`}>
+            {loading ? <Loader2 size={20} className="animate-spin text-primary" /> : displayAmount}
+          </span>
+          {isHighSpend && !loading && (
+            <span className="text-[10px] font-bold text-destructive/60 bg-destructive/10 px-1.5 py-0.5 rounded uppercase tracking-wider">High</span>
+          )}
         </div>
       </div>
 
-      <div className="bg-card border border-border p-4 rounded-2xl">
-        <div className="flex items-center gap-2 text-foreground/50 mb-1">
-          <Calendar size={16} />
-          <span className="text-xs font-medium uppercase tracking-wider">Upcoming</span>
+      {/* Active Mandates - Bento Item 2 */}
+      <div className="bg-card border border-border p-6 rounded-[14px] flex flex-col justify-between relative overflow-hidden group transition-all hover:border-primary/30">
+        <div className="flex items-center justify-between mb-4">
+          <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/40">Active Mandates</span>
+          <ShieldCheck size={14} className="text-foreground/20" />
         </div>
-        <div className="text-2xl font-bold">3 <span className="text-sm font-normal text-foreground/50 ml-1">Bills</span></div>
+        <div className="flex items-baseline gap-2">
+          <span className="text-2xl font-mono font-bold tracking-tighter text-foreground">
+            {loading ? <Loader2 size={20} className="animate-spin text-primary" /> : activeMandates}
+          </span>
+          <span className="text-[10px] font-bold text-primary/60 uppercase tracking-wider">Secured</span>
+        </div>
+      </div>
+
+      {/* Due Tomorrow - Bento Item 3 */}
+      <div className="bg-card border border-border p-6 rounded-[14px] flex flex-col justify-between relative overflow-hidden group transition-all hover:border-primary/30">
+        <div className="flex items-center justify-between mb-4">
+          <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/40">Due Tomorrow</span>
+          <Zap size={14} className="text-foreground/20" />
+        </div>
+        <div className="flex items-baseline gap-2">
+          <span className="text-2xl font-mono font-bold tracking-tighter text-secondary">
+            {loading ? <Loader2 size={20} className="animate-spin text-primary" /> : upcomingCount}
+          </span>
+          <span className="text-[10px] font-bold text-secondary/60 uppercase tracking-wider">Bills</span>
+        </div>
       </div>
     </div>
   );

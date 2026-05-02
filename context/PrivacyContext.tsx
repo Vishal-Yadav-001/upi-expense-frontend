@@ -12,8 +12,20 @@ const PrivacyContext = createContext<PrivacyContextType | undefined>(undefined);
 export const PrivacyProvider = ({ children }: { children: ReactNode }) => {
   const [isPrivacyEnabled, setIsPrivacyEnabled] = useState(false);
 
+  // Load from localStorage on mount
+  React.useEffect(() => {
+    const saved = localStorage.getItem("upi_privacy_enabled");
+    if (saved !== null) {
+      setIsPrivacyEnabled(saved === "true");
+    }
+  }, []);
+
   const togglePrivacy = () => {
-    setIsPrivacyEnabled((prev) => !prev);
+    setIsPrivacyEnabled((prev) => {
+      const next = !prev;
+      localStorage.setItem("upi_privacy_enabled", String(next));
+      return next;
+    });
   };
 
   return (

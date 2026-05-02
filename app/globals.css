@@ -1,43 +1,41 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    --background: 240 43% 4%; /* #0a0a0f */
-    --foreground: 244 55% 93%; /* #e2e0f9 */
-    
-    --card: 240 25% 10%; /* #13131f */
-    --card-foreground: 244 55% 93%;
-    
-    --popover: 240 25% 10%;
-    --popover-foreground: 244 55% 93%;
-    
-    --primary: 236 91% 73%; /* #818cf8 */
-    --primary-foreground: 240 76% 31%; /* #131e8c */
-    
-    --secondary: 201 100% 74%; /* #7bd0ff */
-    --secondary-foreground: 200 100% 15%; /* #00354a */
-    
-    --muted: 240 19% 25%; /* #333346 */
-    --muted-foreground: 242 15% 80%; /* #c6c5d5 */
-    
-    --accent: 236 91% 73%;
-    --accent-foreground: 240 76% 31%;
-    
-    --destructive: 0 100% 83%; /* #ffb4ab */
-    --destructive-foreground: 0 100% 21%; /* #690005 */
-    
-    --border: 240 23% 15%; /* #1e1e30 */
-    --input: 240 23% 15%;
-    --ring: 236 91% 73%;
-    
-    --radius: 0.875rem; /* 14px */
-  }
-}
-
 @theme {
   --font-sans: var(--font-inter);
   --font-heading: var(--font-space-grotesk);
   --font-mono: var(--font-jetbrains-mono);
+
+  --color-background: hsl(240 43% 4%);
+  --color-foreground: hsl(244 55% 93%);
+  
+  --color-card: hsl(240 25% 10%);
+  --color-card-foreground: hsl(244 55% 93%);
+  
+  --color-popover: hsl(240 25% 10%);
+  --color-popover-foreground: hsl(244 55% 93%);
+  
+  --color-primary: hsl(236 91% 73%);
+  --color-primary-foreground: hsl(240 76% 31%);
+  
+  --color-secondary: hsl(201 100% 74%);
+  --color-secondary-foreground: hsl(200 100% 15%);
+  
+  --color-muted: hsl(240 19% 25%);
+  --color-muted-foreground: hsl(242 15% 80%);
+  
+  --color-accent: hsl(236 91% 73%);
+  --color-accent-foreground: hsl(240 76% 31%);
+  
+  --color-destructive: hsl(0 100% 83%);
+  --color-destructive-foreground: hsl(0 100% 21%);
+  
+  --color-border: hsl(240 23% 15%);
+  --color-input: hsl(240 23% 15%);
+  --color-ring: hsl(236 91% 73%);
+  
+  --radius-lg: 0.875rem;
+  --radius-md: calc(0.875rem - 2px);
+  --radius-sm: calc(0.875rem - 4px);
 }
 
 @layer base {
@@ -61,14 +59,14 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a0a0f;
+  background: hsl(240 43% 4%);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e1e30;
+  background: hsl(240 23% 15%);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #333346;
+  background: hsl(240 19% 25%);
 }

@@ -4,9 +4,15 @@ import { Message } from "@/hooks/useChat";
 import { motion } from "framer-motion";
 import { User, Bot } from "lucide-react";
 import { clsx } from "clsx";
+import { usePrivacy } from "@/context/PrivacyContext";
 
 export const ChatMessage = ({ message }: { message: Message }) => {
   const isUser = message.role === "user";
+  const { isPrivacyEnabled } = usePrivacy();
+
+  const content = isPrivacyEnabled 
+    ? message.content.replace(/₹\d+(?:,\d+)*(?:\.\d+)?/g, "₹****")
+    : message.content;
 
   return (
     <motion.div
@@ -27,13 +33,21 @@ export const ChatMessage = ({ message }: { message: Message }) => {
       </div>
       <div
         className={clsx(
-          "max-w-[80%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed",
+          "max-w-[80%] px-4 py-2.5 text-sm leading-relaxed font-sans shadow-sm whitespace-pre-wrap",
           isUser
-            ? "bg-primary/10 text-foreground border border-primary/20"
-            : "bg-card border border-border text-foreground/90"
+            ? "bg-primary text-primary-foreground rounded-2xl rounded-tr-none"
+            : "bg-card border border-border text-foreground rounded-2xl rounded-tl-none"
         )}
       >
-        {message.content}
+        {content.split(/(`[^`]+`)/g).map((part, i) => (
+          part.startsWith("`") && part.endsWith("`") ? (
+            <code key={i} className="font-mono bg-black/20 px-1.5 py-0.5 rounded text-xs">
+              {part.slice(1, -1)}
+            </code>
+          ) : (
+            part
+          )
+        ))}
       </div>
     </motion.div>
   );

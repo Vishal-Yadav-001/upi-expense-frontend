@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=JetBrains+Mono:wght@500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#002114",
+                        "tertiary": "#45dfa4",
+                        "on-tertiary": "#003825",
+                        "on-primary-fixed": "#000767",
+                        "inverse-on-surface": "#2f2f41",
+                        "primary-container": "#818cf8",
+                        "on-primary-fixed-variant": "#2f3aa3",
+                        "primary-fixed": "#e0e0ff",
+                        "on-secondary-container": "#00374d",
+                        "surface-dim": "#121223",
+                        "on-surface-variant": "#c6c5d5",
+                        "on-tertiary-container": "#003523",
+                        "secondary": "#7bd0ff",
+                        "surface": "#121223",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-low": "#1a1a2c",
+                        "outline": "#908f9e",
+                        "tertiary-fixed": "#68fcbf",
+                        "primary-fixed-dim": "#bdc2ff",
+                        "secondary-fixed-dim": "#7bd0ff",
+                        "surface-container-lowest": "#0c0c1e",
+                        "error-container": "#93000a",
+                        "on-primary": "#131e8c",
+                        "on-tertiary-fixed-variant": "#005137",
+                        "secondary-container": "#00a6e0",
+                        "on-primary-container": "#101b8a",
+                        "error": "#ffb4ab",
+                        "on-secondary-fixed": "#001e2c",
+                        "inverse-primary": "#4953bc",
+                        "surface-container-high": "#28283b",
+                        "tertiary-fixed-dim": "#45dfa4",
+                        "on-background": "#e2e0f9",
+                        "on-secondary": "#00354a",
+                        "surface-variant": "#333346",
+                        "surface-bright": "#38374b",
+                        "on-error": "#690005",
+                        "on-surface": "#e2e0f9",
+                        "primary": "#bdc2ff",
+                        "inverse-surface": "#e2e0f9",
+                        "secondary-fixed": "#c4e7ff",
+                        "background": "#121223",
+                        "surface-container": "#1e1e30",
+                        "tertiary-container": "#00aa78",
+                        "outline-variant": "#454653",
+                        "on-secondary-fixed-variant": "#004c69",
+                        "surface-tint": "#bdc2ff",
+                        "surface-container-highest": "#333346"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1200px",
+                        "stack-lg": "24px",
+                        "stack-sm": "8px",
+                        "margin-page": "32px",
+                        "gutter": "24px",
+                        "stack-md": "16px"
+                    },
+                    "fontFamily": {
+                        "currency-lg": ["JetBrains Mono"],
+                        "h3": ["Space Grotesk"],
+                        "currency-md": ["JetBrains Mono"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "h1": ["Space Grotesk"],
+                        "label-caps": ["Inter"],
+                        "body-md": ["Inter"],
+                        "h2": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "currency-lg": ["28px", {"lineHeight": "1", "fontWeight": "600"}],
+                        "h3": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "currency-md": ["18px", {"lineHeight": "1", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "h1": ["40px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "h2": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e1e30;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<div class="flex h-screen overflow-hidden">
+<!-- Left Panel (Chat & Navigation) -->
+<aside class="fixed left-0 top-0 h-full w-[420px] border-r border-surface-container flex flex-col bg-surface-container-lowest z-30">
+<!-- Left Header -->
+<header class="p-6 flex flex-col gap-stack-sm">
+<div class="flex justify-between items-center">
+<span class="font-h3 text-h3 tracking-tighter text-on-primary-fixed-variant">UPI Sense</span>
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-surface-container-highest hover:bg-surface-container-high transition-colors" title="Upload">
+<span class="material-symbols-outlined text-on-surface-variant">upload_file</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-surface-container-highest hover:bg-surface-container-high transition-colors" title="Feedback">
+<span class="material-symbols-outlined text-on-surface-variant">chat_bubble_outline</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-surface-container-highest hover:bg-surface-container-high transition-colors" title="Settings">
+<span class="material-symbols-outlined text-on-surface-variant">settings</span>
+</button>
+</div>
+</div>
+<p class="font-body-md text-on-surface-variant opacity-80">Ask anything about your UPI transactions</p>
+</header>
+<!-- Main Chat Area -->
+<div class="flex-1 overflow-y-auto px-6 py-4 flex flex-col gap-stack-lg">
+<!-- Onboarding Card -->
+<div class="bg-surface-container border border-surface-container-highest rounded-xl p-6 shadow-sm">
+<div class="flex items-center gap-stack-md mb-4">
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined">receipt_long</span>
+</div>
+<div>
+<h4 class="font-h3 text-body-lg">Import your UPI statement</h4>
+<p class="font-body-sm text-on-surface-variant">Get started with a 1-minute setup</p>
+</div>
+</div>
+<ul class="space-y-3 mb-6">
+<li class="flex gap-3 text-body-sm text-on-surface-variant">
+<span class="text-primary-container font-bold">1</span>
+<span>Download your bank statement as PDF or CSV.</span>
+</li>
+<li class="flex gap-3 text-body-sm text-on-surface-variant">
+<span class="text-primary-container font-bold">2</span>
+<span>Upload it to our secure local processor.</span>
+</li>
+<li class="flex gap-3 text-body-sm text-on-surface-variant">
+<span class="text-primary-container font-bold">3</span>
+<span>See instant breakdowns of your spending habits.</span>
+</li>
+</ul>
+<button class="w-full py-3 bg-primary-container text-on-primary-container font-label-caps uppercase rounded-lg hover:brightness-110 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">cloud_upload</span>
+                        Upload Statement
+                    </button>
+</div>
+<!-- Suggestions -->
+<div class="flex flex-wrap gap-2">
+<button class="px-4 py-2 bg-surface-container-high border border-surface-container-highest rounded-full text-body-sm text-on-surface hover:border-primary-container transition-colors">How much did I spend this month?</button>
+<button class="px-4 py-2 bg-surface-container-high border border-surface-container-highest rounded-full text-body-sm text-on-surface hover:border-primary-container transition-colors">Do I have any active subscriptions?</button>
+<button class="px-4 py-2 bg-surface-container-high border border-surface-container-highest rounded-full text-body-sm text-on-surface hover:border-primary-container transition-colors">What are my top 5 payees?</button>
+<button class="px-4 py-2 bg-surface-container-high border border-surface-container-highest rounded-full text-body-sm text-on-surface hover:border-primary-container transition-colors">Show my spending trend over months</button>
+</div>
+</div>
+<!-- Input Bar -->
+<footer class="p-6">
+<div class="relative flex items-center">
+<input class="w-full h-14 pl-6 pr-16 bg-surface-container border border-surface-container-highest rounded-full focus:ring-2 focus:ring-primary-container focus:border-transparent transition-all outline-none text-on-surface placeholder:text-on-surface-variant/50" placeholder="Type a message..." type="text"/>
+<button class="absolute right-2 w-10 h-10 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">arrow_upward</span>
+</button>
+</div>
+</footer>
+</aside>
+<!-- Right Panel (Insights) -->
+<main class="ml-[420px] flex-1 flex flex-col h-full bg-background relative">
+<!-- Right Header -->
+<header class="h-16 px-margin-page flex items-center justify-between border-b border-surface-container-low sticky top-0 bg-background/80 backdrop-blur-md z-20">
+<div class="flex items-center gap-2">
+<span class="font-h2 text-body-lg font-bold text-on-surface">Insights</span>
+</div>
+<div class="flex items-center gap-stack-sm px-3 py-1.5 bg-surface-container-low border border-surface-container rounded-full cursor-pointer hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-sm text-on-surface-variant">visibility_off</span>
+<span class="font-label-caps text-[10px] uppercase text-on-surface-variant">Privacy Mode</span>
+<div class="w-8 h-4 bg-surface-container-highest rounded-full relative">
+<div class="absolute left-1 top-1 w-2 h-2 bg-on-surface-variant rounded-full"></div>
+</div>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-margin-page space-y-stack-lg">
+<!-- Summary Bar -->
+<div class="grid grid-cols-3 gap-gutter">
+<!-- KPI Card 1 -->
+<div class="bg-surface-container border border-surface-container-highest rounded-xl p-6 flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-on-surface-variant">Monthly Spend</span>
+<span class="material-symbols-outlined text-error text-lg" title="No data available">warning</span>
+</div>
+<span class="font-currency-lg text-currency-lg text-on-surface">₹0</span>
+<div class="flex items-center gap-1 text-on-surface-variant opacity-60">
+<span class="material-symbols-outlined text-sm">trending_flat</span>
+<span class="text-body-sm">No data for current cycle</span>
+</div>
+</div>
+<!-- KPI Card 2 -->
+<div class="bg-surface-container border border-surface-container-highest rounded-xl p-6 flex flex-col gap-2">
+<span class="font-label-caps text-on-surface-variant uppercase">Subscriptions</span>
+<span class="font-currency-lg text-currency-lg text-on-surface">0 active</span>
+<div class="flex items-center gap-1 text-on-surface-variant opacity-60">
+<span class="material-symbols-outlined text-sm">info</span>
+<span class="text-body-sm">Sync bank for detection</span>
+</div>
+</div>
+<!-- KPI Card 3 -->
+<div class="bg-surface-container border border-surface-container-highest rounded-xl p-6 flex flex-col gap-2">
+<span class="font-label-caps text-on-surface-variant uppercase">Next Bill</span>
+<span class="font-currency-lg text-currency-lg text-on-surface">None upcoming</span>
+<div class="flex items-center gap-1 text-on-surface-variant opacity-60">
+<span class="material-symbols-outlined text-sm">event</span>
+<span class="text-body-sm">Calendar is empty</span>
+</div>
+</div>
+</div>
+<!-- Main Area Placeholder -->
+<div class="h-[calc(100vh-320px)] flex items-center justify-center">
+<div class="flex flex-col items-center max-w-md text-center">
+<div class="mb-6 relative">
+<div class="absolute inset-0 bg-primary-container/10 blur-3xl rounded-full"></div>
+<div class="relative w-24 h-24 bg-surface-container border border-surface-container-highest rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-primary-container" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+</div>
+<h3 class="font-h3 text-h3 text-on-surface mb-2">Ready to explore?</h3>
+<p class="font-body-md text-on-surface-variant">Ask a question to see your spending insights visualised here. Our AI will analyze your transactions to generate charts, trends, and payee breakdowns automatically.</p>
+<!-- Decorative Visual Placeholder -->
+<div class="mt-stack-lg w-full p-1 bg-surface-container-low rounded-xl border border-surface-container-highest overflow-hidden">
+<div class="relative h-40 rounded-lg overflow-hidden group">
+<img class="w-full h-full object-cover opacity-30 grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="A sophisticated dark-themed data visualization background featuring abstract glowing blue and purple line charts and geometric nodes. The scene is illuminated by soft, moody neon lighting that reflects a high-tech financial command center aesthetic. Soft Gaussian blurs create a sense of depth and focus, perfectly aligning with a minimalist developer tool UI style with deep blacks and vibrant indigo accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvNyYTQv0hGhnFcupcVFeKtEChP8ic4TA46Ni0pQzZx7XwvXvYOMupjJFsAUHcLmEzxLmGbXFib4uTORw-FoqI39BJOtJwSmrXbMYC5LA7Ta1rkXv2oJJGXNi2K-q1KXmUt-m2jRi1H-9yqbXVG8wj8JSXq5aPueSiilQ-vXPTjX3LU_PsPS0A3_VfrjxwZ2X3jPYW1mEOQiN2NZDGBxjBkVAe-EG5Evg8QmITMO2-jRg0z5VJF6aquOxWH6158EjAXsDx3RHxAhnE"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="px-6 py-2 bg-background/60 backdrop-blur-md border border-white/10 rounded-full">
+<span class="text-body-sm font-label-caps text-on-surface-variant tracking-widest">Awaiting Input...</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

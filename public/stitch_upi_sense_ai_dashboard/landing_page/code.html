@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>UPI Sense | AI-Powered Transaction Intelligence</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&amp;family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#002114",
+                        "tertiary": "#45dfa4",
+                        "on-tertiary": "#003825",
+                        "on-primary-fixed": "#000767",
+                        "inverse-on-surface": "#2f2f41",
+                        "primary-container": "#818cf8",
+                        "on-primary-fixed-variant": "#2f3aa3",
+                        "primary-fixed": "#e0e0ff",
+                        "on-secondary-container": "#00374d",
+                        "surface-dim": "#121223",
+                        "on-surface-variant": "#c6c5d5",
+                        "on-tertiary-container": "#003523",
+                        "secondary": "#7bd0ff",
+                        "surface": "#121223",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-low": "#1a1a2c",
+                        "outline": "#908f9e",
+                        "tertiary-fixed": "#68fcbf",
+                        "primary-fixed-dim": "#bdc2ff",
+                        "secondary-fixed-dim": "#7bd0ff",
+                        "surface-container-lowest": "#0c0c1e",
+                        "error-container": "#93000a",
+                        "on-primary": "#131e8c",
+                        "on-tertiary-fixed-variant": "#005137",
+                        "secondary-container": "#00a6e0",
+                        "on-primary-container": "#101b8a",
+                        "error": "#ffb4ab",
+                        "on-secondary-fixed": "#001e2c",
+                        "inverse-primary": "#4953bc",
+                        "surface-container-high": "#28283b",
+                        "tertiary-fixed-dim": "#45dfa4",
+                        "on-background": "#e2e0f9",
+                        "on-secondary": "#00354a",
+                        "surface-variant": "#333346",
+                        "surface-bright": "#38374b",
+                        "on-error": "#690005",
+                        "on-surface": "#e2e0f9",
+                        "primary": "#bdc2ff",
+                        "inverse-surface": "#e2e0f9",
+                        "secondary-fixed": "#c4e7ff",
+                        "background": "#0a0a0f",
+                        "surface-container": "#13131f",
+                        "tertiary-container": "#00aa78",
+                        "outline-variant": "#1e1e30",
+                        "on-secondary-fixed-variant": "#004c69",
+                        "surface-tint": "#bdc2ff",
+                        "surface-container-highest": "#333346"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "12px",
+                        "2xl": "14px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1200px",
+                        "stack-lg": "24px",
+                        "stack-sm": "8px",
+                        "margin-page": "32px",
+                        "gutter": "24px",
+                        "stack-md": "16px"
+                    },
+                    "fontFamily": {
+                        "currency-lg": ["JetBrains Mono"],
+                        "h3": ["Space Grotesk"],
+                        "currency-md": ["JetBrains Mono"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "h1": ["Space Grotesk"],
+                        "label-caps": ["Inter"],
+                        "body-md": ["Inter"],
+                        "h2": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "currency-lg": ["28px", {"lineHeight": "1", "fontWeight": "600"}],
+                        "h3": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "currency-md": ["18px", {"lineHeight": "1", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "h1": ["40px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "h2": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #0a0a0f;
+            background-image: 
+                radial-gradient(circle at 2px 2px, rgba(129, 140, 248, 0.05) 1px, transparent 0);
+            background-size: 32px 32px;
+        }
+        .glow-indigo {
+            box-shadow: 0 0 20px rgba(129, 140, 248, 0.15);
+        }
+        .glass-panel {
+            background: rgba(19, 19, 31, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid #1e1e30;
+        }
+    </style>
+</head>
+<body class="text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top Navigation Bar -->
+<header class="w-full sticky top-0 z-40 bg-[#0a0a0f]/80 backdrop-blur-md border-b border-[#1e1e30] flex justify-between items-center px-8 h-16">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#818cf8]" style="font-variation-settings: 'FILL' 1;">finance_chip</span>
+<span class="text-lg font-black text-white font-h1 tracking-tighter">UPI Sense</span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-[#818cf8] border-b-2 border-[#818cf8] font-h3 text-body-sm px-1 py-1" href="#">Audit</a>
+<a class="text-slate-400 hover:text-[#818cf8] duration-200 ease-in-out font-h3 text-body-sm" href="#">Analytics</a>
+<a class="text-slate-400 hover:text-[#818cf8] duration-200 ease-in-out font-h3 text-body-sm" href="#">Transactions</a>
+<a class="text-slate-400 hover:text-[#818cf8] duration-200 ease-in-out font-h3 text-body-sm" href="#">Security</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-white transition-colors">upload_file</span>
+<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-white transition-colors">chat_bubble_outline</span>
+<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-white transition-colors">settings</span>
+</div>
+</header>
+<main class="max-w-[1200px] mx-auto px-margin-page pb-24">
+<!-- Hero Section -->
+<section class="py-24 text-center flex flex-col items-center">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#818cf8]/10 border border-[#818cf8]/20 mb-stack-lg">
+<span class="material-symbols-outlined text-xs text-[#818cf8]" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-label-caps text-label-caps text-[#818cf8] uppercase">Powered by Gemini AI</span>
+</div>
+<h1 class="font-h1 text-[64px] leading-tight mb-stack-md tracking-tighter text-white max-w-4xl">
+                Understand your UPI spending <br/>
+<span class="text-[#818cf8]">with AI</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mb-10 leading-relaxed">
+                Upload your bank's UPI statement PDF and chat with your transactions. Get instant insights, charts, and subscription alerts — powered by Gemini AI.
+            </p>
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="bg-[#818cf8] text-[#0a0a0f] font-h3 text-body-md px-10 py-4 rounded-xl hover:opacity-90 active:scale-95 transition-all glow-indigo font-bold">
+                    Try it now
+                </button>
+<button class="bg-transparent border border-[#1e1e30] text-[#818cf8] font-h3 text-body-md px-10 py-4 rounded-xl hover:bg-[#1e1e30] active:scale-95 transition-all font-bold">
+                    View Demo
+                </button>
+</div>
+<!-- Dashboard Preview Visual -->
+<div class="mt-20 w-full relative">
+<div class="absolute -top-20 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-[#818cf8]/10 blur-[120px] -z-10 rounded-full"></div>
+<div class="glass-panel p-2 rounded-[20px] shadow-2xl overflow-hidden border-[#1e1e30]">
+<img class="w-full h-auto rounded-2xl opacity-90 grayscale-[0.3]" data-alt="A clean and professional digital interface showcasing a financial dashboard for tracking UPI transactions. The screen features sleek indigo data visualizations, including line graphs and categorized spending blocks. The background is a deep charcoal black, contrasted by glowing indigo accents and crisp white typography. The overall mood is sophisticated and data-driven, representing high-end financial auditing software." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6JZ8xW5OcPRuTh3epv7VJ7zx7HATeiq3ZN1IChX_sLNtS3rx0TjlWLX45bIlTVpRnsgwXqP30Tb6-3xBcX9iutBkF3miF6uxjO_fwXZbXQV-FfkQGzIVLPR1B6JyoC5M8nwQcNZGzDhNX0naCxq1HFvVLtWd8DIqlp4N2wardwXKsa6ctfiZqD0km9iT_VSFBdT2vOwKm_PkFc-aujt5OhqM_gmErzg-W-OMErmFLf3H4l7QTy2CL32lDM3dQwyzIJD31xbGB0t4L"/>
+</div>
+</div>
+</section>
+<!-- Feature Bento Grid -->
+<section class="py-24">
+<div class="mb-stack-lg flex flex-col gap-2">
+<h2 class="font-h2 text-h2 text-white">Financial Intelligence</h2>
+<p class="font-body-md text-on-surface-variant">Precision tools for the modern auditor.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Large Feature -->
+<div class="md:col-span-8 glass-panel p-stack-lg rounded-2xl flex flex-col justify-between group overflow-hidden">
+<div class="relative z-10">
+<div class="w-12 h-12 rounded-lg bg-[#818cf8]/10 flex items-center justify-center mb-stack-md text-[#818cf8] border border-[#818cf8]/20">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+</div>
+<h3 class="font-h3 text-h3 text-white mb-stack-sm">Upload your UPI PDF</h3>
+<p class="font-body-md text-on-surface-variant max-w-md">No manual entry needed. Securely process your bank statements locally and let AI structure the mess.</p>
+</div>
+<div class="mt-8 flex justify-end -mr-12 -mb-12 opacity-50 group-hover:opacity-100 transition-opacity">
+<img class="w-[300px] h-[200px] object-cover rounded-tl-2xl border-l border-t border-[#1e1e30]" data-alt="Abstract digital representation of a secure document processing system using floating translucent glass panels. Tiny geometric sparks of indigo light connect the panels, symbolizing AI analysis and data extraction. The setting is a deep black void with subtle atmospheric dust, emphasizing a futuristic and secure data-processing environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrI0XyCqpUg44ZSLZtdfmcrhLIO59-Dd3ueHukZr1RqPGo92gj-OLlJQ1rJtxx1mRC6STahB1x9tiC9b3AM75oWvyO9xUAM2V7jCPQ283iOLKgzvmDJwZGW7W0swSaN6Yso7uKkrOqMPzf8ENUxOP7rYi9T2F67w0pSYjZ4SKqdqf3pUosFYfWp78XnEo1xCjGgJ7SHI4Sd5C2GpUDFOP0DzKima7wQ9H1XlWvqudtQwo6hKN3YwYUzwhL6uGzKVr9aYhp3RXMuCvy"/>
+</div>
+</div>
+<!-- Small Feature 1 -->
+<div class="md:col-span-4 glass-panel p-stack-lg rounded-2xl flex flex-col hover:border-[#818cf8]/50 transition-colors">
+<div class="w-12 h-12 rounded-lg bg-tertiary/10 flex items-center justify-center mb-stack-md text-tertiary border border-tertiary/20">
+<span class="material-symbols-outlined">chat</span>
+</div>
+<h3 class="font-h3 text-h3 text-white mb-stack-sm">Ask in plain English</h3>
+<p class="font-body-sm text-on-surface-variant">"How much did I spend on Swiggy last month?" Get answers instantly without complex filters.</p>
+</div>
+<!-- Small Feature 2 -->
+<div class="md:col-span-4 glass-panel p-stack-lg rounded-2xl flex flex-col hover:border-[#818cf8]/50 transition-colors">
+<div class="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center mb-stack-md text-secondary border border-secondary/20">
+<span class="material-symbols-outlined">insights</span>
+</div>
+<h3 class="font-h3 text-h3 text-white mb-stack-sm">Visual insights</h3>
+<p class="font-body-sm text-on-surface-variant">Automated charts that reveal spending habits, weekend surges, and merchant patterns.</p>
+</div>
+<!-- Large Feature 2 -->
+<div class="md:col-span-8 glass-panel p-stack-lg rounded-2xl flex flex-col justify-between relative overflow-hidden group">
+<div class="relative z-10">
+<div class="w-12 h-12 rounded-lg bg-[#818cf8]/10 flex items-center justify-center mb-stack-md text-[#818cf8] border border-[#818cf8]/20">
+<span class="material-symbols-outlined">notifications_active</span>
+</div>
+<h3 class="font-h3 text-h3 text-white mb-stack-sm">Subscription detection</h3>
+<p class="font-body-md text-on-surface-variant max-w-md">Gemini AI automatically tags recurring payments and alerts you to price hikes or zombie subscriptions.</p>
+</div>
+<div class="mt-8 flex gap-2">
+<div class="px-4 py-2 rounded-full bg-surface-container-high border border-outline-variant font-currency-md text-currency-md text-tertiary">Netflix • ₹499</div>
+<div class="px-4 py-2 rounded-full bg-surface-container-high border border-outline-variant font-currency-md text-currency-md text-white opacity-50">Spotify • ₹119</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Privacy & Data Notice Section -->
+<section class="py-24">
+<div class="bg-surface-container-low border border-outline-variant p-10 rounded-[32px] relative overflow-hidden">
+<div class="absolute top-0 right-0 p-12 opacity-10">
+<span class="material-symbols-outlined text-[120px] text-white">shield</span>
+</div>
+<div class="relative z-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10">
+<div class="max-w-xl">
+<h2 class="font-h2 text-h2 text-white mb-stack-md">Privacy &amp; data notice</h2>
+<p class="font-body-md text-on-surface-variant">We designed UPI Sense to be zero-knowledge. Your financial history is your business, not ours. All processing happens within your current session.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-stack-md w-full lg:w-auto">
+<div class="flex items-center gap-stack-sm p-4 rounded-xl bg-surface-container border border-outline-variant">
+<span class="material-symbols-outlined text-tertiary">no_accounts</span>
+<span class="font-body-sm text-white">No account required</span>
+</div>
+<div class="flex items-center gap-stack-sm p-4 rounded-xl bg-surface-container border border-outline-variant">
+<span class="material-symbols-outlined text-tertiary">masks</span>
+<span class="font-body-sm text-white">Payee names masked</span>
+</div>
+<div class="flex items-center gap-stack-sm p-4 rounded-xl bg-surface-container border border-outline-variant">
+<span class="material-symbols-outlined text-tertiary">history</span>
+<span class="font-body-sm text-white">Session-scoped data</span>
+</div>
+<div class="flex items-center gap-stack-sm p-4 rounded-xl bg-surface-container border border-outline-variant">
+<span class="material-symbols-outlined text-tertiary">vpn_key</span>
+<span class="font-body-sm text-white">Bring your own API key</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA -->
+<section class="py-24 text-center">
+<h2 class="font-h2 text-[48px] text-white mb-stack-lg tracking-tighter">Ready to decode your spending?</h2>
+<div class="flex justify-center gap-4">
+<button class="bg-[#818cf8] text-[#0a0a0f] font-h3 text-body-md px-12 py-5 rounded-2xl hover:scale-105 active:scale-95 transition-all glow-indigo font-bold">
+                    Get Started Free
+                </button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="border-t border-[#1e1e30] py-16">
+<div class="max-w-[1200px] mx-auto px-margin-page flex flex-col md:flex-row justify-between items-center gap-stack-lg">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-500">finance_chip</span>
+<span class="text-slate-500 font-h1 text-body-md tracking-tighter">UPI Sense © 2024</span>
+</div>
+<div class="flex gap-8">
+<a class="font-label-caps text-label-caps text-slate-500 hover:text-[#818cf8] transition-colors" href="#">Privacy</a>
+<a class="font-label-caps text-label-caps text-slate-500 hover:text-[#818cf8] transition-colors" href="#">Terms</a>
+<a class="font-label-caps text-label-caps text-slate-500 hover:text-[#818cf8] transition-colors" href="#">GitHub</a>
+<a class="font-label-caps text-label-caps text-slate-500 hover:text-[#818cf8] transition-colors" href="#">Documentation</a>
+</div>
+</div>
+</footer>
+</body></html>

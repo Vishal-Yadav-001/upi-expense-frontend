@@ -1,16 +1,6 @@
-import { useState } from "react";
-import { gql } from "@apollo/client";
+import { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client/react";
-
-const ASK_AI = gql`
-  mutation AskAI($question: String!) {
-    askAI(question: $question) {
-      answer
-      toolsUsed
-      data
-    }
-  }
-`;
+import { ASK_AI } from "@/lib/queries";
 
 interface AskAIData {
   askAI: {
@@ -30,10 +20,17 @@ export interface Message {
 export const useChat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [askAI, { loading }] = useMutation<AskAIData>(ASK_AI);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const sendMessage = async (content: string) => {
+    if (!isMounted) return;
+    
     const userMessage: Message = {
-      id: crypto.randomUUID(),
+      id: window.crypto.randomUUID(),
       role: "user",
       content,
     };
@@ -47,7 +44,7 @@ export const useChat = () => {
       if (!data) throw new Error("No data received");
 
       const assistantMessage: Message = {
-        id: crypto.randomUUID(),
+        id: window.crypto.randomUUID(),
         role: "assistant",
         content: data.askAI.answer,
         data: data.askAI.data ? JSON.parse(data.askAI.data) : null,
@@ -57,7 +54,7 @@ export const useChat = () => {
     } catch (error) {
       console.error("Failed to send message:", error);
       const errorMessage: Message = {
-        id: crypto.randomUUID(),
+        id: window.crypto.randomUUID(),
         role: "assistant",
         content: "Sorry, I encountered an error. Please try again.",
       };
