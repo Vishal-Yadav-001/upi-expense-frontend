@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Utensils, ShoppingBag, Truck, Zap, Film, Heart, ArrowRightLeft, Landmark, User, HelpCircle, Loader2 } from "lucide-react";
-import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client/react";
 import { CATEGORIZE_PAYEE } from "@/lib/queries";
 
 const CATEGORIES = [
