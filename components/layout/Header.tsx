@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Settings, Upload, MessageSquare } from "lucide-react";
+import { Settings, MessageSquare } from "lucide-react";
 import { SettingsModal } from "./SettingsModal";
 import { FeedbackModal } from "./FeedbackModal";
 import { usePrivacy } from "@/context/PrivacyContext";
@@ -44,11 +44,6 @@ export const Header = () => {
       </div>
 
       <div className="flex items-center gap-6">
-        <button className="flex items-center gap-2 text-primary/60 hover:text-primary transition-colors cursor-pointer group">
-          <Upload className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" />
-          <span className="text-xs font-semibold tracking-wider">UPLOAD</span>
-        </button>
-        
         <button 
           type="button" 
           onClick={() => setIsFeedbackOpen(true)}
