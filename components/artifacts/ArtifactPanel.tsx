@@ -34,7 +34,7 @@ export const ArtifactPanel = () => {
     return (
       <div className="flex flex-col items-center justify-center h-full text-foreground/50 gap-4 p-8 text-center">
         <AlertCircle size={48} className="text-red-500/50" />
-        <p>Failed to load dashboard data.<br />Ensure the backend is running at http://localhost:4000</p>
+        <p>Your expense insights aren&apos;t available right now.<br />Check your connection and try again.</p>
       </div>
     );
   }

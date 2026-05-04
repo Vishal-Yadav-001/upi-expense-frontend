@@ -11,7 +11,7 @@ interface SettingsModalProps {
 }
 
 export const SettingsModal = ({ isOpen, onClose }: SettingsModalProps) => {
-  const { isPrivacyEnabled, togglePrivacy } = usePrivacy();
+  const { isPrivacyEnabled, togglePrivacy, hasHydrated } = usePrivacy();
   const [mounted, setMounted] = useState(false);
   const [isClearing, setIsClearing] = useState(false);
 
@@ -89,25 +89,32 @@ export const SettingsModal = ({ isOpen, onClose }: SettingsModalProps) => {
         </div>
 
         <div className="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar">
-          {/* Privacy Section */}
           <div className="space-y-3">
             <h3 className="text-xs font-semibold uppercase tracking-widest text-foreground/40">Privacy & Security</h3>
             <div className="flex items-center justify-between p-4 bg-background/50 border border-border rounded-xl">
               <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-lg ${isPrivacyEnabled ? "bg-secondary/10 text-secondary" : "bg-foreground/5 text-foreground/50"}`}>
+                <div className={`p-2 rounded-lg ${isPrivacyEnabled ? "bg-secondary/10 text-secondary" : "bg-primary/10 text-primary"}`}>
                   <Shield size={18} />
                 </div>
                 <div>
-                  <p className="text-sm font-medium">PII Masking</p>
-                  <p className="text-xs text-foreground/40">Hide sensitive transaction details</p>
+                  <p className="text-sm font-medium">Privacy Mode</p>
+                  <p className="text-xs text-foreground/40">Mask sensitive names and amounts across this session.</p>
                 </div>
               </div>
-              <button
-                onClick={togglePrivacy}
-                className={`relative w-10 h-5 rounded-full transition-colors ${isPrivacyEnabled ? "bg-secondary" : "bg-foreground/20"}`}
-              >
-                <div className={`absolute top-1 left-1 w-3 h-3 bg-white rounded-full transition-transform ${isPrivacyEnabled ? "translate-x-5" : ""}`} />
-              </button>
+              <div className="flex items-center gap-3">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-foreground/30">
+                  {hasHydrated ? (isPrivacyEnabled ? "On" : "Off") : "..."}
+                </span>
+                <button
+                  onClick={togglePrivacy}
+                  disabled={!hasHydrated}
+                  className={`relative w-10 h-5 rounded-full transition-colors ${
+                    hasHydrated ? (isPrivacyEnabled ? "bg-secondary" : "bg-primary") : "bg-border cursor-not-allowed"
+                  }`}
+                >
+                  <div className={`absolute top-1 left-1 w-3 h-3 bg-white rounded-full transition-transform ${hasHydrated && isPrivacyEnabled ? "translate-x-5" : ""}`} />
+                </button>
+              </div>
             </div>
           </div>
 

@@ -1,35 +1,50 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
+
+const PRIVACY_STORAGE_KEY = "upi_privacy_enabled";
+const DEFAULT_PRIVACY_ENABLED = true;
 
 interface PrivacyContextType {
+  hasHydrated: boolean;
   isPrivacyEnabled: boolean;
+  setPrivacyEnabled: (next: boolean) => void;
   togglePrivacy: () => void;
 }
 
 const PrivacyContext = createContext<PrivacyContextType | undefined>(undefined);
 
 export const PrivacyProvider = ({ children }: { children: ReactNode }) => {
-  const [isPrivacyEnabled, setIsPrivacyEnabled] = useState(false);
+  const [hasHydrated, setHasHydrated] = useState(false);
+  const [isPrivacyEnabled, setIsPrivacyEnabledState] = useState(DEFAULT_PRIVACY_ENABLED);
 
-  // Load from localStorage on mount
-  React.useEffect(() => {
-    const saved = localStorage.getItem("upi_privacy_enabled");
+  useEffect(() => {
+    const saved = window.localStorage.getItem(PRIVACY_STORAGE_KEY);
     if (saved !== null) {
-      setIsPrivacyEnabled(saved === "true");
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setIsPrivacyEnabledState(saved === "true");
     }
+    setHasHydrated(true);
   }, []);
 
-  const togglePrivacy = () => {
-    setIsPrivacyEnabled((prev) => {
-      const next = !prev;
-      localStorage.setItem("upi_privacy_enabled", String(next));
-      return next;
+  const updatePrivacyEnabled = (next: boolean | ((current: boolean) => boolean)) => {
+    setIsPrivacyEnabledState((current) => {
+      const resolvedNext = typeof next === "function" ? next(current) : next;
+      window.localStorage.setItem(PRIVACY_STORAGE_KEY, String(resolvedNext));
+      return resolvedNext;
     });
   };
 
+  const setPrivacyEnabled = (next: boolean) => {
+    updatePrivacyEnabled(next);
+  };
+
+  const togglePrivacy = () => {
+    updatePrivacyEnabled((prev) => !prev);
+  };
+
   return (
-    <PrivacyContext.Provider value={{ isPrivacyEnabled, togglePrivacy }}>
+    <PrivacyContext.Provider value={{ hasHydrated, isPrivacyEnabled, setPrivacyEnabled, togglePrivacy }}>
       {children}
     </PrivacyContext.Provider>
   );
