@@ -63,7 +63,6 @@ export const TransactionAudit = ({ transactions, loading, isRecentExpenses }: Tr
             <tr className="border-b border-border/30 text-[10px] uppercase tracking-widest text-foreground/40 font-bold">
               <th className="px-6 py-4">Entity</th>
               <th className="px-6 py-4">Category</th>
-              <th className="px-6 py-4">VPA ID</th>
               <th className="px-6 py-4">Date</th>
               <th className="px-6 py-4 text-right">Amount</th>
             </tr>
@@ -71,7 +70,6 @@ export const TransactionAudit = ({ transactions, loading, isRecentExpenses }: Tr
           <tbody className="divide-y divide-border/20">
             {transactions.map((tx) => {
               const payeeName = tx.payee?.displayName || "Unknown Payee";
-              const vpaId = tx.payee?.normalizedName || "—";
               const initials = getInitials(payeeName);
               const isDebit = tx.direction === "DEBIT";
 
@@ -94,11 +92,6 @@ export const TransactionAudit = ({ transactions, loading, isRecentExpenses }: Tr
                   <td className="px-6 py-4">
                     <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-1 bg-muted rounded-full text-foreground/60">
                       {tx.payee?.category || "Uncategorized"}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className="text-xs font-mono text-foreground/50">
-                      {isPrivacyEnabled && vpaId !== "—" ? maskName(vpaId) : vpaId}
                     </span>
                   </td>
                   <td className="px-6 py-4">
