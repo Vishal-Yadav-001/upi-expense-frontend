@@ -1,22 +1,20 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useSyncExternalStore } from "react";
 import { useChat } from "@/hooks/useChat";
 import { ChatMessage } from "./ChatMessage";
 import { PDFUpload } from "./PDFUpload";
 import { Send, Loader2, Plus, X } from "lucide-react";
 import { motion } from "framer-motion";
 
+const subscribe = () => () => {};
+
 export const ChatPanel = () => {
   const [input, setInput] = useState("");
   const [showUpload, setShowUpload] = useState(false);
   const { messages, sendMessage, addSystemMessage, askSilentQuestion, loading } = useChat();
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useSyncExternalStore(subscribe, () => true, () => false);
   const scrollRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -126,7 +124,7 @@ export const ChatPanel = () => {
           </button>
         </form>
         <p className="text-[10px] text-center mt-3 text-foreground/30 uppercase tracking-widest font-medium">
-          Powered by Gemini 2.0 Flash
+          Powered by Gemini
         </p>
       </div>
     </div>

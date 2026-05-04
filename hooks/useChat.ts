@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { useMutation } from "@apollo/client/react";
 import { ASK_AI } from "@/lib/queries";
+import { getStoredGeminiApiKey, getStoredGeminiModel } from "@/lib/ai-settings";
 
 interface AskAIData {
   askAI: {
@@ -17,14 +18,23 @@ export interface Message {
   data?: Record<string, unknown> | null;
 }
 
+const subscribe = () => () => {};
+
 export const useChat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [askAI, { loading }] = useMutation<AskAIData>(ASK_AI);
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useSyncExternalStore(subscribe, () => true, () => false);
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const getAskAIVariables = (question: string) => {
+    const model = getStoredGeminiModel();
+    const apiKey = getStoredGeminiApiKey();
+
+    return {
+      question,
+      model,
+      apiKey: apiKey || undefined,
+    };
+  };
 
   const sendMessage = async (content: string) => {
     if (!isMounted) return;
@@ -38,7 +48,7 @@ export const useChat = () => {
     setMessages((prev) => [...prev, userMessage]);
 
     try {
-      const response = await askAI({ variables: { question: content } });
+      const response = await askAI({ variables: getAskAIVariables(content) });
       const data = response.data;
       
       if (!data) throw new Error("No data received");
@@ -78,7 +88,7 @@ export const useChat = () => {
     if (!isMounted) return;
     
     try {
-      const response = await askAI({ variables: { question: content } });
+      const response = await askAI({ variables: getAskAIVariables(content) });
       const data = response.data;
       
       if (!data) throw new Error("No data received");

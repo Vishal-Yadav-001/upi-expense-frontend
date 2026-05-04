@@ -1,20 +1,20 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Settings, MessageSquare } from "lucide-react";
+import { useState, useSyncExternalStore } from "react";
+import { Settings, MessageSquare, KeyRound } from "lucide-react";
 import { SettingsModal } from "./SettingsModal";
 import { FeedbackModal } from "./FeedbackModal";
+import { AIKeyModal } from "./AIKeyModal";
 import { usePrivacy } from "@/context/PrivacyContext";
+
+const subscribe = () => () => {};
 
 export const Header = () => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+  const [isAIKeyOpen, setIsAIKeyOpen] = useState(false);
   const { isPrivacyEnabled } = usePrivacy();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useSyncExternalStore(subscribe, () => true, () => false);
 
   return (
     <header className="w-full sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border flex justify-between items-center px-6 h-16 max-w-full">
@@ -44,6 +44,15 @@ export const Header = () => {
       </div>
 
       <div className="flex items-center gap-6">
+        <button
+          type="button"
+          onClick={() => setIsAIKeyOpen(true)}
+          className="flex items-center gap-2 text-primary/60 hover:text-primary transition-colors cursor-pointer group"
+        >
+          <KeyRound className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" />
+          <span className="text-xs font-semibold tracking-wider">AI KEY</span>
+        </button>
+
         <button 
           type="button" 
           onClick={() => setIsFeedbackOpen(true)}
@@ -75,6 +84,11 @@ export const Header = () => {
       <FeedbackModal 
         isOpen={isFeedbackOpen} 
         onClose={() => setIsFeedbackOpen(false)} 
+      />
+
+      <AIKeyModal
+        isOpen={isAIKeyOpen}
+        onClose={() => setIsAIKeyOpen(false)}
       />
     </header>
   );

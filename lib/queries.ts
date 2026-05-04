@@ -83,8 +83,8 @@ export const GET_DASHBOARD_DATA = gql`
 `;
 
 export const ASK_AI = gql`
-  mutation AskAI($question: String!) {
-    askAI(question: $question) {
+  mutation AskAI($question: String!, $model: String, $apiKey: String) {
+    askAI(question: $question, model: $model, apiKey: $apiKey) {
       answer
       toolsUsed
       data
