@@ -22,9 +22,11 @@ export interface DashboardData {
     direction: string;
     date: string;
     payee: {
+      id: string;
       displayName: string;
       category: string;
       normalizedName: string;
+      transactionCount: number;
     };
   }[];
   recentExpenses: {
@@ -33,9 +35,11 @@ export interface DashboardData {
     direction: string;
     date: string;
     payee: {
+      id: string;
       displayName: string;
       category: string;
       normalizedName: string;
+      transactionCount: number;
     };
   }[];
 }
@@ -63,9 +67,11 @@ export const GET_DASHBOARD_DATA = gql`
       direction
       date
       payee {
+        id
         displayName
         category
         normalizedName
+        transactionCount
       }
     }
     recentExpenses: transactions(limit: 5, direction: DEBIT) {
@@ -74,10 +80,22 @@ export const GET_DASHBOARD_DATA = gql`
       direction
       date
       payee {
+        id
         displayName
         category
         normalizedName
+        transactionCount
       }
+    }
+  }
+`;
+
+export const CATEGORIZE_PAYEE = gql`
+  mutation CategorizePayee($payeeId: ID!, $category: String!) {
+    categorizePayee(payeeId: $payeeId, category: $category) {
+      id
+      category
+      confidence
     }
   }
 `;
