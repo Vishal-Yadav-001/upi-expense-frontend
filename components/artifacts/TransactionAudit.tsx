@@ -2,16 +2,19 @@
 
 import { usePrivacy } from "@/context/PrivacyContext";
 import { maskName } from "@/lib/privacy";
+import { CategoryBadge } from "./CategoryBadge";
 
 interface Transaction {
   id: string;
   amount: number;
   direction: string;
   date: string;
-  payee?: {
+  payee: {
+    id: string;
     displayName: string;
     category: string;
-    normalizedName?: string;
+    normalizedName: string;
+    transactionCount: number;
   };
 }
 
@@ -90,9 +93,11 @@ export const TransactionAudit = ({ transactions, loading, isRecentExpenses }: Tr
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-1 bg-muted rounded-full text-foreground/60">
-                      {tx.payee?.category || "Uncategorized"}
-                    </span>
+                    <CategoryBadge 
+                      payeeId={tx.payee.id} 
+                      category={tx.payee.category} 
+                      transactionCount={tx.payee.transactionCount} 
+                    />
                   </td>
                   <td className="px-6 py-4">
                     <span className="text-xs font-mono text-foreground/50">
