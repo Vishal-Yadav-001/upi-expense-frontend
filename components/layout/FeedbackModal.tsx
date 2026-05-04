@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { X, Send, Star, CheckCircle2, AlertCircle } from "lucide-react";
 import { useMutation } from "@apollo/client/react";
@@ -11,8 +11,10 @@ interface FeedbackModalProps {
   onClose: () => void;
 }
 
+const subscribe = () => () => {};
+
 export const FeedbackModal = ({ isOpen, onClose }: FeedbackModalProps) => {
-  const [mounted, setMounted] = useState(false);
+  const isMounted = useSyncExternalStore(subscribe, () => true, () => false);
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [rating, setRating] = useState<number>(0);
@@ -26,10 +28,6 @@ export const FeedbackModal = ({ isOpen, onClose }: FeedbackModalProps) => {
       }, 2000);
     },
   });
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const handleClose = () => {
     onClose();
@@ -61,7 +59,7 @@ export const FeedbackModal = ({ isOpen, onClose }: FeedbackModalProps) => {
     });
   };
 
-  if (!isOpen || !mounted) return null;
+  if (!isOpen || !isMounted) return null;
 
   return createPortal(
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overflow-hidden">
@@ -76,7 +74,7 @@ export const FeedbackModal = ({ isOpen, onClose }: FeedbackModalProps) => {
         <div className="flex items-center justify-between px-6 py-5 border-b border-border bg-card/50">
           <div>
             <h2 className="text-xl font-bold tracking-tight">Feedback</h2>
-            <p className="text-[10px] text-foreground/30 uppercase tracking-widest font-bold mt-0.5">We'd love to hear from you</p>
+            <p className="text-[10px] text-foreground/30 uppercase tracking-widest font-bold mt-0.5">We&apos;d love to hear from you</p>
           </div>
           <button 
             onClick={handleClose}
@@ -126,7 +124,7 @@ export const FeedbackModal = ({ isOpen, onClose }: FeedbackModalProps) => {
                   rows={4}
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Tell us what's on your mind..."
+                  placeholder="Tell us what&apos;s on your mind..."
                   className="w-full px-4 py-3 bg-background/50 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/50 transition-all text-sm resize-none"
                 />
               </div>

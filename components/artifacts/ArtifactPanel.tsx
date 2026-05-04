@@ -3,7 +3,7 @@
 import { SummaryBar } from "./SummaryBar";
 import { TransactionAudit } from "./TransactionAudit";
 import dynamic from "next/dynamic";
-import { useState, useEffect } from "react";
+import { useSyncExternalStore } from "react";
 import { Sparkles, AlertCircle, TrendingUp, History } from "lucide-react";
 import { useDashboard } from "@/hooks/useDashboard";
 import { usePrivacy } from "@/context/PrivacyContext";
@@ -14,16 +14,26 @@ const MonthlySpendChart = dynamic(() => import("./MonthlySpendChart").then(mod =
   loading: () => <div className="bg-card border border-border p-6 rounded-2xl h-[400px] animate-pulse" />
 });
 
+const subscribe = () => () => {};
+
+interface SpendItem {
+  month: string;
+  total: number;
+}
+
+interface SubscriptionItem {
+  payee: {
+    displayName: string;
+  };
+  expectedDate: string;
+}
+
 export const ArtifactPanel = () => {
   const { monthlySpend, upcomingSubscriptions, transactions, recentExpenses, loading, error } = useDashboard();
   const { isPrivacyEnabled } = usePrivacy();
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useSyncExternalStore(subscribe, () => true, () => false);
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  const totalSpend = monthlySpend.reduce((acc: number, curr: any) => acc + curr.total, 0);
+  const totalSpend = (monthlySpend as SpendItem[]).reduce((acc: number, curr: SpendItem) => acc + curr.total, 0);
 
   // Decide what to show in the Audit section
   const hasAuditData = transactions.length > 0;
@@ -93,7 +103,7 @@ export const ArtifactPanel = () => {
               <p className="text-xs text-foreground/30 italic py-8 text-center">No upcoming bills detected.</p>
             ) : (
               <div className="space-y-3">
-                {upcomingSubscriptions.map((sub: any, i: number) => (
+                {(upcomingSubscriptions as SubscriptionItem[]).map((sub: SubscriptionItem, i: number) => (
                   <div key={i} className="flex items-center justify-between p-3 bg-background/40 rounded-xl border border-border/50 group hover:border-primary/30 transition-colors">
                     <div className="flex gap-3 items-center">
                       <div className="w-1.5 h-1.5 bg-primary rounded-full group-hover:scale-125 transition-transform" />
