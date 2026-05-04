@@ -1,7 +1,7 @@
 "use client";
 
 import { usePrivacy } from "@/context/PrivacyContext";
-import { maskAmount, maskName } from "@/lib/privacy";
+import { maskName } from "@/lib/privacy";
 
 interface Transaction {
   id: string;
@@ -112,7 +112,7 @@ export const TransactionAudit = ({ transactions, loading, isRecentExpenses }: Tr
                   <td className={`px-6 py-4 text-right font-mono font-bold text-sm ${
                     isDebit ? "text-destructive" : "text-emerald-400"
                   }`}>
-                    {isPrivacyEnabled ? maskAmount(tx.amount) : `₹${tx.amount.toLocaleString()}`}
+                    {`₹${tx.amount.toLocaleString()}`}
                   </td>
                 </tr>
               );

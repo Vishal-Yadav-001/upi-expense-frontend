@@ -1,6 +1,4 @@
 import { Wallet, ShieldCheck, Zap, Loader2 } from "lucide-react";
-import { usePrivacy } from "@/context/PrivacyContext";
-import { maskAmount } from "@/lib/privacy";
 
 interface SummaryBarProps {
   totalSpend: number;
@@ -10,11 +8,7 @@ interface SummaryBarProps {
 }
 
 export const SummaryBar = ({ totalSpend, upcomingCount, activeMandates, loading }: SummaryBarProps) => {
-  const { isPrivacyEnabled } = usePrivacy();
-
-  const displayAmount = isPrivacyEnabled 
-    ? maskAmount(totalSpend) 
-    : `₹${totalSpend.toLocaleString()}`;
+  const displayAmount = `₹${totalSpend.toLocaleString()}`;
 
   const isHighSpend = totalSpend > 30000;
 
