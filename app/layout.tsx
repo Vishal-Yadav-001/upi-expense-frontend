@@ -2,7 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Sora, DM_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ApolloWrapper } from "@/components/providers/ApolloWrapper";
-import { Header } from "@/components/layout/Header";
+import { Sidebar } from "@/components/layout/Sidebar";
+import { Topbar } from "@/components/layout/Topbar";
 import { PrivacyProvider } from "@/context/PrivacyContext";
 
 const sora = Sora({
@@ -51,11 +52,14 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
         <PrivacyProvider>
           <ApolloWrapper>
-            <div className="flex flex-col h-screen">
-              <Header />
-              <main className="flex-1 overflow-hidden">
-                {children}
-              </main>
+            <div className="flex h-screen overflow-hidden">
+              <Sidebar />
+              <div className="flex-1 flex flex-col overflow-hidden">
+                <Topbar />
+                <main className="flex-1 overflow-y-auto p-6 bg-background">
+                  {children}
+                </main>
+              </div>
             </div>
           </ApolloWrapper>
         </PrivacyProvider>
