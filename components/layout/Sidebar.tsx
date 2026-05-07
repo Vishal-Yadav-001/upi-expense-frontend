@@ -93,6 +93,7 @@ export function Sidebar() {
       <div className="p-4 border-t border-border">
         <button
           onClick={togglePrivacy}
+          aria-pressed={isPrivacyEnabled}
           className={cn(
             "flex items-center justify-between w-full px-3 py-2 rounded-md text-sm font-medium transition-all font-sans",
             isPrivacyEnabled 

@@ -47,7 +47,7 @@ export const MetricCard = ({
       colorClasses[accentColor]
     )}>
       {/* Background Icon */}
-      <div className="absolute -right-2 -bottom-2 text-foreground/[0.03]">
+      <div className="absolute -right-2 -bottom-2 text-foreground/[0.03]" aria-hidden="true">
         <Icon size={100} strokeWidth={1} />
       </div>
 

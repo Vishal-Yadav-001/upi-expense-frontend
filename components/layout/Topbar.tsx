@@ -18,13 +18,22 @@ export function Topbar() {
         </div>
 
         <div className="flex items-center gap-2">
-          <button className="p-2 text-zinc-400 hover:text-white transition-colors rounded-md hover:bg-white/5">
+          <button 
+            className="p-2 text-zinc-400 hover:text-white transition-colors rounded-md hover:bg-white/5"
+            aria-label="Search"
+          >
             <Search className="w-4 h-4" />
           </button>
-          <button className="p-2 text-zinc-400 hover:text-white transition-colors rounded-md hover:bg-white/5">
+          <button 
+            className="p-2 text-zinc-400 hover:text-white transition-colors rounded-md hover:bg-white/5"
+            aria-label="Notifications"
+          >
             <Bell className="w-4 h-4" />
           </button>
-          <button className="p-2 text-zinc-400 hover:text-white transition-colors rounded-md hover:bg-white/5">
+          <button 
+            className="p-2 text-zinc-400 hover:text-white transition-colors rounded-md hover:bg-white/5"
+            aria-label="Refresh Data"
+          >
             <RefreshCw className="w-4 h-4" />
           </button>
         </div>
