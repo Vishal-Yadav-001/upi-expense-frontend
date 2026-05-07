@@ -1,19 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
+import { Sora, DM_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ApolloWrapper } from "@/components/providers/ApolloWrapper";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Topbar } from "@/components/layout/Topbar";
 import { PrivacyProvider } from "@/context/PrivacyContext";
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+const sora = Sora({
+  variable: "--font-sora",
   subsets: ["latin"],
   display: "swap",
 });
 
-const inter = Inter({
-  variable: "--font-inter",
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
   display: "swap",
 });
@@ -35,28 +35,31 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0a0a0f",
+  themeColor: "#0d0f14",
 };
 
 export default function RootLayout({
   children,
+  chat,
 }: Readonly<{
   children: React.ReactNode;
+  chat: React.ReactNode;
 }>) {
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased dark`}
+      className={`${sora.variable} ${dmSans.variable} ${jetbrainsMono.variable} h-full antialiased dark`}
       suppressHydrationWarning
     >
-      <body className="h-full bg-zinc-950 text-foreground font-sans selection:bg-blue-500/30 selection:text-blue-200">
+      <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
         <PrivacyProvider>
           <ApolloWrapper>
             <div className="flex h-screen overflow-hidden">
               <Sidebar />
-              <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+              {chat}
+              <div className="flex-1 flex flex-col overflow-hidden">
                 <Topbar />
-                <main className="flex-1 overflow-y-auto bg-zinc-950">
+                <main className="flex-1 overflow-y-auto p-6 bg-background">
                   {children}
                 </main>
               </div>

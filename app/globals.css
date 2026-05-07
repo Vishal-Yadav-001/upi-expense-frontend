@@ -1,72 +1,25 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-inter);
-  --font-heading: var(--font-space-grotesk);
-  --font-mono: var(--font-jetbrains-mono);
+  --font-sans: var(--font-dm-sans);
+  --font-heading: var(--font-sora);
 
-  --color-background: hsl(240 43% 4%);
-  --color-foreground: hsl(244 55% 93%);
+  --color-background: #0d0f14;
+  --color-foreground: #f0f2f8;
   
-  --color-card: hsl(240 25% 10%);
-  --color-card-foreground: hsl(244 55% 93%);
+  --color-card: #181c27;
+  --color-card-foreground: #f0f2f8;
   
-  --color-popover: hsl(240 25% 10%);
-  --color-popover-foreground: hsl(244 55% 93%);
-  
-  --color-primary: hsl(236 91% 73%);
-  --color-primary-foreground: hsl(240 76% 31%);
-  
-  --color-secondary: hsl(201 100% 74%);
-  --color-secondary-foreground: hsl(200 100% 15%);
-  
-  --color-muted: hsl(240 19% 25%);
-  --color-muted-foreground: hsl(242 15% 80%);
-  
-  --color-accent: hsl(236 91% 73%);
-  --color-accent-foreground: hsl(240 76% 31%);
-  
-  --color-destructive: hsl(0 100% 83%);
-  --color-destructive-foreground: hsl(0 100% 21%);
-  
-  --color-border: hsl(240 23% 15%);
-  --color-input: hsl(240 23% 15%);
-  --color-ring: hsl(236 91% 73%);
-  
-  --radius-lg: 0.875rem;
-  --radius-md: calc(0.875rem - 2px);
-  --radius-sm: calc(0.875rem - 4px);
+  --color-panel: #13161e;
+  --color-border: rgba(255, 255, 255, 0.07);
+  --color-accent: #6c7fff;
+  --color-accent-soft: rgba(108, 127, 255, 0.12);
+  --color-teal: #2ee8b5;
+  --color-teal-soft: rgba(46, 232, 181, 0.1);
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-  
   body {
     @apply bg-background text-foreground font-sans;
-    font-feature-settings: "rlig" 1, "calt" 1;
   }
-
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-heading tracking-tight;
-  }
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 4px;
-}
-
-::-webkit-scrollbar-track {
-  background: hsl(240 43% 4%);
-}
-
-::-webkit-scrollbar-thumb {
-  background: hsl(240 23% 15%);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: hsl(240 19% 25%);
 }

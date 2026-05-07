@@ -1,18 +1,117 @@
-import { ChatPanel } from "@/components/chat/ChatPanel";
-import { ArtifactPanel } from "@/components/artifacts/ArtifactPanel";
+"use client";
 
-export default function Home() {
+import React from "react";
+import { useDashboard } from "@/hooks/useDashboard";
+import { MetricCard } from "@/components/dashboard/MetricCard";
+import { SpendingChart } from "@/components/dashboard/SpendingChart";
+import { TransactionAudit, Transaction } from "@/components/dashboard/TransactionAudit";
+import { Wallet, CreditCard, TrendingUp, AlertCircle } from "lucide-react";
+import { motion } from "framer-motion";
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 }
+};
+
+export default function DashboardPage() {
+  const { 
+    monthlySpend, 
+    upcomingSubscriptions, 
+    transactions, 
+    loading, 
+    error 
+  } = useDashboard();
+
+  if (error) {
+    return (
+      <div className="h-full flex flex-col items-center justify-center p-6 text-foreground/40">
+        <AlertCircle size={48} strokeWidth={1} className="mb-4" />
+        <h3 className="font-heading font-bold text-lg">Error loading dashboard</h3>
+        <p className="text-sm">Please check your connection and try again.</p>
+      </div>
+    );
+  }
+
+  // Calculate metrics
+  const currentMonthSpend = monthlySpend.length > 0 
+    ? monthlySpend[monthlySpend.length - 1].total 
+    : 0;
+  
+  const activeSubsCount = upcomingSubscriptions.length;
+  
+  // Transform transactions for the audit table
+  const transformedTransactions: Transaction[] = transactions.map(tx => ({
+    id: tx.id,
+    entity: tx.payee.displayName,
+    category: tx.payee.category,
+    date: new Date(tx.date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }),
+    amount: tx.amount,
+    direction: tx.direction as "IN" | "OUT"
+  }));
+
+  // Transform spending data for chart
+  const spendingData = monthlySpend.map(ms => ({
+    month: ms.month,
+    historical: ms.total,
+    projected: ms.total
+  }));
+
   return (
-    <div className="flex h-full overflow-hidden">
-      {/* Left Column: Chat */}
-      <div className="w-1/2 flex flex-col h-full">
-        <ChatPanel />
+    <motion.div 
+      variants={container}
+      initial="hidden"
+      animate="show"
+      className="h-full overflow-y-auto p-6 space-y-8 pb-20"
+    >
+      {/* Metrics Row */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <motion.div variants={item}>
+          <MetricCard 
+            label="Total Monthly Spend" 
+            value={`₹${currentMonthSpend.toLocaleString('en-IN')}`}
+            icon={Wallet}
+            trend={{ value: 12, isPositive: false }}
+            accentColor="accent"
+          />
+        </motion.div>
+        <motion.div variants={item}>
+          <MetricCard 
+            label="Active Subscriptions" 
+            value={activeSubsCount}
+            icon={CreditCard}
+            accentColor="teal"
+          />
+        </motion.div>
+        <motion.div variants={item}>
+          <MetricCard 
+            label="Estimated Monthly Savings" 
+            value="₹4,200"
+            icon={TrendingUp}
+            trend={{ value: 8, isPositive: true }}
+            accentColor="teal"
+          />
+        </motion.div>
       </div>
 
-      {/* Right Column: Artifacts */}
-      <div className="w-1/2 flex flex-col h-full bg-card/10">
-        <ArtifactPanel />
+      {/* Main Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <motion.div variants={item}>
+          <SpendingChart data={spendingData} loading={loading} />
+        </motion.div>
+        <motion.div variants={item}>
+          <TransactionAudit transactions={transformedTransactions} />
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }

@@ -52,7 +52,7 @@ export const ArtifactPanel = () => {
   if (!isMounted) return null;
 
   return (
-    <div className="flex flex-col h-full bg-background/50 p-6 overflow-y-auto">
+    <div className="flex flex-col h-full">
       {/* Dashboard Header */}
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-3">
