@@ -52,18 +52,18 @@ export function Sidebar() {
   const { isPrivacyEnabled, togglePrivacy } = usePrivacy();
 
   return (
-    <div className="flex flex-col h-full bg-zinc-950 border-r border-zinc-800 w-64">
+    <div className="flex flex-col h-full bg-panel border-r border-border w-64">
       <div className="p-6">
-        <Link href="/" className="flex items-center gap-2 text-white">
-          <BrainCircuit className="w-8 h-8 text-blue-500" />
-          <span className="text-xl font-bold tracking-tight">BrainCircuit</span>
+        <Link href="/" className="flex items-center gap-2 text-white font-heading">
+          <BrainCircuit className="w-8 h-8 text-accent" />
+          <span className="text-xl font-bold tracking-tight">UPI Sense</span>
         </Link>
       </div>
 
       <nav className="flex-1 px-4 space-y-8 mt-4">
         {navigation.map((section) => (
           <div key={section.title}>
-            <h3 className="px-3 text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-2">
+            <h3 className="px-3 text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-2 font-heading">
               {section.title}
             </h3>
             <div className="space-y-1">
@@ -74,13 +74,13 @@ export function Sidebar() {
                     key={item.name}
                     href={item.href}
                     className={cn(
-                      "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                      "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors font-sans",
                       isActive 
-                        ? "bg-zinc-800 text-white" 
-                        : "text-zinc-400 hover:text-white hover:bg-zinc-900"
+                        ? "bg-accent/10 text-white" 
+                        : "text-zinc-400 hover:text-white hover:bg-white/5"
                     )}
                   >
-                    <item.icon className={cn("w-4 h-4", isActive ? "text-blue-500" : "text-zinc-500")} />
+                    <item.icon className={cn("w-4 h-4", isActive ? "text-accent" : "text-zinc-500")} />
                     {item.name}
                   </Link>
                 );
@@ -90,14 +90,14 @@ export function Sidebar() {
         ))}
       </nav>
 
-      <div className="p-4 border-t border-zinc-800">
+      <div className="p-4 border-t border-border">
         <button
           onClick={togglePrivacy}
           className={cn(
-            "flex items-center justify-between w-full px-3 py-2 rounded-md text-sm font-medium transition-all",
+            "flex items-center justify-between w-full px-3 py-2 rounded-md text-sm font-medium transition-all font-sans",
             isPrivacyEnabled 
-              ? "bg-blue-500/10 text-blue-400 border border-blue-500/20" 
-              : "bg-zinc-900 text-zinc-400 border border-zinc-800"
+              ? "bg-accent/10 text-accent border border-accent/20" 
+              : "bg-white/5 text-zinc-400 border border-border"
           )}
         >
           <div className="flex items-center gap-2">
@@ -106,7 +106,7 @@ export function Sidebar() {
           </div>
           <div className={cn(
             "w-8 h-4 rounded-full relative transition-colors",
-            isPrivacyEnabled ? "bg-blue-500" : "bg-zinc-700"
+            isPrivacyEnabled ? "bg-accent" : "bg-zinc-700"
           )}>
             <div className={cn(
               "absolute top-1 w-2 h-2 rounded-full bg-white transition-all",
