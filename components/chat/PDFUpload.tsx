@@ -115,32 +115,32 @@ export const PDFUpload = ({ onUploadSuccess }: PDFUploadProps) => {
         >
         {isUploading ? (
           <>
-            <Loader2 size={24} className="animate-spin text-primary" />
+            <Loader2 size={24} className="animate-spin text-accent" />
             <p className="text-sm font-medium text-foreground/70">Processing statement...</p>
             <p className="text-xs text-foreground/40 text-center">This may take a few seconds as we analyze your transactions.</p>
           </>
         ) : !hasHydrated ? (
           <>
-            <Loader2 size={24} className="animate-spin text-primary" />
+            <Loader2 size={24} className="animate-spin text-accent" />
             <p className="text-sm font-medium text-foreground/70">Loading Privacy Mode...</p>
             <p className="text-xs text-foreground/40 text-center">Upload will be available as soon as Privacy Mode is ready.</p>
           </>
         ) : (
           <>
-            <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-1">
+            <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center text-accent mb-1">
               <FileUp size={20} />
             </div>
             <p id={titleId} className="text-sm font-medium">Upload UPI Statement</p>
-            <p id={descriptionId} className="text-xs text-foreground/40 text-center">Only SuperMoney PDF statements are supported currently</p>
+            <p id={descriptionId} className="text-xs text-foreground/40 text-center font-sans">Only SuperMoney PDF statements are supported currently</p>
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
               disabled={isUploading || !hasHydrated}
               aria-describedby={descriptionId}
-              className={`mt-2 inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-colors transition-opacity ${
+              className={`mt-2 inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-bold transition-colors transition-opacity ${
                 isUploading || !hasHydrated
-                  ? "cursor-not-allowed bg-primary/30 text-background/70"
-                  : "bg-primary text-background hover:opacity-90"
+                  ? "cursor-not-allowed bg-accent/30 text-background/70"
+                  : "bg-accent text-background hover:opacity-90"
               }`}
             >
               Choose PDF
@@ -148,15 +148,15 @@ export const PDFUpload = ({ onUploadSuccess }: PDFUploadProps) => {
 
             <div className="mt-4 w-full max-w-sm rounded-lg border border-border bg-card/40 px-3 py-3">
               <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-lg ${isPrivacyEnabled ? "bg-secondary/10 text-secondary" : "bg-primary/10 text-primary"}`}>
+                <div className={`p-2 rounded-lg ${isPrivacyEnabled ? "bg-teal/10 text-teal" : "bg-accent/10 text-accent"}`}>
                   {isPrivacyEnabled ? <Shield size={18} /> : <ShieldOff size={18} />}
                 </div>
                 <div className="flex-1 text-left">
-                  <p className="text-xs font-bold uppercase tracking-widest text-foreground/40 mb-0.5">Privacy Mode</p>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-foreground/40 mb-0.5 font-heading">Privacy Mode</p>
                   <p className="text-sm font-medium">
                     {isPrivacyEnabled ? "On" : "Off"}
                   </p>
-                  <p className="text-xs text-foreground/40">
+                  <p className="text-xs text-foreground/40 font-sans">
                     Uploaded data and visible names will follow this setting for the current session.
                   </p>
                 </div>
@@ -171,7 +171,7 @@ export const PDFUpload = ({ onUploadSuccess }: PDFUploadProps) => {
                   aria-label="Toggle Privacy Mode"
                   aria-pressed={hasHydrated ? isPrivacyEnabled : true}
                   className={`relative h-5 w-10 shrink-0 rounded-full transition-colors transition-opacity ${
-                    hasHydrated ? (isPrivacyEnabled ? "bg-secondary" : "bg-primary") : "bg-border cursor-not-allowed"
+                    hasHydrated ? (isPrivacyEnabled ? "bg-teal" : "bg-accent") : "bg-border cursor-not-allowed"
                   }`}
                 >
                   <div

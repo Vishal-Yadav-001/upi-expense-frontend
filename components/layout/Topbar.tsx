@@ -2,8 +2,20 @@
 
 import React from "react";
 import { Bell, RefreshCw, Search, Sparkles } from "lucide-react";
+import { useUI } from "@/context/UIContext";
+import { usePathname } from "next/navigation";
 
 export function Topbar() {
+  const { toggleChat } = useUI();
+  const pathname = usePathname();
+
+  const handleAskAI = () => {
+    // Only toggle chat if on dashboard (root path)
+    if (pathname === "/" || pathname === "" || pathname === null) {
+      toggleChat();
+    }
+  };
+
   return (
     <header className="h-16 border-b border-border bg-panel/50 backdrop-blur-md flex items-center justify-between px-8 sticky top-0 z-10">
       <div className="flex flex-col">
@@ -38,7 +50,10 @@ export function Topbar() {
           </button>
         </div>
 
-        <button className="flex items-center gap-2 px-4 py-1.5 bg-accent hover:bg-accent/90 text-white rounded-md text-sm font-bold transition-all shadow-lg shadow-accent/20 font-sans">
+        <button 
+          onClick={handleAskAI}
+          className="flex items-center gap-2 px-4 py-1.5 bg-accent hover:bg-accent/90 text-white rounded-md text-sm font-bold transition-all shadow-lg shadow-accent/20 font-sans"
+        >
           <Sparkles className="w-4 h-4" />
           <span>Ask AI</span>
         </button>

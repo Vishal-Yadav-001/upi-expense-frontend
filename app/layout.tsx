@@ -5,6 +5,7 @@ import { ApolloWrapper } from "@/components/providers/ApolloWrapper";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Topbar } from "@/components/layout/Topbar";
 import { PrivacyProvider } from "@/context/PrivacyContext";
+import { UIProvider } from "@/context/UIContext";
 
 const sora = Sora({
   variable: "--font-sora",
@@ -54,16 +55,18 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
         <PrivacyProvider>
           <ApolloWrapper>
-            <div className="flex h-screen overflow-hidden">
-              <Sidebar />
-              {chat}
-              <div className="flex-1 flex flex-col overflow-hidden">
-                <Topbar />
-                <main className="flex-1 overflow-y-auto p-6 bg-background">
-                  {children}
-                </main>
+            <UIProvider>
+              <div className="flex h-screen overflow-hidden">
+                <Sidebar />
+                {chat}
+                <div className="flex-1 flex flex-col overflow-hidden">
+                  <Topbar />
+                  <main className="flex-1 overflow-y-auto p-6 bg-background">
+                    {children}
+                  </main>
+                </div>
               </div>
-            </div>
+            </UIProvider>
           </ApolloWrapper>
         </PrivacyProvider>
       </body>
