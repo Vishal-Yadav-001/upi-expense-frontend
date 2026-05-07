@@ -6,6 +6,22 @@ import { MetricCard } from "@/components/dashboard/MetricCard";
 import { SpendingChart } from "@/components/dashboard/SpendingChart";
 import { TransactionAudit, Transaction } from "@/components/dashboard/TransactionAudit";
 import { Wallet, CreditCard, TrendingUp, AlertCircle } from "lucide-react";
+import { motion } from "framer-motion";
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 }
+};
 
 export default function DashboardPage() {
   const { 
@@ -44,44 +60,58 @@ export default function DashboardPage() {
   }));
 
   // Transform spending data for chart
-  // In a real app, we might want to calculate 'projected' more accurately
   const spendingData = monthlySpend.map(ms => ({
     month: ms.month,
     historical: ms.total,
-    projected: ms.total // Mock projection as same for now
+    projected: ms.total
   }));
 
   return (
-    <div className="h-full overflow-y-auto p-6 space-y-8 pb-20">
+    <motion.div 
+      variants={container}
+      initial="hidden"
+      animate="show"
+      className="h-full overflow-y-auto p-6 space-y-8 pb-20"
+    >
       {/* Metrics Row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <MetricCard 
-          label="Total Monthly Spend" 
-          value={`₹${currentMonthSpend.toLocaleString('en-IN')}`}
-          icon={Wallet}
-          trend={{ value: 12, isPositive: false }}
-          accentColor="accent"
-        />
-        <MetricCard 
-          label="Active Subscriptions" 
-          value={activeSubsCount}
-          icon={CreditCard}
-          accentColor="teal"
-        />
-        <MetricCard 
-          label="Estimated Monthly Savings" 
-          value="₹4,200"
-          icon={TrendingUp}
-          trend={{ value: 8, isPositive: true }}
-          accentColor="teal"
-        />
+        <motion.div variants={item}>
+          <MetricCard 
+            label="Total Monthly Spend" 
+            value={`₹${currentMonthSpend.toLocaleString('en-IN')}`}
+            icon={Wallet}
+            trend={{ value: 12, isPositive: false }}
+            accentColor="accent"
+          />
+        </motion.div>
+        <motion.div variants={item}>
+          <MetricCard 
+            label="Active Subscriptions" 
+            value={activeSubsCount}
+            icon={CreditCard}
+            accentColor="teal"
+          />
+        </motion.div>
+        <motion.div variants={item}>
+          <MetricCard 
+            label="Estimated Monthly Savings" 
+            value="₹4,200"
+            icon={TrendingUp}
+            trend={{ value: 8, isPositive: true }}
+            accentColor="teal"
+          />
+        </motion.div>
       </div>
 
       {/* Main Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <SpendingChart data={spendingData} loading={loading} />
-        <TransactionAudit transactions={transformedTransactions} />
+        <motion.div variants={item}>
+          <SpendingChart data={spendingData} loading={loading} />
+        </motion.div>
+        <motion.div variants={item}>
+          <TransactionAudit transactions={transformedTransactions} />
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }

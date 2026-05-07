@@ -2,10 +2,15 @@
 
 import React from "react";
 import { ListFilter, AlertCircle } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function TransactionsPage() {
   return (
-    <div className="h-full overflow-y-auto p-6 space-y-8 pb-20">
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="h-full overflow-y-auto p-6 space-y-8 pb-20"
+    >
       <div className="flex items-center gap-3">
         <div className="p-2.5 bg-teal/10 text-teal rounded-xl border border-teal/20">
           <ListFilter size={22} />
@@ -20,6 +25,6 @@ export default function TransactionsPage() {
         <AlertCircle size={48} strokeWidth={1} className="mb-4" />
         <p className="text-sm font-medium">Full transaction history is being indexed.</p>
       </div>
-    </div>
+    </motion.div>
   );
 }
