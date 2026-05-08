@@ -42,7 +42,15 @@ export default function AnalyticsPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {data?.financialSummaries.map((summary: any) => (
+          {data?.financialSummaries.map((summary: {
+            id: string;
+            period: string;
+            totalDebit: number;
+            totalCredit: number;
+            transactionCount: number;
+            topCategories: { category: string; amount: number }[];
+            lastUpdated: string;
+          }) => (
             <div key={summary.id} className="bg-card border border-border rounded-2xl p-6 space-y-4 hover:border-accent/40 transition-colors">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-bold">{summary.period}</h3>
@@ -74,7 +82,7 @@ export default function AnalyticsPage() {
                   Top Categories
                 </div>
                 <div className="space-y-2">
-                  {summary.topCategories.map((cat: any, i: number) => (
+                  {summary.topCategories.map((cat, i) => (
                     <div key={i} className="flex items-center justify-between text-sm">
                       <span className="text-foreground/70">{cat.category}</span>
                       <span className="font-medium">Rs {cat.amount.toLocaleString("en-IN")}</span>
