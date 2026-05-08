@@ -115,3 +115,21 @@ export const SUBMIT_FEEDBACK = gql`
     submitFeedback(input: $input)
   }
 `;
+
+export const GET_SUMMARIES = gql`
+  query GetSummaries($type: String, $limit: Int) {
+    financialSummaries(type: $type, limit: $limit) {
+      id
+      type
+      period
+      totalDebit
+      totalCredit
+      transactionCount
+      topCategories {
+        category
+        amount
+      }
+      lastUpdated
+    }
+  }
+`;
