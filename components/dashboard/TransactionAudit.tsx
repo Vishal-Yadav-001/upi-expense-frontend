@@ -5,9 +5,11 @@ import { Shield, FolderOpen, ArrowUpRight, ArrowDownLeft } from "lucide-react";
 import { usePrivacy } from "@/context/PrivacyContext";
 import { maskName } from "@/lib/privacy";
 import { cn } from "@/lib/utils";
+import { CategoryDropdown } from "../transactions/CategoryDropdown";
 
 export interface Transaction {
   id: string;
+  payeeId?: string;
   entity: string;
   category: string;
   date: string;
@@ -112,9 +114,16 @@ export const TransactionAudit = ({ transactions = [], className }: TransactionAu
                     </div>
                   </td>
                   <td className="px-5 py-4">
-                    <span className="text-xs px-2 py-0.5 rounded-md bg-white/5 border border-white/5 text-foreground/60">
-                      {tx.category}
-                    </span>
+                    {tx.payeeId ? (
+                      <CategoryDropdown 
+                        payeeId={tx.payeeId} 
+                        currentCategory={tx.category} 
+                      />
+                    ) : (
+                      <span className="text-xs px-2 py-0.5 rounded-md bg-white/5 border border-white/5 text-foreground/60">
+                        {tx.category}
+                      </span>
+                    )}
                   </td>
                   <td className="px-5 py-4">
                     <span className="text-xs text-foreground/40 font-mono">

@@ -52,6 +52,7 @@ export default function DashboardPage() {
   // Transform transactions for the audit table
   const transformedTransactions: Transaction[] = transactions.map(tx => ({
     id: tx.id,
+    payeeId: tx.payee.id,
     entity: tx.payee.displayName,
     category: tx.payee.category,
     date: new Date(tx.date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }),

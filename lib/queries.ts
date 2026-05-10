@@ -133,3 +133,28 @@ export const GET_SUMMARIES = gql`
     }
   }
 `;
+
+export const GET_AVAILABLE_CATEGORIES = gql`
+  query GetAvailableCategories {
+    availableCategories
+  }
+`;
+
+export const UPDATE_PAYEE_CATEGORY = gql`
+  mutation UpdatePayeeCategory($payeeId: ID!, $category: String!) {
+    updatePayeeCategory(payeeId: $payeeId, category: $category) {
+      id
+      category
+    }
+  }
+`;
+
+export const SYNC_AI_PATTERNS = gql`
+  mutation SyncAIPatterns {
+    syncAIPatterns {
+      success
+      updatedTransactions
+      updatedSummaries
+    }
+  }
+`;

@@ -3,7 +3,7 @@
 import React from "react";
 import { TrendingUp, BarChart3, Receipt, IndianRupee } from "lucide-react";
 import { motion } from "framer-motion";
-import { useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { GET_SUMMARIES } from "@/lib/queries";
 
 export default function AnalyticsPage() {

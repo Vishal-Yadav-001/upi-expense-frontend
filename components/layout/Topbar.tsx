@@ -43,10 +43,16 @@ export function Topbar() {
             <Bell className="w-4 h-4" />
           </button>
           <button 
-            className="p-2 text-zinc-400 hover:text-white transition-colors rounded-md hover:bg-white/5"
-            aria-label="Refresh Data"
+            onClick={sync}
+            disabled={isSyncing}
+            className={cn(
+              "p-2 transition-colors rounded-md",
+              isSyncing ? "text-teal animate-spin" : "text-zinc-400 hover:text-white hover:bg-white/5"
+            )}
+            title="Sync AI & Analytics"
+            aria-label="Sync AI & Analytics"
           >
-            <RefreshCw className="w-4 h-4" />
+            {isSyncing ? <Loader2 className="w-4 h-4" /> : <RefreshCw className="w-4 h-4" />}
           </button>
         </div>
 

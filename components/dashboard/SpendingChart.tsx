@@ -26,7 +26,13 @@ interface SpendingChartProps {
 }
 
 export const SpendingChart = ({ data = [], loading = false }: SpendingChartProps) => {
-  if (loading) {
+  const [isMounted, setIsMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (loading || !isMounted) {
     return (
       <div className="bg-card border border-border p-6 rounded-2xl h-[400px] animate-pulse">
         <div className="h-6 w-1/3 bg-white/5 rounded mb-6" />
