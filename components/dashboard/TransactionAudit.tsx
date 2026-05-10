@@ -1,11 +1,12 @@
 "use client";
 
 import React from "react";
-import { Shield, FolderOpen, ArrowUpRight, ArrowDownLeft } from "lucide-react";
+import { Shield, FolderOpen, ArrowUpRight, ArrowDownLeft, RefreshCw, Loader2 } from "lucide-react";
 import { usePrivacy } from "@/context/PrivacyContext";
 import { maskName } from "@/lib/privacy";
 import { cn } from "@/lib/utils";
 import { CategoryDropdown } from "../transactions/CategoryDropdown";
+import { useSync } from "@/hooks/useSync";
 
 export interface Transaction {
   id: string;
@@ -24,6 +25,7 @@ interface TransactionAuditProps {
 
 export const TransactionAudit = ({ transactions = [], className }: TransactionAuditProps) => {
   const { isPrivacyEnabled, hasHydrated } = usePrivacy();
+  const { sync, isSyncing } = useSync();
 
   const formatAmount = (amount: number, direction: "IN" | "OUT") => {
     const isMasked = isPrivacyEnabled && hasHydrated;
@@ -74,9 +76,35 @@ export const TransactionAudit = ({ transactions = [], className }: TransactionAu
           </div>
         </div>
         
-        <div className="flex items-center gap-2 px-2.5 py-1 bg-teal/5 border border-teal/10 rounded-full">
-          <div className="w-1.5 h-1.5 rounded-full bg-teal animate-pulse" />
-          <span className="text-[10px] font-bold text-teal uppercase tracking-wider">Live</span>
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={sync}
+            disabled={isSyncing}
+            className={cn(
+              "flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all text-[10px] font-bold uppercase tracking-wider h-fit",
+              isSyncing 
+                ? "bg-teal/20 border-teal/50 text-teal animate-pulse" 
+                : "bg-teal/5 border-teal/10 text-teal hover:bg-teal/10 hover:border-teal/20"
+            )}
+            title="Sync AI & Analytics"
+          >
+            {isSyncing ? (
+              <>
+                <Loader2 size={12} className="animate-spin" />
+                <span>Syncing...</span>
+              </>
+            ) : (
+              <>
+                <RefreshCw size={12} />
+                <span>Sync AI</span>
+              </>
+            )}
+          </button>
+
+          <div className="flex items-center gap-2 px-2.5 py-1 bg-teal/5 border border-teal/10 rounded-full h-fit">
+            <div className="w-1.5 h-1.5 rounded-full bg-teal animate-pulse" />
+            <span className="text-[10px] font-bold text-teal uppercase tracking-wider">Live</span>
+          </div>
         </div>
       </div>
 
