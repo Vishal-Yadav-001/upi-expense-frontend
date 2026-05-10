@@ -51,8 +51,15 @@ export default function DashboardPage() {
   
   // Transform transactions for the audit table
   const transformedTransactions: Transaction[] = transactions.map(tx => {
-    // Robust date parsing
-    const dateObj = new Date(tx.date);
+    // Robust date parsing (handles ISO strings and Unix timestamps as string/number)
+    let dateObj: Date;
+    
+    if (!isNaN(Number(tx.date))) {
+      dateObj = new Date(Number(tx.date));
+    } else {
+      dateObj = new Date(tx.date);
+    }
+
     const formattedDate = !isNaN(dateObj.getTime()) 
       ? dateObj.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })
       : tx.date; // Fallback to raw string if parsing fails
