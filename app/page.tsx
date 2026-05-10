@@ -61,7 +61,7 @@ export default function DashboardPage() {
     }
 
     const formattedDate = !isNaN(dateObj.getTime()) 
-      ? dateObj.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })
+      ? dateObj.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
       : tx.date; // Fallback to raw string if parsing fails
 
     return {
