@@ -3,9 +3,10 @@
 import React from "react";
 import { useDashboard } from "@/hooks/useDashboard";
 import { MetricCard } from "@/components/dashboard/MetricCard";
+import { BudgetCard } from "@/components/dashboard/BudgetCard";
 import { SpendingChart } from "@/components/dashboard/SpendingChart";
 import { TransactionAudit, Transaction } from "@/components/dashboard/TransactionAudit";
-import { Wallet, CreditCard, TrendingUp, AlertCircle } from "lucide-react";
+import { Wallet, CreditCard, AlertCircle } from "lucide-react";
 import { motion } from "framer-motion";
 
 const container = {
@@ -27,7 +28,9 @@ export default function DashboardPage() {
   const { 
     monthlySpend, 
     upcomingSubscriptions, 
-    transactions, 
+    transactions,
+    monthlyBudget,
+    updateBudget, 
     loading, 
     error 
   } = useDashboard();
@@ -109,12 +112,10 @@ export default function DashboardPage() {
           />
         </motion.div>
         <motion.div variants={item}>
-          <MetricCard 
-            label="Estimated Monthly Savings" 
-            value="₹4,200"
-            icon={TrendingUp}
-            trend={{ value: 8, isPositive: true }}
-            accentColor="teal"
+          <BudgetCard 
+            budget={monthlyBudget}
+            spent={currentMonthSpend}
+            onUpdate={updateBudget}
           />
         </motion.div>
       </div>
