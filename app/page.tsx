@@ -50,15 +50,23 @@ export default function DashboardPage() {
   const activeSubsCount = upcomingSubscriptions.length;
   
   // Transform transactions for the audit table
-  const transformedTransactions: Transaction[] = transactions.map(tx => ({
-    id: tx.id,
-    payeeId: tx.payee.id,
-    entity: tx.payee.displayName,
-    category: tx.payee.category,
-    date: new Date(tx.date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }),
-    amount: tx.amount,
-    direction: tx.direction === "CREDIT" ? "IN" : "OUT"
-  }));
+  const transformedTransactions: Transaction[] = transactions.map(tx => {
+    // Robust date parsing
+    const dateObj = new Date(tx.date);
+    const formattedDate = !isNaN(dateObj.getTime()) 
+      ? dateObj.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })
+      : tx.date; // Fallback to raw string if parsing fails
+
+    return {
+      id: tx.id,
+      payeeId: tx.payee.id,
+      entity: tx.payee.displayName,
+      category: tx.payee.category,
+      date: formattedDate,
+      amount: tx.amount,
+      direction: tx.direction === "CREDIT" ? "IN" : "OUT"
+    };
+  });
 
   // Transform spending data for chart
   const spendingData = monthlySpend.map(ms => ({
