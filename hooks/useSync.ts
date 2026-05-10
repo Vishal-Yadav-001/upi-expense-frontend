@@ -1,6 +1,6 @@
 "use client";
 
-import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client/react";
 import { SYNC_AI_PATTERNS } from "@/lib/queries";
 import { useState } from "react";
 

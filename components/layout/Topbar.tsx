@@ -32,30 +32,43 @@ export function Topbar() {
           <span className="text-[10px] font-bold uppercase tracking-wider text-teal font-sans">System Online</span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <button 
             className="p-2 text-zinc-400 hover:text-white transition-colors rounded-md hover:bg-white/5"
             aria-label="Search"
           >
             <Search className="w-4 h-4" />
           </button>
+          
+          <button 
+            onClick={sync}
+            disabled={isSyncing}
+            className={cn(
+              "flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all text-xs font-bold",
+              isSyncing 
+                ? "bg-teal/20 border-teal/50 text-teal animate-pulse" 
+                : "bg-white/5 border-white/10 text-zinc-400 hover:text-white hover:bg-white/10 hover:border-white/20"
+            )}
+            title="Sync AI & Analytics"
+          >
+            {isSyncing ? (
+              <>
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                <span>Syncing...</span>
+              </>
+            ) : (
+              <>
+                <RefreshCw className="w-3.5 h-3.5" />
+                <span>Sync AI</span>
+              </>
+            )}
+          </button>
+
           <button 
             className="p-2 text-zinc-400 hover:text-white transition-colors rounded-md hover:bg-white/5"
             aria-label="Notifications"
           >
             <Bell className="w-4 h-4" />
-          </button>
-          <button 
-            onClick={sync}
-            disabled={isSyncing}
-            className={cn(
-              "p-2 transition-colors rounded-md",
-              isSyncing ? "text-teal animate-spin" : "text-zinc-400 hover:text-white hover:bg-white/5"
-            )}
-            title="Sync AI & Analytics"
-            aria-label="Sync AI & Analytics"
-          >
-            {isSyncing ? <Loader2 className="w-4 h-4" /> : <RefreshCw className="w-4 h-4" />}
           </button>
         </div>
 
