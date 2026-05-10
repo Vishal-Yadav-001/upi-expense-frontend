@@ -117,7 +117,7 @@ export const TransactionAudit = ({ transactions = [], className }: TransactionAu
                 <th className="text-left px-5 py-3 text-[10px] font-heading font-bold text-foreground/50 uppercase tracking-widest border-b border-border/30">Entity</th>
                 <th className="text-left px-5 py-3 text-[10px] font-heading font-bold text-foreground/50 uppercase tracking-widest border-b border-border/30">Category</th>
                 <th className="text-left px-5 py-3 text-[10px] font-heading font-bold text-foreground/50 uppercase tracking-widest border-b border-border/30">Date</th>
-                <th className="text-right px-5 py-3 text-[10px] font-heading font-bold text-foreground/50 uppercase tracking-widest border-b border-border/30">Amount</th>
+                <th className="text-right px-5 py-3 text-[10px] font-heading font-bold text-foreground/50 uppercase tracking-widest border-b border-border/30"></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border/20">

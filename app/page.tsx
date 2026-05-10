@@ -57,7 +57,7 @@ export default function DashboardPage() {
     category: tx.payee.category,
     date: new Date(tx.date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }),
     amount: tx.amount,
-    direction: tx.direction as "IN" | "OUT"
+    direction: tx.direction === "CREDIT" ? "IN" : "OUT"
   }));
 
   // Transform spending data for chart
