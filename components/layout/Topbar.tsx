@@ -1,13 +1,16 @@
 "use client";
 
 import React from "react";
-import { Bell, RefreshCw, Search, Sparkles } from "lucide-react";
+import { Bell, RefreshCw, Search, Sparkles, Loader2 } from "lucide-react";
 import { useUI } from "@/context/UIContext";
 import { usePathname } from "next/navigation";
+import { useSync } from "@/hooks/useSync";
+import { cn } from "@/lib/utils";
 
 export function Topbar() {
   const { toggleChat } = useUI();
   const pathname = usePathname();
+  const { sync, isSyncing } = useSync();
 
   const handleAskAI = () => {
     // Only toggle chat if on dashboard (root path)
