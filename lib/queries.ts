@@ -1,6 +1,11 @@
 import { gql } from "@apollo/client";
 
 export interface DashboardData {
+  me?: {
+    id: string;
+    name: string;
+    monthlyBudget: number | null;
+  } | null;
   monthlySpend: {
     month: string;
     total: number;
@@ -46,6 +51,11 @@ export interface DashboardData {
 
 export const GET_DASHBOARD_DATA = gql`
   query GetDashboardData {
+    me {
+      id
+      name
+      monthlyBudget
+    }
     monthlySpend {
       month
       total
@@ -86,6 +96,15 @@ export const GET_DASHBOARD_DATA = gql`
         normalizedName
         transactionCount
       }
+    }
+  }
+`;
+
+export const UPDATE_USER_BUDGET = gql`
+  mutation UpdateUserBudget($amount: Float!) {
+    updateUserBudget(amount: $amount) {
+      id
+      monthlyBudget
     }
   }
 `;
