@@ -2,8 +2,8 @@
 
 import React from "react";
 import {
-  AreaChart,
-  Area,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -55,17 +55,7 @@ export const SpendingChart = ({ data = [], loading = false }: SpendingChartProps
 
       <div className="flex-1 w-full min-h-0">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-            <defs>
-              <linearGradient id="colorProjected" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="var(--color-accent)" stopOpacity={0.08} />
-                <stop offset="95%" stopColor="var(--color-accent)" stopOpacity={0} />
-              </linearGradient>
-              <linearGradient id="colorHistorical" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="var(--color-teal)" stopOpacity={0.04} />
-                <stop offset="95%" stopColor="var(--color-teal)" stopOpacity={0} />
-              </linearGradient>
-            </defs>
+          <BarChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }} barGap={8}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)" vertical={false} />
             <XAxis 
               dataKey="month" 
@@ -81,6 +71,7 @@ export const SpendingChart = ({ data = [], loading = false }: SpendingChartProps
               tickFormatter={(value) => `₹${value / 1000}k`}
             />
             <Tooltip 
+              cursor={{ fill: "rgba(255, 255, 255, 0.03)" }}
               content={({ active, payload, label }) => {
                 if (active && payload && payload.length) {
                   return (
@@ -125,28 +116,21 @@ export const SpendingChart = ({ data = [], loading = false }: SpendingChartProps
                 </div>
               )}
             />
-            <Area
-              type="monotone"
-              dataKey="projected"
-              name="Projected"
-              stroke="var(--color-accent)"
-              strokeWidth={2}
-              fillOpacity={1}
-              fill="url(#colorProjected)"
-              activeDot={{ r: 4, strokeWidth: 0, fill: "var(--color-accent)" }}
-            />
-            <Area
-              type="monotone"
+            <Bar
               dataKey="historical"
               name="Historical"
-              stroke="var(--color-teal)"
-              strokeWidth={2}
-              strokeDasharray="5 5"
-              fillOpacity={1}
-              fill="url(#colorHistorical)"
-              activeDot={{ r: 4, strokeWidth: 0, fill: "var(--color-teal)" }}
+              fill="var(--color-teal)"
+              radius={[4, 4, 0, 0]}
+              barSize={20}
             />
-          </AreaChart>
+            <Bar
+              dataKey="projected"
+              name="Projected"
+              fill="var(--color-accent)"
+              radius={[4, 4, 0, 0]}
+              barSize={20}
+            />
+          </BarChart>
         </ResponsiveContainer>
       </div>
     </div>

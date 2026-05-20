@@ -101,6 +101,7 @@ export default function DashboardPage() {
             icon={Wallet}
             trend={{ value: 12, isPositive: false }}
             accentColor="accent"
+            loading={loading}
           />
         </motion.div>
         <motion.div variants={item}>
@@ -109,6 +110,7 @@ export default function DashboardPage() {
             value={activeSubsCount}
             icon={CreditCard}
             accentColor="teal"
+            loading={loading}
           />
         </motion.div>
         <motion.div variants={item}>
@@ -116,6 +118,7 @@ export default function DashboardPage() {
             budget={monthlyBudget}
             spent={currentMonthSpend}
             onUpdate={updateBudget}
+            loading={loading}
           />
         </motion.div>
       </div>
@@ -126,7 +129,7 @@ export default function DashboardPage() {
           <SpendingChart data={spendingData} loading={loading} />
         </motion.div>
         <motion.div variants={item}>
-          <TransactionAudit transactions={transformedTransactions} />
+          <TransactionAudit transactions={transformedTransactions} loading={loading} />
         </motion.div>
       </div>
     </motion.div>

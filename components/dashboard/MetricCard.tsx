@@ -14,6 +14,7 @@ interface MetricCardProps {
     isPositive: boolean;
   };
   accentColor?: "accent" | "teal";
+  loading?: boolean;
 }
 
 export const MetricCard = ({
@@ -22,8 +23,30 @@ export const MetricCard = ({
   icon: Icon,
   trend,
   accentColor = "accent",
+  loading = false,
 }: MetricCardProps) => {
   const { isPrivacyEnabled, hasHydrated } = usePrivacy();
+
+  if (loading) {
+    return (
+      <div className={cn(
+        "relative overflow-hidden rounded-xl bg-card border border-border p-5 transition-all",
+        "border-t-2 animate-pulse",
+        accentColor === "accent" 
+          ? "border-t-accent/50 shadow-[0_-1px_10px_-4px_rgba(108,127,255,0.2)]" 
+          : "border-t-teal/50 shadow-[0_-1px_10px_-4px_rgba(46,232,181,0.2)]"
+      )}>
+        <div className="flex items-center justify-between mb-3">
+          <div className="h-3 w-20 bg-white/5 rounded" />
+          <div className="p-2 rounded-lg bg-white/5 border border-white/5 w-8 h-8" />
+        </div>
+        <div className="flex items-baseline gap-2">
+          <div className="h-8 w-24 bg-white/5 rounded" />
+          <div className="h-4 w-10 bg-white/5 rounded" />
+        </div>
+      </div>
+    );
+  }
 
   const maskValue = (val: string | number) => {
     if (!isPrivacyEnabled || !hasHydrated) return val;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client/react";
 import { GET_DASHBOARD_DATA, UPDATE_USER_BUDGET, DashboardData } from "@/lib/queries";
 
 export const useDashboard = () => {

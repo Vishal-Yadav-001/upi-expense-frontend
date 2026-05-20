@@ -120,8 +120,8 @@ export const CATEGORIZE_PAYEE = gql`
 `;
 
 export const ASK_AI = gql`
-  mutation AskAI($question: String!, $model: String, $apiKey: String) {
-    askAI(question: $question, model: $model, apiKey: $apiKey) {
+  mutation AskAI($question: String!, $history: [ChatMessage], $model: String, $apiKey: String) {
+    askAI(question: $question, history: $history, model: $model, apiKey: $apiKey) {
       answer
       toolsUsed
       data

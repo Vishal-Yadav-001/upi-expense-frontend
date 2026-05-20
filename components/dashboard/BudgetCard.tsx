@@ -10,20 +10,45 @@ interface BudgetCardProps {
   budget: number;
   spent: number;
   onUpdate: (amount: number) => Promise<void>;
+  loading?: boolean;
 }
 
-export const BudgetCard = ({ budget, spent, onUpdate }: BudgetCardProps) => {
+export const BudgetCard = ({ budget, spent, onUpdate, loading = false }: BudgetCardProps) => {
   const { isPrivacyEnabled, hasHydrated } = usePrivacy();
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(budget.toString());
   const [isSaving, setIsSaving] = useState(false);
 
   // Update editValue when budget prop changes only if not currently editing
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isEditing) {
       setEditValue(budget.toString());
     }
   }, [budget, isEditing]);
+
+  if (loading) {
+    return (
+      <div className={cn(
+        "relative overflow-hidden rounded-xl bg-card border border-border p-5 transition-all animate-pulse",
+        "border-t-2 border-t-teal/50 shadow-[0_-1px_10px_-4px_rgba(46,232,181,0.2)]"
+      )}>
+        <div className="flex items-center justify-between mb-3">
+          <div className="h-3 w-20 bg-white/5 rounded" />
+          <div className="p-2 rounded-lg bg-white/5 border border-white/5 w-8 h-8" />
+        </div>
+        <div className="space-y-4">
+          <div className="flex items-baseline gap-2">
+            <div className="h-8 w-24 bg-white/5 rounded" />
+            <div className="h-4 w-12 bg-white/5 rounded" />
+          </div>
+          <div className="space-y-2">
+            <div className="h-2 w-full bg-white/5 rounded-full" />
+            <div className="h-3 w-1/2 bg-white/5 rounded" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const maskValue = (val: number) => {
     if (!isPrivacyEnabled || !hasHydrated) return `₹${val.toLocaleString('en-IN')}`;

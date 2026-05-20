@@ -21,11 +21,42 @@ export interface Transaction {
 interface TransactionAuditProps {
   transactions?: Transaction[];
   className?: string;
+  loading?: boolean;
 }
 
-export const TransactionAudit = ({ transactions = [], className }: TransactionAuditProps) => {
+export const TransactionAudit = ({ transactions = [], className, loading = false }: TransactionAuditProps) => {
   const { isPrivacyEnabled, hasHydrated } = usePrivacy();
   const { sync, isSyncing } = useSync();
+
+  if (loading) {
+    return (
+      <div className={cn(
+        "bg-card border border-border rounded-2xl flex flex-col overflow-hidden animate-pulse min-h-[400px]",
+        className
+      )}>
+        <div className="p-5 flex items-center justify-between border-b border-border/50">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-white/5 rounded-lg border border-white/5 w-9 h-9" />
+            <div className="space-y-2">
+              <div className="h-4 w-32 bg-white/5 rounded" />
+              <div className="h-2 w-20 bg-white/5 rounded" />
+            </div>
+          </div>
+        </div>
+        <div className="p-5 space-y-4">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="flex items-center justify-between py-2">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded bg-white/5" />
+                <div className="h-4 w-32 bg-white/5 rounded" />
+              </div>
+              <div className="h-4 w-20 bg-white/5 rounded" />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   const formatAmount = (amount: number, direction: "IN" | "OUT") => {
     const isMasked = isPrivacyEnabled && hasHydrated;

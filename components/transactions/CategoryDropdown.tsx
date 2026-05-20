@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client/react";
 import { ChevronDown, Search, Plus, Check, Loader2, X } from "lucide-react";
-import { GET_AVAILABLE_CATEGORIES, UPDATE_PAYEE_CATEGORY } from "@/lib/queries";
+import { GET_AVAILABLE_CATEGORIES, UPDATE_PAYEE_CATEGORY, GET_SUMMARIES } from "@/lib/queries";
 import { cn } from "@/lib/utils";
 
 interface CategoryDropdownProps {
@@ -21,7 +21,12 @@ export const CategoryDropdown = ({ payeeId, currentCategory, className }: Catego
 
   const { data } = useQuery(GET_AVAILABLE_CATEGORIES);
   const [updateCategory, { loading: updating }] = useMutation(UPDATE_PAYEE_CATEGORY, {
-    refetchQueries: ["GetDashboardData", "GetAvailableCategories"],
+    refetchQueries: [
+      "GetDashboardData", 
+      "GetAvailableCategories",
+      { query: GET_SUMMARIES, variables: { type: "MONTHLY", limit: 6 } }
+    ],
+    awaitRefetchQueries: true,
   });
 
   const categories: string[] = data?.availableCategories || [];
