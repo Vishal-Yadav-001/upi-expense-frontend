@@ -29,7 +29,7 @@ export const useChat = () => {
     const model = getStoredGeminiModel();
     const apiKey = getStoredGeminiApiKey();
 
-    const history = messages.map(m => ({
+    const history = messages.slice(-10).map(m => ({
       role: m.role,
       content: m.content,
     }));
