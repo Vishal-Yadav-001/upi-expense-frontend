@@ -109,6 +109,19 @@ export const UPDATE_USER_BUDGET = gql`
   }
 `;
 
+export const GET_IMPORT_BATCHES = gql`
+  query GetImportBatches($limit: Int) {
+    importBatches(limit: $limit) {
+      id
+      originalFileName
+      source
+      importedCount
+      status
+      createdAt
+    }
+  }
+`;
+
 export const CATEGORIZE_PAYEE = gql`
   mutation CategorizePayee($payeeId: ID!, $category: String!) {
     categorizePayee(payeeId: $payeeId, category: $category) {

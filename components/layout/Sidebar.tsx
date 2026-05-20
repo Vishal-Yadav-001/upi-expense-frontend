@@ -8,7 +8,6 @@ import {
   Receipt, 
   BarChart3, 
   Upload, 
-  FileText, 
   CreditCard, 
   Key, 
   MessageSquare, 
@@ -30,11 +29,10 @@ const navigation = [
     ],
   },
   {
-    title: "Tools",
+    title: "Management",
     items: [
-      { name: "Upload Statement", href: "/upload", icon: Upload },
-      { name: "Mandates", href: "/mandates", icon: FileText },
-      { name: "Bills", href: "/bills", icon: CreditCard },
+      { name: "Import History", href: "/imports", icon: Upload },
+      { name: "Subscriptions & Bills", href: "/bills", icon: CreditCard },
     ],
   },
   {
