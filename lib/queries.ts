@@ -115,7 +115,9 @@ export const GET_IMPORT_BATCHES = gql`
       id
       originalFileName
       source
+      transactionCount
       importedCount
+      skippedCount
       status
       createdAt
     }
