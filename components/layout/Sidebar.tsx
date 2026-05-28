@@ -38,7 +38,6 @@ const navigation = [
   {
     title: "Account",
     items: [
-      { name: "AI Key", href: "/ai-key", icon: Key },
       { name: "Feedback", href: "/feedback", icon: MessageSquare },
       { name: "Settings", href: "/settings", icon: Settings },
     ],

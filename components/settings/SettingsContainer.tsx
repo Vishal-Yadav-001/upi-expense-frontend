@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Shield, RefreshCw, Trash2, Cpu, CreditCard, Sparkles, AlertTriangle, Check, Loader2, Info } from "lucide-react";
+import { Shield, RefreshCw, Trash2, Cpu, CreditCard, Sparkles, AlertTriangle, Check, Loader2, Info, Eye, EyeOff } from "lucide-react";
 import { usePrivacy } from "@/context/PrivacyContext";
 import { SettingsSection } from "./SettingsSection";
 import { useDashboard } from "@/hooks/useDashboard";
@@ -28,6 +28,43 @@ export function SettingsContainer() {
   const [selectedModel, setSelectedModel] = useState("");
   const [isSavingGemini, setIsSavingGemini] = useState(false);
   const [geminiSuccess, setGeminiSuccess] = useState(false);
+
+  // Consolidated Gemini Test & Visibility States
+  const [showKey, setShowKey] = useState(false);
+  const [testStatus, setTestStatus] = useState<"idle" | "testing" | "success" | "error">("idle");
+  const [testErrorMessage, setTestErrorMessage] = useState("");
+
+  const isFormatInvalid = apiKey.length > 0 && !apiKey.startsWith("AIzaSy");
+
+  const handleTestConnection = async () => {
+    if (!apiKey) return;
+    setTestStatus("testing");
+    setTestErrorMessage("");
+    try {
+      const modelName = selectedModel || "gemini-1.5-flash";
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: "ping" }] }]
+        })
+      });
+      
+      const data = await response.json();
+      if (!response.ok) {
+        const errCode = data?.error?.message || data?.error?.status || "Connection failed";
+        throw new Error(errCode);
+      }
+      
+      setTestStatus("success");
+      setTimeout(() => setTestStatus("idle"), 3000);
+    } catch (err: any) {
+      console.error("Connection test failed:", err);
+      setTestStatus("error");
+      setTestErrorMessage(err.message || "Failed to verify API Key");
+    }
+  };
 
   // Load Gemini settings from localStorage on mount
   useEffect(() => {
@@ -174,7 +211,7 @@ export function SettingsContainer() {
         </div>
       </SettingsSection>
 
-      {/* 3. Google Gemini API Engine */}
+      {/* 3. Google Gemini AI Engine */}
       <SettingsSection 
         title="Google Gemini AI Engine" 
         description="Configure your API key and model limits for natural language RAG parsing."
@@ -185,20 +222,42 @@ export function SettingsContainer() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* API Key */}
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-foreground/40 uppercase tracking-widest block">Gemini API Key</label>
-              <input
-                type="password"
-                placeholder="Enter Gemini API Key (stored locally)"
-                className="w-full bg-white/5 border border-border/80 focus:border-accent/50 rounded-xl px-3.5 py-2 text-sm text-foreground outline-none transition-colors"
-                value={apiKey}
-                onChange={(e) => setApiKey(e.target.value)}
-              />
+              <label htmlFor="settings-gemini-key" className="text-[10px] font-bold text-foreground/40 uppercase tracking-widest block cursor-pointer">Gemini API Key</label>
+              <div className="relative">
+                <input
+                  id="settings-gemini-key"
+                  type={showKey ? "text" : "password"}
+                  placeholder="Enter Gemini API Key (stored locally)"
+                  className={cn(
+                    "w-full bg-white/5 border rounded-xl pl-3.5 pr-11 py-2 text-sm text-foreground outline-none transition-colors",
+                    isFormatInvalid ? "border-amber-500/30 focus:border-amber-500/50" : "border-border/80 focus:border-accent/50"
+                  )}
+                  value={apiKey}
+                  onChange={(e) => setApiKey(e.target.value)}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowKey(!showKey)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-foreground/30 hover:text-foreground transition-colors cursor-pointer outline-none"
+                  aria-label={showKey ? "Hide API Key" : "Show API Key"}
+                >
+                  {showKey ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
+              
+              {isFormatInvalid && (
+                <p className="text-[9px] text-amber-400 font-sans mt-1 flex items-center gap-1 animate-in slide-in-from-top-1 duration-200">
+                  <AlertTriangle size={10} />
+                  Gemini API keys typically begin with the prefix "AIzaSy".
+                </p>
+              )}
             </div>
             
             {/* Model Selector */}
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-foreground/40 uppercase tracking-widest block">AI Model Routing</label>
+              <label htmlFor="settings-gemini-model" className="text-[10px] font-bold text-foreground/40 uppercase tracking-widest block cursor-pointer">AI Model Routing</label>
               <select
+                id="settings-gemini-model"
                 className="w-full bg-white/5 border border-border/80 focus:border-accent/50 rounded-xl px-3.5 py-2 text-sm text-foreground outline-none transition-colors cursor-pointer"
                 value={selectedModel}
                 onChange={(e) => setSelectedModel(e.target.value)}
@@ -212,7 +271,68 @@ export function SettingsContainer() {
             </div>
           </div>
 
-          <div className="flex justify-end pt-2 border-t border-border/30">
+          {/* Model Description Box */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={selectedModel}
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              transition={{ duration: 0.15 }}
+              className="p-3 bg-teal-soft/10 border border-teal/15 rounded-xl flex gap-2"
+            >
+              <Sparkles size={14} className="text-teal shrink-0 mt-0.5" />
+              <p className="text-[11px] text-foreground/60 leading-relaxed font-sans italic">
+                {GEMINI_MODEL_OPTIONS.find(o => o.value === selectedModel)?.description || "Inference parsing router"}
+              </p>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Connection Test Results */}
+          <AnimatePresence>
+            {testStatus === "success" && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                className="p-3 bg-teal-soft/10 border border-teal/20 rounded-xl flex gap-2 items-center text-teal text-xs font-sans"
+              >
+                <Check size={14} />
+                <span>Gemini API Connection Verified!</span>
+              </motion.div>
+            )}
+            {testStatus === "error" && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                className="p-3 bg-destructive-soft border border-destructive/20 rounded-xl flex gap-2 items-center text-destructive text-xs font-sans"
+              >
+                <AlertTriangle size={14} className="shrink-0" />
+                <span>Connection Failed: {testErrorMessage}</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <div className="flex justify-end gap-2.5 pt-2 border-t border-border/30">
+            <button
+              type="button"
+              onClick={handleTestConnection}
+              disabled={testStatus === "testing" || !apiKey}
+              className={cn(
+                "px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all h-10 min-w-32 flex items-center justify-center gap-1.5 cursor-pointer disabled:cursor-not-allowed",
+                testStatus === "success"
+                  ? "bg-teal-soft/15 border border-teal/25 text-teal shadow-none"
+                  : "bg-white/5 border border-border/80 text-foreground/60 hover:text-white hover:bg-white/10 disabled:opacity-50"
+              )}
+            >
+              {testStatus === "testing" ? (
+                <Loader2 size={14} className="animate-spin" />
+              ) : (
+                <span>Test Connection</span>
+              )}
+            </button>
+
             <button
               onClick={handleSaveGemini}
               disabled={isSavingGemini || !selectedModel}
