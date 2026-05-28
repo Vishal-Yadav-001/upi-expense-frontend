@@ -118,12 +118,13 @@ export function TransactionsContainer() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={sync}
-            disabled={isSyncing}
+            disabled={isSyncing || !!error || !data || rawTransactions.length === 0}
             className={cn(
               "flex items-center gap-2 px-4 py-2 rounded-xl border transition-all text-xs font-bold uppercase tracking-wider cursor-pointer",
               isSyncing
                 ? "bg-teal/20 border-teal/50 text-teal animate-pulse"
-                : "bg-teal/10 border-teal/20 text-teal hover:bg-teal/20"
+                : "bg-teal/10 border-teal/20 text-teal hover:bg-teal/20",
+              (isSyncing || !!error || !data || rawTransactions.length === 0) && "opacity-40 cursor-not-allowed pointer-events-none border-teal/10"
             )}
           >
             {isSyncing ? (
