@@ -16,6 +16,8 @@
   --color-accent-soft: rgba(108, 127, 255, 0.12);
   --color-teal: #2ee8b5;
   --color-teal-soft: rgba(46, 232, 181, 0.1);
+  --color-destructive: #ff4d4d;
+  --color-destructive-soft: rgba(255, 77, 77, 0.1);
 }
 
 @layer base {
