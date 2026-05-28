@@ -211,8 +211,7 @@ export default function TransactionsPage() {
             </button>
           </div>
         ) : filteredTransactions.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse table-fixed">
+          <table className="w-full border-collapse table-fixed">
               <thead>
                 <tr className="bg-panel/50 border-b border-border/30">
                   <th className="text-left px-6 py-4 text-[10px] font-heading font-bold text-foreground/40 uppercase tracking-widest w-[35%]">Entity</th>
@@ -298,7 +297,6 @@ export default function TransactionsPage() {
                 ))}
               </motion.tbody>
             </table>
-          </div>
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center py-20 text-foreground/20 text-center">
             <Search size={48} strokeWidth={1} className="mb-4 text-foreground/10" />
