@@ -93,6 +93,7 @@ export default function TransactionsPage() {
       initial="hidden"
       animate="show"
       className="h-full overflow-y-auto p-6 space-y-8 pb-20"
+      style={{ scrollbarGutter: "stable" }}
     >
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -211,7 +212,7 @@ export default function TransactionsPage() {
           </div>
         ) : filteredTransactions.length > 0 ? (
           <div className="overflow-x-auto">
-            <table className="w-full border-collapse">
+            <table className="w-full border-collapse table-fixed">
               <thead>
                 <tr className="bg-panel/50 border-b border-border/30">
                   <th className="text-left px-6 py-4 text-[10px] font-heading font-bold text-foreground/40 uppercase tracking-widest w-[35%]">Entity</th>

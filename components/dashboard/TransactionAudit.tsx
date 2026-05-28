@@ -142,13 +142,13 @@ export const TransactionAudit = ({ transactions = [], className, loading = false
       {/* Table */}
       <div className="flex-1 overflow-auto">
         {transactions.length > 0 ? (
-          <table className="w-full border-collapse">
+          <table className="w-full border-collapse table-fixed">
             <thead>
               <tr className="bg-panel/50">
-                <th className="text-left px-5 py-3 text-[10px] font-heading font-bold text-foreground/50 uppercase tracking-widest border-b border-border/30">Entity</th>
-                <th className="text-left px-5 py-3 text-[10px] font-heading font-bold text-foreground/50 uppercase tracking-widest border-b border-border/30">Category</th>
-                <th className="text-left px-5 py-3 text-[10px] font-heading font-bold text-foreground/50 uppercase tracking-widest border-b border-border/30">Date</th>
-                <th className="text-right px-5 py-3 text-[10px] font-heading font-bold text-foreground/50 uppercase tracking-widest border-b border-border/30"></th>
+                <th className="text-left px-5 py-3 text-[10px] font-heading font-bold text-foreground/50 uppercase tracking-widest border-b border-border/30 w-[40%]">Entity</th>
+                <th className="text-left px-5 py-3 text-[10px] font-heading font-bold text-foreground/50 uppercase tracking-widest border-b border-border/30 w-[25%]">Category</th>
+                <th className="text-left px-5 py-3 text-[10px] font-heading font-bold text-foreground/50 uppercase tracking-widest border-b border-border/30 w-[20%]">Date</th>
+                <th className="text-right px-5 py-3 text-[10px] font-heading font-bold text-foreground/50 uppercase tracking-widest border-b border-border/30 w-[15%]"></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border/20">
