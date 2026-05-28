@@ -295,16 +295,16 @@ export function SettingsContainer() {
           </div>
 
           {/* Clear All Data Trigger */}
-          <div className="border border-border/40 rounded-xl overflow-hidden bg-panel/20">
+          <div className="border border-destructive/25 rounded-xl overflow-hidden bg-destructive/[0.03]">
             <button 
               onClick={() => {
                 setShowWipeConfirm(!showWipeConfirm);
                 setShowResetConfirm(false);
               }}
               disabled={isClearing}
-              className="w-full flex items-center justify-between p-3.5 hover:bg-destructive/5 transition-all group outline-none"
+              className="w-full flex items-center justify-between p-3.5 hover:bg-destructive/10 transition-all group outline-none"
             >
-              <div className="flex items-center gap-3 text-destructive/60 group-hover:text-destructive transition-colors">
+              <div className="flex items-center gap-3 text-destructive font-bold transition-colors">
                 {isClearing ? <Loader2 size={15} className="animate-spin" /> : <Trash2 size={15} />}
                 <span className="text-xs font-bold uppercase tracking-wider">Clear All Data Permanently</span>
               </div>
