@@ -214,86 +214,88 @@ export default function TransactionsPage() {
             <table className="w-full border-collapse">
               <thead>
                 <tr className="bg-panel/50 border-b border-border/30">
-                  <th className="text-left px-6 py-4 text-[10px] font-heading font-bold text-foreground/40 uppercase tracking-widest">Entity</th>
-                  <th className="text-left px-6 py-4 text-[10px] font-heading font-bold text-foreground/40 uppercase tracking-widest">Category</th>
-                  <th className="text-left px-6 py-4 text-[10px] font-heading font-bold text-foreground/40 uppercase tracking-widest">Date</th>
-                  <th className="text-left px-6 py-4 text-[10px] font-heading font-bold text-foreground/40 uppercase tracking-widest">Status</th>
-                  <th className="text-right px-6 py-4 text-[10px] font-heading font-bold text-foreground/40 uppercase tracking-widest">Amount</th>
+                  <th className="text-left px-6 py-4 text-[10px] font-heading font-bold text-foreground/40 uppercase tracking-widest w-[35%]">Entity</th>
+                  <th className="text-left px-6 py-4 text-[10px] font-heading font-bold text-foreground/40 uppercase tracking-widest w-[20%]">Category</th>
+                  <th className="text-left px-6 py-4 text-[10px] font-heading font-bold text-foreground/40 uppercase tracking-widest w-[15%]">Date</th>
+                  <th className="text-left px-6 py-4 text-[10px] font-heading font-bold text-foreground/40 uppercase tracking-widest w-[15%]">Status</th>
+                  <th className="text-right px-6 py-4 text-[10px] font-heading font-bold text-foreground/40 uppercase tracking-widest w-[15%]">Amount</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-border/20">
-                <AnimatePresence mode="popLayout">
-                  {filteredTransactions.map((tx) => (
-                    <motion.tr
-                      key={tx.id}
-                      variants={item}
-                      className="group hover:bg-white/[0.01] transition-colors"
-                      layout
-                    >
-                      {/* Entity */}
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-3">
-                          <div className={cn(
-                            "p-2 rounded-lg border",
-                            tx.direction === "CREDIT"
-                              ? "bg-teal/5 border-teal/10 text-teal"
-                              : "bg-white/5 border-white/5 text-foreground/40"
-                          )}>
-                            {tx.direction === "CREDIT" ? <ArrowDownLeft size={14} /> : <ArrowUpRight size={14} />}
-                          </div>
-                          <div>
-                            <span className="text-sm font-medium text-foreground group-hover:text-white transition-colors">
-                              {tx.payee ? getMaskedEntity(tx.payee.displayName) : "Unknown Payee"}
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-
-                      {/* Category */}
-                      <td className="px-6 py-4">
-                        {tx.payee?.id ? (
-                          <CategoryDropdown
-                            payeeId={tx.payee.id}
-                            currentCategory={tx.payee.category}
-                          />
-                        ) : (
-                          <span className="text-xs px-2 py-0.5 rounded-md bg-white/5 border border-white/5 text-foreground/50">
-                            Uncategorized
-                          </span>
-                        )}
-                      </td>
-
-                      {/* Date */}
-                      <td className="px-6 py-4">
-                        <span className="text-xs text-foreground/50 font-mono">
-                          {new Date(isNaN(Number(tx.date)) ? tx.date : Number(tx.date)).toLocaleDateString("en-IN", {
-                            day: "2-digit",
-                            month: "short",
-                            year: "numeric"
-                          })}
-                        </span>
-                      </td>
-
-                      {/* Status */}
-                      <td className="px-6 py-4">
-                        <span className={cn(
-                          "text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider border",
-                          tx.status === "SUCCESS"
+              <motion.tbody
+                key={`${direction}-${searchTerm}`}
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.15, ease: "easeOut" }}
+                className="divide-y divide-border/20"
+              >
+                {filteredTransactions.map((tx) => (
+                  <tr
+                    key={tx.id}
+                    className="group hover:bg-white/[0.01] transition-colors"
+                  >
+                    {/* Entity */}
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className={cn(
+                          "p-2 rounded-lg border",
+                          tx.direction === "CREDIT"
                             ? "bg-teal/5 border-teal/10 text-teal"
-                            : "bg-destructive/10 border-destructive/20 text-destructive"
+                            : "bg-white/5 border-white/5 text-foreground/40"
                         )}>
-                          {tx.status || "SUCCESS"}
-                        </span>
-                      </td>
+                          {tx.direction === "CREDIT" ? <ArrowDownLeft size={14} /> : <ArrowUpRight size={14} />}
+                        </div>
+                        <div>
+                          <span className="text-sm font-medium text-foreground group-hover:text-white transition-colors">
+                            {tx.payee ? getMaskedEntity(tx.payee.displayName) : "Unknown Payee"}
+                          </span>
+                        </div>
+                      </div>
+                    </td>
 
-                      {/* Amount */}
-                      <td className="px-6 py-4 text-right">
-                        {formatAmount(tx.amount, tx.direction)}
-                      </td>
-                    </motion.tr>
-                  ))}
-                </AnimatePresence>
-              </tbody>
+                    {/* Category */}
+                    <td className="px-6 py-4">
+                      {tx.payee?.id ? (
+                        <CategoryDropdown
+                          payeeId={tx.payee.id}
+                          currentCategory={tx.payee.category}
+                        />
+                      ) : (
+                        <span className="text-xs px-2 py-0.5 rounded-md bg-white/5 border border-white/5 text-foreground/50">
+                          Uncategorized
+                        </span>
+                      )}
+                    </td>
+
+                    {/* Date */}
+                    <td className="px-6 py-4">
+                      <span className="text-xs text-foreground/50 font-mono">
+                        {new Date(isNaN(Number(tx.date)) ? tx.date : Number(tx.date)).toLocaleDateString("en-IN", {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric"
+                        })}
+                      </span>
+                    </td>
+
+                    {/* Status */}
+                    <td className="px-6 py-4">
+                      <span className={cn(
+                        "text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider border",
+                        tx.status === "SUCCESS"
+                          ? "bg-teal/5 border-teal/10 text-teal"
+                          : "bg-destructive/10 border-destructive/20 text-destructive"
+                      )}>
+                        {tx.status || "SUCCESS"}
+                      </span>
+                    </td>
+
+                    {/* Amount */}
+                    <td className="px-6 py-4 text-right">
+                      {formatAmount(tx.amount, tx.direction)}
+                    </td>
+                  </tr>
+                ))}
+              </motion.tbody>
             </table>
           </div>
         ) : (
