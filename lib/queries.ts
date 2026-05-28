@@ -192,3 +192,118 @@ export const SYNC_AI_PATTERNS = gql`
     }
   }
 `;
+
+export interface TransactionsLedgerData {
+  transactions: {
+    id: string;
+    amount: number;
+    direction: string;
+    date: string;
+    status: string;
+    payee?: {
+      id: string;
+      displayName: string;
+      category: string;
+      normalizedName?: string;
+      transactionCount?: number;
+    } | null;
+  }[];
+}
+
+export interface SubscriptionsData {
+  detectSubscriptions: {
+    payee: {
+      id: string;
+      displayName: string;
+      category: string;
+    };
+    frequency: string;
+    avgAmount: number;
+    lastPaidAt?: string | null;
+    confidence: number;
+    priceChange?: number | null;
+  }[];
+  upcomingSubscriptions: {
+    payee: {
+      id: string;
+      displayName: string;
+      category: string;
+    };
+    expectedDate: string;
+    avgAmount: number;
+    confidence: number;
+  }[];
+  topRecurringPayees: {
+    payee: {
+      id: string;
+      displayName: string;
+      category: string;
+    };
+    transactionCount: number;
+    totalAmount: number;
+    lastPaidAt?: string | null;
+  }[];
+}
+
+export const GET_TRANSACTIONS_LEDGER = gql`
+  query GetTransactionsLedger($status: TransactionStatus, $direction: TransactionDirection, $fromDate: String, $toDate: String, $limit: Int) {
+    transactions(status: $status, direction: $direction, fromDate: $fromDate, toDate: $toDate, limit: $limit) {
+      id
+      amount
+      direction
+      date
+      status
+      payee {
+        id
+        displayName
+        category
+        normalizedName
+        transactionCount
+      }
+    }
+  }
+`;
+
+export const GET_SUBSCRIPTIONS = gql`
+  query GetSubscriptions($days: Int, $limit: Int) {
+    detectSubscriptions(limit: $limit) {
+      payee {
+        id
+        displayName
+        category
+        normalizedName
+        transactionCount
+      }
+      frequency
+      avgAmount
+      lastPaidAt
+      confidence
+      priceChange
+    }
+    upcomingSubscriptions(days: $days) {
+      payee {
+        id
+        displayName
+        category
+        normalizedName
+        transactionCount
+      }
+      expectedDate
+      avgAmount
+      confidence
+    }
+    topRecurringPayees(limit: $limit) {
+      payee {
+        id
+        displayName
+        category
+        normalizedName
+        transactionCount
+      }
+      transactionCount
+      totalAmount
+      lastPaidAt
+    }
+  }
+`;
+
