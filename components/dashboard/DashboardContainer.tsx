@@ -5,7 +5,6 @@ import { useDashboard } from "@/hooks/useDashboard";
 import { MetricCard } from "@/components/dashboard/MetricCard";
 import { BudgetCard } from "@/components/dashboard/BudgetCard";
 import { SpendingChart } from "@/components/dashboard/SpendingChart";
-import { TransactionAudit, Transaction } from "@/components/dashboard/TransactionAudit";
 import { Wallet, CreditCard, ShieldAlert, LayoutDashboard, RefreshCw } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -29,7 +28,6 @@ export function DashboardContainer() {
   const { 
     monthlySpend, 
     upcomingSubscriptions, 
-    transactions,
     monthlyBudget,
     updateBudget, 
     loading, 
@@ -43,31 +41,6 @@ export function DashboardContainer() {
     : 0;
   
   const activeSubsCount = upcomingSubscriptions.length;
-  
-  // Transform transactions safely for the audit table
-  const transformedTransactions: Transaction[] = transactions.map(tx => {
-    let dateObj: Date;
-    
-    if (!isNaN(Number(tx.date))) {
-      dateObj = new Date(Number(tx.date));
-    } else {
-      dateObj = new Date(tx.date);
-    }
-
-    const formattedDate = !isNaN(dateObj.getTime()) 
-      ? dateObj.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
-      : tx.date;
-
-    return {
-      id: tx.id,
-      payeeId: tx.payee.id,
-      entity: tx.payee.displayName,
-      category: tx.payee.category,
-      date: formattedDate,
-      amount: tx.amount,
-      direction: tx.direction === "CREDIT" ? "IN" : "OUT"
-    };
-  });
 
   // Transform spending data safely for chart
   const spendingData = monthlySpend.map(ms => ({
@@ -160,15 +133,10 @@ export function DashboardContainer() {
             </motion.div>
           </div>
 
-          {/* Main Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <motion.div variants={item}>
-              <SpendingChart data={spendingData} loading={loading} />
-            </motion.div>
-            <motion.div variants={item}>
-              <TransactionAudit transactions={transformedTransactions} loading={loading} />
-            </motion.div>
-          </div>
+          {/* Main Visualizations (Full Width chart) */}
+          <motion.div variants={item} className="w-full">
+            <SpendingChart data={spendingData} loading={loading} />
+          </motion.div>
         </motion.div>
       )}
     </div>
