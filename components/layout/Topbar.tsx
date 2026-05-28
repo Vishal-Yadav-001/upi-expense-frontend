@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Bell, Search, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { useUI } from "@/context/UIContext";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
@@ -68,25 +68,6 @@ export function Topbar() {
           </span>
         </div>
 
-        {/* Micro-Interaction Action Icons */}
-        <div className="flex items-center gap-0.5 bg-white/5 border border-border/40 p-0.5 rounded-xl">
-          <motion.button 
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="p-2 text-foreground/40 hover:text-white transition-colors rounded-lg hover:bg-white/5 cursor-pointer outline-none"
-            aria-label="Search"
-          >
-            <Search className="w-3.5 h-3.5" />
-          </motion.button>
-          <motion.button 
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="p-2 text-foreground/40 hover:text-white transition-colors rounded-lg hover:bg-white/5 cursor-pointer outline-none"
-            aria-label="Notifications"
-          >
-            <Bell className="w-3.5 h-3.5" />
-          </motion.button>
-        </div>
 
         {/* Bouncy Capsule Ask AI Button */}
         <motion.button 
