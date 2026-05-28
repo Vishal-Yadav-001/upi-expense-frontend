@@ -7,8 +7,8 @@ import { clsx } from "clsx";
 import { usePrivacy } from "@/context/PrivacyContext";
 import dynamic from "next/dynamic";
 
-const MonthlySpendChart = dynamic(() => import("../artifacts/MonthlySpendChart").then(mod => mod.MonthlySpendChart), { ssr: false });
-const CategorySpendChart = dynamic(() => import("../artifacts/CategorySpendChart").then(mod => mod.CategorySpendChart), { ssr: false });
+const MonthlySpendChart = dynamic(() => import("./MonthlySpendChart").then(mod => mod.MonthlySpendChart), { ssr: false });
+const CategorySpendChart = dynamic(() => import("./CategorySpendChart").then(mod => mod.CategorySpendChart), { ssr: false });
 
 export const ChatMessage = ({ message }: { message: Message }) => {
   const isUser = message.role === "user";
