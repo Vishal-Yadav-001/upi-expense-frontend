@@ -13,7 +13,7 @@ export const useSync = () => {
       "GetAvailableCategories"
     ],
     awaitRefetchQueries: true,
-    onCompleted: (data) => {
+    onCompleted: (data: any) => {
       if (data?.syncAIPatterns?.success) {
         console.log(`Sync complete: ${data.syncAIPatterns.updatedTransactions} transactions, ${data.syncAIPatterns.updatedSummaries} summaries.`);
       }

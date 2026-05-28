@@ -73,7 +73,7 @@ export const CategorySpendChart = ({ data, loading }: CategorySpendChartProps) =
                 color: "#fff"
               }}
               itemStyle={{ color: "#818cf8" }}
-              formatter={(value: number) => `₹${value.toLocaleString()}`}
+              formatter={(value: any) => `₹${Number(value || 0).toLocaleString()}`}
             />
             <Legend 
               verticalAlign="bottom" 

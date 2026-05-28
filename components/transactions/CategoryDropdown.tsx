@@ -19,7 +19,7 @@ export const CategoryDropdown = ({ payeeId, currentCategory, className }: Catego
   const [customValue, setCustomValue] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const { data } = useQuery(GET_AVAILABLE_CATEGORIES);
+  const { data } = useQuery<any>(GET_AVAILABLE_CATEGORIES);
   const [updateCategory, { loading: updating }] = useMutation(UPDATE_PAYEE_CATEGORY, {
     refetchQueries: [
       "GetDashboardData", 
