@@ -55,15 +55,10 @@ export function BillsContainer() {
   };
 
   const formatAmount = (amount: number, forceColor = false) => {
-    const isMasked = isPrivacyEnabled && hasHydrated;
     const absAmount = Math.abs(amount).toLocaleString("en-IN", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
-
-    if (isMasked) {
-      return <span className="font-mono text-foreground/50">₹{absAmount.replace(/\d/g, "*")}</span>;
-    }
 
     return (
       <span className={cn("font-mono font-bold", forceColor ? "text-accent" : "text-foreground")}>

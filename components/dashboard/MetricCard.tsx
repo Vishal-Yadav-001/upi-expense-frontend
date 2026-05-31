@@ -49,13 +49,7 @@ export const MetricCard = ({
   }
 
   const maskValue = (val: string | number) => {
-    if (!isPrivacyEnabled || !hasHydrated) return val;
-    
-    const strVal = String(val);
-    // Common pattern for UPI/Finance: ₹1,234.56 or 1234
-    // Mask digits but keep currency symbols and dots/commas if possible, 
-    // or just return a standard masked string.
-    return strVal.replace(/\d/g, "*");
+    return val;
   };
 
   const colorClasses = {

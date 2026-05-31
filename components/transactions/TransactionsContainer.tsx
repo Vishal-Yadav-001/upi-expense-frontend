@@ -64,19 +64,10 @@ export function TransactionsContainer() {
   };
 
   const formatAmount = (amount: number, txDirection: string) => {
-    const isMasked = isPrivacyEnabled && hasHydrated;
     const absAmount = Math.abs(amount).toLocaleString("en-IN", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
-
-    if (isMasked) {
-      return (
-        <span className="font-mono text-foreground/70">
-          {txDirection === "CREDIT" ? "+" : "-"} ₹{absAmount.replace(/\d/g, "*")}
-        </span>
-      );
-    }
 
     return (
       <span className={cn(

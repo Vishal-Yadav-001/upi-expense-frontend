@@ -51,8 +51,7 @@ export const BudgetCard = ({ budget, spent, onUpdate, loading = false }: BudgetC
   }
 
   const maskValue = (val: number) => {
-    if (!isPrivacyEnabled || !hasHydrated) return `₹${val.toLocaleString('en-IN')}`;
-    return "₹" + val.toLocaleString('en-IN').replace(/\d/g, "*");
+    return `₹${val.toLocaleString('en-IN')}`;
   };
 
   const progress = budget > 0 ? Math.min((spent / budget) * 100, 100) : 0;
