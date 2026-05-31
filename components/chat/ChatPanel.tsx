@@ -53,7 +53,7 @@ export const ChatPanel = () => {
     askSilentQuestion("I just uploaded my statement. Please provide a 1-2 sentence summary including the total money spent and the time period covered by this statement.");
   };
 
-  const ChatContent = () => (
+  const chatContent = (
     <div className="flex flex-col h-full bg-card/40 backdrop-blur-2xl">
       {/* Slide close indicator bar for mobile devices */}
       {isMobile && (
@@ -235,18 +235,18 @@ export const ChatPanel = () => {
 
           {/* Chat Panel Animators */}
           <motion.div 
-            initial={isMobile ? { y: "100%", opacity: 0.5 } : { width: 0, opacity: 0 }}
-            animate={isMobile ? { y: 0, opacity: 1 } : { width: 380, opacity: 1 }}
-            exit={isMobile ? { y: "100%", opacity: 0.5 } : { width: 0, opacity: 0 }}
+            initial={isMobile ? { y: "100%", opacity: 0.5 } : { opacity: 0 }}
+            animate={isMobile ? { y: 0, opacity: 1 } : { opacity: 1 }}
+            exit={isMobile ? { y: "100%", opacity: 0.5 } : { opacity: 0 }}
             transition={{ type: "spring", damping: 25, stiffness: 220 }}
             className={cn(
-              "shrink-0 overflow-hidden flex flex-col",
+              "overflow-hidden flex flex-col min-w-0",
               isMobile 
                 ? "fixed inset-x-0 bottom-0 h-[85vh] rounded-t-3xl border-t border-border bg-card/95 z-50 shadow-2xl" 
-                : "h-full bg-background border-r border-border z-20"
+                : "flex-1 basis-0 h-full bg-background border-r border-border z-20"
             )}
           >
-            <ChatContent />
+            {chatContent}
           </motion.div>
         </>
       )}

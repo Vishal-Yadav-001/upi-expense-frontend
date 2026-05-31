@@ -60,8 +60,8 @@ export function Sidebar() {
     return <div className="h-full bg-card/10 border-r border-border/40 w-64 flex-shrink-0 hidden lg:block" />;
   }
 
-  // Common inner content for sidebar navigation to avoid duplication
-  const SidebarContent = ({ showCloseButton = false }: { showCloseButton?: boolean }) => (
+  // Helper function returning sidebar JSX — NOT a component, to avoid unmount/remount on re-renders
+  const renderSidebarContent = (showCloseButton = false) => (
     <div className="flex flex-col h-full bg-card/20 backdrop-blur-2xl">
       {/* Dynamic Branding Header */}
       <div className="p-6 border-b border-border/30 bg-panel/10 flex items-center justify-between">
@@ -187,7 +187,7 @@ export function Sidebar() {
     <>
       {/* 1. Desktop Persistent Sidebar */}
       <div className="hidden lg:flex flex-col h-full bg-card/10 border-r border-border/40 w-64 flex-shrink-0 relative z-30 backdrop-blur-xl shadow-2xl">
-        <SidebarContent />
+        {renderSidebarContent(false)}
       </div>
 
       {/* 2. Mobile Floating slide-over Drawer navigation */}
@@ -210,7 +210,7 @@ export function Sidebar() {
               transition={{ type: "spring", damping: 25, stiffness: 220 }}
               className="fixed inset-y-0 left-0 w-64 bg-card/95 border-r border-border/40 z-50 shadow-2xl flex flex-col lg:hidden"
             >
-              <SidebarContent showCloseButton={true} />
+              {renderSidebarContent(true)}
             </motion.div>
           </>
         )}
