@@ -200,7 +200,12 @@ export function AnalyticsContainer() {
                       return (
                         <div key={i} className="space-y-1.5">
                           <div className="flex items-center justify-between text-xs">
-                            <span className="text-foreground/70 truncate mr-2 font-medium">{cat.category}</span>
+                            <span 
+                              className="text-foreground/70 truncate mr-2 font-medium"
+                              title={cat.category}
+                            >
+                              {cat.category}
+                            </span>
                             <span className="font-bold text-white shrink-0 font-mono">₹{cat.amount.toLocaleString("en-IN")}</span>
                           </div>
                           

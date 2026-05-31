@@ -233,7 +233,10 @@ export function BillsContainer() {
                 >
                   <div className="space-y-3">
                     <div className="flex justify-between items-start gap-2">
-                      <h4 className="font-heading font-bold text-white truncate text-sm">
+                      <h4 
+                        className="font-heading font-bold text-white truncate text-sm"
+                        title={getMaskedEntity(sub.payee.displayName)}
+                      >
                         {getMaskedEntity(sub.payee.displayName)}
                       </h4>
                       <span className="text-[9px] px-2 py-0.5 rounded-full bg-white/5 border border-border/40 text-foreground/50 uppercase font-bold tracking-wider shrink-0">
@@ -358,7 +361,10 @@ export function BillsContainer() {
                       className="bg-card/40 border border-border/50 p-4 rounded-xl flex items-center justify-between hover:bg-white/[0.01] hover:border-border/85 transition-all"
                     >
                       <div className="space-y-1.5 truncate mr-2">
-                        <h4 className="text-xs font-bold text-white truncate">
+                        <h4 
+                          className="text-xs font-bold text-white truncate"
+                          title={getMaskedEntity(up.payee.displayName)}
+                        >
                           {getMaskedEntity(up.payee.displayName)}
                         </h4>
                         
@@ -395,7 +401,10 @@ export function BillsContainer() {
                 {topRecurring.map((tr, i) => (
                   <div key={i} className="p-4 flex items-center justify-between text-xs hover:bg-white/[0.01] transition-all">
                     <div className="space-y-1 truncate mr-2">
-                      <h4 className="font-bold text-white truncate text-xs">
+                      <h4 
+                        className="font-bold text-white truncate text-xs"
+                        title={getMaskedEntity(tr.payee.displayName)}
+                      >
                         {getMaskedEntity(tr.payee.displayName)}
                       </h4>
                       <p className="text-[9px] text-foreground/40 font-medium font-sans">

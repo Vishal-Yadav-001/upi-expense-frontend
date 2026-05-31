@@ -248,7 +248,10 @@ export function TransactionsContainer() {
                               {tx.direction === "CREDIT" ? <ArrowDownLeft size={14} /> : <ArrowUpRight size={14} />}
                             </div>
                             <div className="truncate">
-                              <span className="text-xs font-semibold text-foreground group-hover:text-white transition-colors truncate block">
+                              <span 
+                                className="text-xs font-semibold text-foreground group-hover:text-white transition-colors truncate block"
+                                title={tx.payee ? getMaskedEntity(tx.payee.displayName) : "Unknown Payee"}
+                              >
                                 {tx.payee ? getMaskedEntity(tx.payee.displayName) : "Unknown Payee"}
                               </span>
                             </div>
@@ -326,7 +329,10 @@ export function TransactionsContainer() {
                             {tx.direction === "CREDIT" ? <ArrowDownLeft size={14} /> : <ArrowUpRight size={14} />}
                           </div>
                           <div className="truncate">
-                            <span className="text-xs font-semibold text-foreground truncate block">
+                            <span 
+                              className="text-xs font-semibold text-foreground truncate block"
+                              title={tx.payee ? getMaskedEntity(tx.payee.displayName) : "Unknown Payee"}
+                            >
                               {tx.payee ? getMaskedEntity(tx.payee.displayName) : "Unknown Payee"}
                             </span>
                           </div>

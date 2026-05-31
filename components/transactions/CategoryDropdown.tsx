@@ -75,8 +75,14 @@ export const CategoryDropdown = ({ payeeId, currentCategory, className }: Catego
             : "bg-white/5 border-white/5 text-foreground/60 hover:bg-white/10 hover:border-white/10"
         )}
       >
-        {updating ? <Loader2 size={12} className="animate-spin" /> : currentCategory}
-        <ChevronDown size={12} className={cn("transition-transform", isOpen && "rotate-180")} />
+        {updating ? (
+          <Loader2 size={12} className="animate-spin shrink-0" />
+        ) : (
+          <span className="truncate max-w-[110px] block" title={currentCategory}>
+            {currentCategory}
+          </span>
+        )}
+        <ChevronDown size={12} className={cn("transition-transform shrink-0", isOpen && "rotate-180")} />
       </button>
 
       {isOpen && (
@@ -104,11 +110,12 @@ export const CategoryDropdown = ({ payeeId, currentCategory, className }: Catego
                       className="w-full text-left px-3 py-2 text-xs hover:bg-white/5 flex items-center justify-between group"
                     >
                       <span className={cn(
+                        "truncate max-w-[130px] block",
                         cat.toUpperCase() === currentCategory.toUpperCase() ? "text-teal font-bold" : "text-foreground/70"
-                      )}>
+                      )} title={cat}>
                         {cat}
                       </span>
-                      {cat.toUpperCase() === currentCategory.toUpperCase() && <Check size={12} className="text-teal" />}
+                      {cat.toUpperCase() === currentCategory.toUpperCase() && <Check size={12} className="text-teal shrink-0" />}
                     </button>
                   ))
                 ) : (
