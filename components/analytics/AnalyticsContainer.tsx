@@ -127,18 +127,18 @@ export function AnalyticsContainer() {
         </div>
 
         {/* Controls */}
-        <div className="flex items-center bg-panel border border-border/60 p-1 rounded-xl shrink-0">
+        <div className="flex items-center bg-panel border border-border/60 p-1 rounded-xl w-full sm:w-auto shrink-0">
           <motion.button
             whileTap={{ scale: 0.98 }}
             onClick={() => setPeriodType("MONTHLY")}
             className={cn(
-              "px-4 py-1.5 rounded-lg text-[10px] font-extrabold transition-all flex items-center gap-1.5 uppercase cursor-pointer outline-none",
+              "flex-1 sm:flex-initial px-4 py-1.5 rounded-lg text-[10px] font-extrabold transition-all flex items-center justify-center gap-1.5 uppercase cursor-pointer outline-none",
               periodType === "MONTHLY" 
                 ? "bg-accent text-background shadow-lg shadow-accent/10" 
                 : "text-foreground/40 hover:text-foreground/70"
             )}
           >
-            <Calendar size={12} />
+            <Calendar size={12} className="shrink-0" />
             MONTHLY
           </motion.button>
           
@@ -146,13 +146,13 @@ export function AnalyticsContainer() {
             whileTap={{ scale: 0.98 }}
             onClick={() => setPeriodType("WEEKLY")}
             className={cn(
-              "px-4 py-1.5 rounded-lg text-[10px] font-extrabold transition-all flex items-center gap-1.5 uppercase cursor-pointer outline-none",
+              "flex-1 sm:flex-initial px-4 py-1.5 rounded-lg text-[10px] font-extrabold transition-all flex items-center justify-center gap-1.5 uppercase cursor-pointer outline-none",
               periodType === "WEEKLY" 
                 ? "bg-accent text-background shadow-lg shadow-accent/10" 
                 : "text-foreground/40 hover:text-foreground/70"
             )}
           >
-            <BarChart3 size={12} />
+            <BarChart3 size={12} className="shrink-0" />
             WEEKLY
           </motion.button>
         </div>
