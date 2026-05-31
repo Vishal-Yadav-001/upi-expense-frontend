@@ -86,12 +86,12 @@ export const BudgetCard = ({ budget, spent, onUpdate, loading = false }: BudgetC
 
   return (
     <div className={cn(
-      "relative overflow-hidden rounded-xl bg-card border border-border p-5 transition-all hover:border-border/40",
+      "relative overflow-hidden rounded-xl bg-card border border-border p-4 sm:p-5 transition-all hover:border-border/40 min-w-0",
       "border-t-2 border-t-teal shadow-[0_-1px_10px_-4px_rgba(46,232,181,0.5)]"
     )}>
       {/* Background Icon */}
-      <div className="absolute -right-2 -bottom-2 text-foreground/[0.03]" aria-hidden="true">
-        <Target size={100} strokeWidth={1} />
+      <div className="absolute -right-3 -bottom-3 text-foreground/[0.03]" aria-hidden="true">
+        <Target size={72} strokeWidth={1} />
       </div>
 
       <div className="relative z-10">
@@ -114,8 +114,8 @@ export const BudgetCard = ({ budget, spent, onUpdate, loading = false }: BudgetC
                 exit={{ opacity: 0, y: -5 }}
                 className="flex items-center justify-between"
               >
-                <div className="flex items-baseline gap-1">
-                  <h3 className="text-2xl font-heading font-bold text-foreground">
+                <div className="flex items-baseline gap-1 min-w-0 flex-1">
+                  <h3 className="text-xl sm:text-2xl font-heading font-bold text-foreground truncate">
                     {maskValue(spent)}
                   </h3>
                   <span className="text-sm text-foreground/40 font-medium">

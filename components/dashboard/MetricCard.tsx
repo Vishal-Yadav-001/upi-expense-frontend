@@ -59,13 +59,13 @@ export const MetricCard = ({
 
   return (
     <div className={cn(
-      "relative overflow-hidden rounded-xl bg-card border border-border p-5 transition-all hover:border-border/40",
+      "relative overflow-hidden rounded-xl bg-card border border-border p-4 sm:p-5 transition-all hover:border-border/40 min-w-0",
       "border-t-2",
       colorClasses[accentColor]
     )}>
       {/* Background Icon */}
-      <div className="absolute -right-2 -bottom-2 text-foreground/[0.03]" aria-hidden="true">
-        <Icon size={100} strokeWidth={1} />
+      <div className="absolute -right-3 -bottom-3 text-foreground/[0.03]" aria-hidden="true">
+        <Icon size={72} strokeWidth={1} />
       </div>
 
       <div className="relative z-10">
@@ -82,7 +82,7 @@ export const MetricCard = ({
         </div>
 
         <div className="flex items-baseline gap-2">
-          <h3 className="text-2xl font-heading font-bold text-foreground">
+          <h3 className="text-xl sm:text-2xl font-heading font-bold text-foreground truncate">
             {maskValue(value)}
           </h3>
           {trend && (

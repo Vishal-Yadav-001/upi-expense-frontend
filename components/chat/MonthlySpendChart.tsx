@@ -13,7 +13,7 @@ export const MonthlySpendChart = ({ data, loading }: MonthlySpendChartProps) => 
   }
 
   return (
-    <div className="bg-card border border-border p-6 rounded-2xl h-[400px] min-h-[400px]">
+    <div className="bg-card border border-border p-4 sm:p-6 rounded-2xl h-[400px] min-h-[400px] min-w-0 overflow-hidden">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h3 className="font-bold text-lg">Spending Velocity</h3>

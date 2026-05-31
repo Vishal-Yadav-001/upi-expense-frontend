@@ -34,7 +34,7 @@ export const CategorySpendChart = ({ data, loading }: CategorySpendChartProps) =
   }
 
   return (
-    <div className="bg-card border border-border p-6 rounded-2xl h-[350px] mt-4 overflow-hidden">
+    <div className="bg-card border border-border p-4 sm:p-6 rounded-2xl h-[350px] mt-4 min-w-0 overflow-hidden">
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="font-bold text-sm uppercase tracking-wider">Category Breakdown</h3>
