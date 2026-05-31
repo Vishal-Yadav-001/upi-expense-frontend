@@ -100,7 +100,7 @@ export function AnalyticsContainer() {
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
       {/* Dynamic Header Period Controls */}
-      <div className="flex justify-end -mt-16 sm:-mt-20 relative z-20">
+      <div className="flex flex-wrap items-center justify-end gap-3 mt-0 sm:-mt-16 lg:-mt-20 relative z-20 mb-4 sm:mb-0">
         <div className="flex items-center bg-panel border border-border/60 p-1 rounded-xl shrink-0">
           <motion.button
             whileTap={{ scale: 0.98 }}

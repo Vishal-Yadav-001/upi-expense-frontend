@@ -99,7 +99,7 @@ export function ImportsContainer() {
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
       {/* Dynamic Header Controls */}
-      <div className="flex justify-end -mt-16 sm:-mt-20 relative z-20 gap-3">
+      <div className="flex flex-wrap items-center justify-end gap-3 mt-0 sm:-mt-16 lg:-mt-20 relative z-20 mb-4 sm:mb-0">
         <button
           onClick={() => setIsUploadOpen(true)}
           className="flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent/90 border border-accent/20 text-background rounded-xl text-xs font-bold uppercase transition-all shadow-lg shadow-accent/15 hover:shadow-accent/25 hover:-translate-y-0.5 cursor-pointer font-sans"
