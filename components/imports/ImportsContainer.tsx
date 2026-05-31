@@ -99,18 +99,21 @@ export function ImportsContainer() {
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
       {/* Dynamic Header Controls */}
-      <div className="flex flex-wrap items-center justify-end gap-3 mt-0 sm:-mt-16 lg:-mt-20 relative z-20 mb-4 sm:mb-0">
+      <div className="flex items-center justify-end gap-2.5 mt-0 lg:-mt-20 relative z-20 mb-6 lg:mb-0">
         <button
           onClick={() => setIsUploadOpen(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent/90 border border-accent/20 text-background rounded-xl text-xs font-bold uppercase transition-all shadow-lg shadow-accent/15 hover:shadow-accent/25 hover:-translate-y-0.5 cursor-pointer font-sans"
+          className="flex items-center gap-2 px-3.5 py-2 bg-accent hover:bg-accent/90 border border-accent/20 text-background rounded-xl text-xs font-bold uppercase transition-all shadow-lg shadow-accent/15 hover:shadow-accent/25 hover:-translate-y-0.5 cursor-pointer font-sans shrink-0"
         >
-          <Upload size={13} />
-          <span>Upload Statement</span>
+          <Upload size={13} className="shrink-0" />
+          <span className="hidden xs:inline">Upload Statement</span>
+          <span className="inline xs:hidden">Upload</span>
         </button>
 
-        <div className="px-3.5 py-1.5 bg-white/5 border border-border/50 rounded-xl flex items-center justify-center">
-          <span className="text-[9px] font-extrabold text-foreground/50 uppercase tracking-widest font-sans">
-            {data?.importBatches?.length || 0} Batches Logged
+        <div className="px-3 py-1.5 bg-white/5 border border-border/50 rounded-xl flex items-center justify-center shrink-0">
+          <span className="text-[9px] font-extrabold text-foreground/50 uppercase tracking-widest font-sans flex items-center gap-1">
+            <span className="text-accent font-black">{data?.importBatches?.length || 0}</span>
+            <span className="hidden xs:inline">Batches Logged</span>
+            <span className="inline xs:hidden">Batches</span>
           </span>
         </div>
       </div>

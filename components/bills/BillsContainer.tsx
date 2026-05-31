@@ -127,13 +127,14 @@ export function BillsContainer() {
       className="space-y-8"
     >
       {/* Dynamic Header Refresh & Upload Controls */}
-      <div className="flex flex-wrap items-center justify-end gap-3 mt-0 sm:-mt-16 lg:-mt-20 relative z-20 mb-4 sm:mb-0">
+      <div className="flex items-center justify-end gap-2.5 mt-0 lg:-mt-20 relative z-20 mb-6 lg:mb-0">
         <Link
           href="/imports"
-          className="flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent/90 border border-accent/20 text-background rounded-xl text-xs font-bold uppercase transition-all shadow-lg shadow-accent/15 hover:shadow-accent/25 hover:-translate-y-0.5 cursor-pointer font-sans"
+          className="flex items-center gap-2 px-3.5 py-2 bg-accent hover:bg-accent/90 border border-accent/20 text-background rounded-xl text-xs font-bold uppercase transition-all shadow-lg shadow-accent/15 hover:shadow-accent/25 hover:-translate-y-0.5 cursor-pointer font-sans shrink-0"
         >
-          <Upload size={13} />
-          <span>Upload Statement</span>
+          <Upload size={13} className="shrink-0" />
+          <span className="hidden xs:inline">Upload Statement</span>
+          <span className="inline xs:hidden">Upload</span>
         </Link>
 
         <motion.button
@@ -141,10 +142,11 @@ export function BillsContainer() {
           disabled={loading}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-border/60 hover:border-accent/40 text-foreground/60 hover:text-white rounded-xl text-xs font-bold uppercase transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex items-center gap-2 px-3.5 py-2 bg-white/5 border border-border/60 hover:border-accent/40 text-foreground/60 hover:text-white rounded-xl text-xs font-bold uppercase transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
         >
-          {loading ? <Loader2 size={13} className="animate-spin text-accent" /> : <Clock size={13} />}
-          <span>Refresh Analysis</span>
+          {loading ? <Loader2 size={13} className="animate-spin text-accent shrink-0" /> : <Clock size={13} className="shrink-0" />}
+          <span className="hidden xs:inline">Refresh Analysis</span>
+          <span className="inline xs:hidden">Refresh</span>
         </motion.button>
       </div>
 
