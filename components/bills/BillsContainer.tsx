@@ -12,7 +12,8 @@ import {
   ShieldAlert,
   TrendingUp,
   TrendingDown,
-  ArrowRight
+  ArrowRight,
+  Upload
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "@apollo/client/react";
@@ -123,8 +124,16 @@ export function BillsContainer() {
       animate="show"
       className="space-y-8"
     >
-      {/* Dynamic Header Refresh Controls */}
-      <div className="flex justify-end -mt-16 sm:-mt-20 relative z-20">
+      {/* Dynamic Header Refresh & Upload Controls */}
+      <div className="flex justify-end -mt-16 sm:-mt-20 relative z-20 gap-3">
+        <Link
+          href="/imports"
+          className="flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent/90 border border-accent/20 text-background rounded-xl text-xs font-bold uppercase transition-all shadow-lg shadow-accent/15 hover:shadow-accent/25 hover:-translate-y-0.5 cursor-pointer font-sans"
+        >
+          <Upload size={13} />
+          <span>Upload Statement</span>
+        </Link>
+
         <motion.button
           onClick={() => refetch()}
           disabled={loading}
