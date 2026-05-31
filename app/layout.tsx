@@ -6,6 +6,7 @@ import { Sidebar } from "@/components/layout/Sidebar";
 import { Topbar } from "@/components/layout/Topbar";
 import { PrivacyProvider } from "@/context/PrivacyContext";
 import { UIProvider } from "@/context/UIContext";
+import { PinnedInsightsProvider } from "@/context/PinnedInsightsContext";
 
 const sora = Sora({
   variable: "--font-sora",
@@ -56,16 +57,18 @@ export default function RootLayout({
         <PrivacyProvider>
           <ApolloWrapper>
             <UIProvider>
-              <div className="flex h-screen overflow-hidden relative">
-                <Sidebar />
-                {chat}
-                <div className="flex-1 flex flex-col overflow-hidden">
-                  <Topbar />
-                  <main className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 bg-background">
-                    {children}
-                  </main>
+              <PinnedInsightsProvider>
+                <div className="flex h-screen overflow-hidden relative">
+                  <Sidebar />
+                  {chat}
+                  <div className="flex-1 basis-0 min-w-0 flex flex-col overflow-hidden">
+                    <Topbar />
+                    <main className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 bg-background">
+                      {children}
+                    </main>
+                  </div>
                 </div>
-              </div>
+              </PinnedInsightsProvider>
             </UIProvider>
           </ApolloWrapper>
         </PrivacyProvider>

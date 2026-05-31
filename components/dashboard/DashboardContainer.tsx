@@ -5,6 +5,7 @@ import { useDashboard } from "@/hooks/useDashboard";
 import { MetricCard } from "@/components/dashboard/MetricCard";
 import { BudgetCard } from "@/components/dashboard/BudgetCard";
 import { SpendingChart } from "@/components/dashboard/SpendingChart";
+import { PinnedInsights } from "@/components/dashboard/PinnedInsights";
 import { Wallet, CreditCard, ShieldAlert, LayoutDashboard, RefreshCw } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -101,7 +102,7 @@ export function DashboardContainer() {
           className="space-y-8"
         >
           {/* Metrics Row */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <motion.div variants={item}>
               <MetricCard 
                 label="Total Monthly Spend" 
@@ -121,21 +122,27 @@ export function DashboardContainer() {
                 loading={loading}
               />
             </motion.div>
-            <motion.div variants={item}>
-              <BudgetCard 
-                budget={monthlyBudget}
-                spent={currentMonthSpend}
-                onUpdate={async (amount) => {
-                  await updateBudget(amount);
-                }}
-                loading={loading}
-              />
-            </motion.div>
           </div>
+          <motion.div variants={item}>
+            <BudgetCard 
+              budget={monthlyBudget}
+              spent={currentMonthSpend}
+              onUpdate={async (amount) => {
+                await updateBudget(amount);
+              }}
+              loading={loading}
+            />
+          </motion.div>
+
 
           {/* Main Visualizations (Full Width chart) */}
           <motion.div variants={item} className="w-full">
             <SpendingChart data={spendingData} loading={loading} />
+          </motion.div>
+
+          {/* AI Pinned Insights */}
+          <motion.div variants={item} className="w-full">
+            <PinnedInsights />
           </motion.div>
         </motion.div>
       )}
