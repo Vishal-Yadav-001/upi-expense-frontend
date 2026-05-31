@@ -46,7 +46,9 @@ export function BillsContainer() {
 
   const subs = data?.detectSubscriptions || [];
   const upcoming = data?.upcomingSubscriptions || [];
-  const topRecurring = data?.topRecurringPayees || [];
+  const topRecurring = (data?.topRecurringPayees || [])
+    .filter(tr => tr.transactionCount > 2)
+    .slice(0, 5);
 
   const getMaskedEntity = (name: string) => {
     if (isPrivacyEnabled && hasHydrated) {
