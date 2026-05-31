@@ -126,28 +126,41 @@ export function BillsContainer() {
       animate="show"
       className="space-y-8"
     >
-      {/* Dynamic Header Refresh & Upload Controls */}
-      <div className="flex items-center justify-end gap-2.5 mt-0 lg:-mt-20 relative z-20 mb-6 lg:mb-0">
-        <Link
-          href="/imports"
-          className="flex items-center gap-2 px-3.5 py-2 bg-accent hover:bg-accent/90 border border-accent/20 text-background rounded-xl text-xs font-bold uppercase transition-all shadow-lg shadow-accent/15 hover:shadow-accent/25 hover:-translate-y-0.5 cursor-pointer font-sans shrink-0"
-        >
-          <Upload size={13} className="shrink-0" />
-          <span className="hidden xs:inline">Upload Statement</span>
-          <span className="inline xs:hidden">Upload</span>
-        </Link>
+      {/* Dynamic Title & Controls Header Row */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-border/10 pb-6">
+        <div className="flex items-center gap-3">
+          <div className="p-2.5 bg-accent/10 text-accent rounded-xl border border-accent/20">
+            <CreditCard size={22} />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold tracking-tight text-foreground font-heading">Subscriptions & Bills</h2>
+            <p className="text-[10px] text-foreground/40 font-bold uppercase tracking-[0.2em]">Manage your recurring commitments</p>
+          </div>
+        </div>
 
-        <motion.button
-          onClick={() => refetch()}
-          disabled={loading}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className="flex items-center gap-2 px-3.5 py-2 bg-white/5 border border-border/60 hover:border-accent/40 text-foreground/60 hover:text-white rounded-xl text-xs font-bold uppercase transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
-        >
-          {loading ? <Loader2 size={13} className="animate-spin text-accent shrink-0" /> : <Clock size={13} className="shrink-0" />}
-          <span className="hidden xs:inline">Refresh Analysis</span>
-          <span className="inline xs:hidden">Refresh</span>
-        </motion.button>
+        {/* Controls */}
+        <div className="flex items-center gap-2.5 shrink-0">
+          <Link
+            href="/imports"
+            className="flex items-center gap-2 px-3.5 py-2 bg-accent hover:bg-accent/90 border border-accent/20 text-background rounded-xl text-xs font-bold uppercase transition-all shadow-lg shadow-accent/15 hover:shadow-accent/25 hover:-translate-y-0.5 cursor-pointer font-sans shrink-0"
+          >
+            <Upload size={13} className="shrink-0" />
+            <span className="hidden xs:inline">Upload Statement</span>
+            <span className="inline xs:hidden">Upload</span>
+          </Link>
+
+          <motion.button
+            onClick={() => refetch()}
+            disabled={loading}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="flex items-center gap-2 px-3.5 py-2 bg-white/5 border border-border/60 hover:border-accent/40 text-foreground/60 hover:text-white rounded-xl text-xs font-bold uppercase transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
+          >
+            {loading ? <Loader2 size={13} className="animate-spin text-accent shrink-0" /> : <Clock size={13} className="shrink-0" />}
+            <span className="hidden xs:inline">Refresh Analysis</span>
+            <span className="inline xs:hidden">Refresh</span>
+          </motion.button>
+        </div>
       </div>
 
       {/* Summary Bento Row */}

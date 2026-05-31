@@ -65,32 +65,47 @@ export function ImportsContainer() {
 
   if (data?.importBatches?.length === 0) {
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch animate-in fade-in duration-300">
-        {/* Left 2 cols - Informational card */}
-        <div className="lg:col-span-2 p-8 border border-border/50 border-dashed rounded-3xl bg-card/25 text-foreground/20 text-center flex flex-col items-center justify-center min-h-[350px] relative overflow-hidden">
-          <div className="absolute inset-0 bg-radial-gradient from-accent/5 via-transparent to-transparent opacity-30 blur-2xl pointer-events-none" />
-          
-          <motion.div
-            animate={{ y: [0, -8, 0] }}
-            transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-            className="mb-4 text-accent/30 w-14 h-14 rounded-full bg-accent/5 border border-accent/15 flex items-center justify-center shadow-lg shadow-accent/5"
-          >
-            <FileText size={24} />
-          </motion.div>
-          
-          <p className="text-sm font-bold text-foreground">No imports found.</p>
-          <p className="text-[10px] uppercase tracking-widest mt-1.5 text-foreground/30 max-w-xs font-medium font-sans leading-relaxed">
-            Upload bank or wallet statements containing periodic bills to seed transaction ledger
-          </p>
+      <div className="space-y-8 animate-in fade-in duration-300">
+        {/* Dynamic Title & Controls Header Row */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-border/10 pb-6">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 bg-accent/10 text-accent rounded-xl border border-accent/20">
+              <Upload size={22} />
+            </div>
+            <div>
+              <h2 className="text-xl font-bold tracking-tight text-foreground font-heading">Import History</h2>
+              <p className="text-[10px] text-foreground/40 font-bold uppercase tracking-[0.2em]">Audit log of processed statements</p>
+            </div>
+          </div>
         </div>
 
-        {/* Right 1 col - Direct upload card */}
-        <div className="p-6 bg-card/40 border border-border/50 backdrop-blur-md rounded-3xl shadow-xl flex flex-col justify-between space-y-4">
-          <div>
-            <h3 className="font-heading font-bold text-sm text-white">Upload First Statement</h3>
-            <p className="text-[10px] text-foreground/40 font-bold uppercase tracking-wider mt-0.5 font-sans">Seeding database indexes</p>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+          {/* Left 2 cols - Informational card */}
+          <div className="lg:col-span-2 p-8 border border-border/50 border-dashed rounded-3xl bg-card/25 text-foreground/20 text-center flex flex-col items-center justify-center min-h-[350px] relative overflow-hidden">
+            <div className="absolute inset-0 bg-radial-gradient from-accent/5 via-transparent to-transparent opacity-30 blur-2xl pointer-events-none" />
+            
+            <motion.div
+              animate={{ y: [0, -8, 0] }}
+              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+              className="mb-4 text-accent/30 w-14 h-14 rounded-full bg-accent/5 border border-accent/15 flex items-center justify-center shadow-lg shadow-accent/5"
+            >
+              <FileText size={24} />
+            </motion.div>
+            
+            <p className="text-sm font-bold text-foreground">No imports found.</p>
+            <p className="text-[10px] uppercase tracking-widest mt-1.5 text-foreground/30 max-w-xs font-medium font-sans leading-relaxed">
+              Upload bank or wallet statements containing periodic bills to seed transaction ledger
+            </p>
           </div>
-          <PDFUpload onUploadSuccess={() => refetch()} />
+
+          {/* Right 1 col - Direct upload card */}
+          <div className="p-6 bg-card/40 border border-border/50 backdrop-blur-md rounded-3xl shadow-xl flex flex-col justify-between space-y-4">
+            <div>
+              <h3 className="font-heading font-bold text-sm text-white">Upload First Statement</h3>
+              <p className="text-[10px] text-foreground/40 font-bold uppercase tracking-wider mt-0.5 font-sans">Seeding database indexes</p>
+            </div>
+            <PDFUpload onUploadSuccess={() => refetch()} />
+          </div>
         </div>
       </div>
     );
@@ -98,23 +113,36 @@ export function ImportsContainer() {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
-      {/* Dynamic Header Controls */}
-      <div className="flex items-center justify-end gap-2.5 mt-0 lg:-mt-20 relative z-20 mb-6 lg:mb-0">
-        <button
-          onClick={() => setIsUploadOpen(true)}
-          className="flex items-center gap-2 px-3.5 py-2 bg-accent hover:bg-accent/90 border border-accent/20 text-background rounded-xl text-xs font-bold uppercase transition-all shadow-lg shadow-accent/15 hover:shadow-accent/25 hover:-translate-y-0.5 cursor-pointer font-sans shrink-0"
-        >
-          <Upload size={13} className="shrink-0" />
-          <span className="hidden xs:inline">Upload Statement</span>
-          <span className="inline xs:hidden">Upload</span>
-        </button>
+      {/* Dynamic Title & Controls Header Row */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-border/10 pb-6">
+        <div className="flex items-center gap-3">
+          <div className="p-2.5 bg-accent/10 text-accent rounded-xl border border-accent/20">
+            <Upload size={22} />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold tracking-tight text-foreground font-heading">Import History</h2>
+            <p className="text-[10px] text-foreground/40 font-bold uppercase tracking-[0.2em]">Audit log of processed statements</p>
+          </div>
+        </div>
 
-        <div className="px-3 py-1.5 bg-white/5 border border-border/50 rounded-xl flex items-center justify-center shrink-0">
-          <span className="text-[9px] font-extrabold text-foreground/50 uppercase tracking-widest font-sans flex items-center gap-1">
-            <span className="text-accent font-black">{data?.importBatches?.length || 0}</span>
-            <span className="hidden xs:inline">Batches Logged</span>
-            <span className="inline xs:hidden">Batches</span>
-          </span>
+        {/* Controls */}
+        <div className="flex items-center gap-2.5 shrink-0">
+          <button
+            onClick={() => setIsUploadOpen(true)}
+            className="flex items-center gap-2 px-3.5 py-2 bg-accent hover:bg-accent/90 border border-accent/20 text-background rounded-xl text-xs font-bold uppercase transition-all shadow-lg shadow-accent/15 hover:shadow-accent/25 hover:-translate-y-0.5 cursor-pointer font-sans shrink-0"
+          >
+            <Upload size={13} className="shrink-0" />
+            <span className="hidden xs:inline">Upload Statement</span>
+            <span className="inline xs:hidden">Upload</span>
+          </button>
+
+          <div className="px-3 py-1.5 bg-white/5 border border-border/50 rounded-xl flex items-center justify-center shrink-0">
+            <span className="text-[9px] font-extrabold text-foreground/50 uppercase tracking-widest font-sans flex items-center gap-1">
+              <span className="text-accent font-black">{data?.importBatches?.length || 0}</span>
+              <span className="hidden xs:inline">Batches Logged</span>
+              <span className="inline xs:hidden">Batches</span>
+            </span>
+          </div>
         </div>
       </div>
 
