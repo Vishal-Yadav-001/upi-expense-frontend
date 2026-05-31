@@ -13,11 +13,13 @@ import {
   Settings,
   BrainCircuit,
   Shield,
-  ShieldOff
+  ShieldOff,
+  X
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePrivacy } from "@/context/PrivacyContext";
-import { motion } from "framer-motion";
+import { useUI } from "@/context/UIContext";
+import { motion, AnimatePresence } from "framer-motion";
 
 const navigation = [
   {
@@ -47,6 +49,7 @@ const navigation = [
 export function Sidebar() {
   const pathname = usePathname();
   const { isPrivacyEnabled, togglePrivacy } = usePrivacy();
+  const { isMobileSidebarOpen, setMobileSidebarOpen } = useUI();
   const [isMounted, setIsMounted] = React.useState(false);
 
   React.useEffect(() => {
@@ -54,14 +57,19 @@ export function Sidebar() {
   }, []);
 
   if (!isMounted) {
-    return <div className="h-full bg-panel border-r border-border/50 w-64 flex-shrink-0" />;
+    return <div className="h-full bg-card/10 border-r border-border/40 w-64 flex-shrink-0 hidden lg:block" />;
   }
 
-  return (
-    <div className="flex flex-col h-full bg-card/10 border-r border-border/40 w-64 flex-shrink-0 relative z-30 backdrop-blur-xl shadow-2xl">
+  // Common inner content for sidebar navigation to avoid duplication
+  const SidebarContent = ({ showCloseButton = false }: { showCloseButton?: boolean }) => (
+    <div className="flex flex-col h-full bg-card/20 backdrop-blur-2xl">
       {/* Dynamic Branding Header */}
-      <div className="p-6 border-b border-border/30 bg-panel/10">
-        <Link href="/" className="flex items-center gap-2.5 text-white font-heading relative group">
+      <div className="p-6 border-b border-border/30 bg-panel/10 flex items-center justify-between">
+        <Link 
+          href="/" 
+          onClick={() => setMobileSidebarOpen(false)}
+          className="flex items-center gap-2.5 text-white font-heading relative group"
+        >
           <div className="relative shrink-0">
             {/* Brand Logo Mesh Ambient Glow */}
             <div className="absolute inset-0 bg-accent/20 rounded-xl blur-md opacity-60 group-hover:opacity-100 transition-opacity" />
@@ -78,6 +86,16 @@ export function Sidebar() {
             </span>
           </div>
         </Link>
+
+        {showCloseButton && (
+          <button
+            onClick={() => setMobileSidebarOpen(false)}
+            className="p-1 rounded-lg border border-border/60 hover:border-accent/30 text-foreground/40 hover:text-white transition-colors cursor-pointer outline-none lg:hidden"
+            title="Close menu"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+        )}
       </div>
 
       {/* Navigation list */}
@@ -98,6 +116,7 @@ export function Sidebar() {
                   >
                     <Link
                       href={item.href}
+                      onClick={() => setMobileSidebarOpen(false)}
                       className={cn(
                         "flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all font-sans group relative overflow-hidden",
                         isActive 
@@ -163,4 +182,40 @@ export function Sidebar() {
       </div>
     </div>
   );
+
+  return (
+    <>
+      {/* 1. Desktop Persistent Sidebar */}
+      <div className="hidden lg:flex flex-col h-full bg-card/10 border-r border-border/40 w-64 flex-shrink-0 relative z-30 backdrop-blur-xl shadow-2xl">
+        <SidebarContent />
+      </div>
+
+      {/* 2. Mobile Floating slide-over Drawer navigation */}
+      <AnimatePresence>
+        {isMobileSidebarOpen && (
+          <>
+            {/* Dark blurred background overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileSidebarOpen(false)}
+              className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 lg:hidden"
+            />
+            {/* Drawer floating panel */}
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 220 }}
+              className="fixed inset-y-0 left-0 w-64 bg-card/95 border-r border-border/40 z-50 shadow-2xl flex flex-col lg:hidden"
+            >
+              <SidebarContent showCloseButton={true} />
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
+  );
 }
+

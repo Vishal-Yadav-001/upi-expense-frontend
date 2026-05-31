@@ -4,24 +4,101 @@
   --font-sans: var(--font-dm-sans);
   --font-heading: var(--font-sora);
 
-  --color-background: #0d0f14;
-  --color-foreground: #f0f2f8;
+  --color-background: #070B14;
+  --color-foreground: #CBD5E1;
   
-  --color-card: #181c27;
-  --color-card-foreground: #f0f2f8;
+  --color-card: #0F172A;
+  --color-card-foreground: #CBD5E1;
   
-  --color-panel: #13161e;
-  --color-border: rgba(255, 255, 255, 0.07);
-  --color-accent: #6c7fff;
-  --color-accent-soft: rgba(108, 127, 255, 0.12);
-  --color-teal: #2ee8b5;
-  --color-teal-soft: rgba(46, 232, 181, 0.1);
-  --color-destructive: #ff4d4d;
-  --color-destructive-soft: rgba(255, 77, 77, 0.1);
+  --color-panel: #0F172A;
+  --color-border: rgba(255, 255, 255, 0.06);
+  --color-border-accent: rgba(37, 99, 235, 0.25);
+  
+  /* Primary Accent: Royal Blue */
+  --color-accent: #2563EB;
+  --color-accent-hover: #1D4ED8;
+  --color-accent-soft: rgba(37, 99, 235, 0.15);
+  --color-accent-text: #60A5FA;
+  
+  /* Amber Accent (Secondary CTA) */
+  --color-amber: #F59E0B;
+  --color-amber-hover: #D97706;
+  --color-amber-soft: rgba(245, 158, 11, 0.15);
+  
+  /* Success Accent: Credit Green */
+  --color-teal: #22C55E;
+  --color-teal-hover: #16A34A;
+  --color-teal-soft: rgba(34, 197, 94, 0.12);
+  --color-teal-text: #4ADE80;
+  
+  /* Danger Accent: Debit Red */
+  --color-destructive: #EF4444;
+  --color-destructive-hover: #DC2626;
+  --color-destructive-soft: rgba(239, 68, 68, 0.12);
+  --color-destructive-text: #F87171;
+  
+  /* Elevated Surfaces */
+  --color-elevated: #1E293B;
+  
+  /* Typography overrides */
+  --color-heading: #F1F5F9;
+  --color-muted: #64748B;
 }
 
 @layer base {
   body {
     @apply bg-background text-foreground font-sans;
   }
+  
+  /* Heading typography specifications */
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-heading font-heading;
+  }
 }
+
+/* Premium Custom Global Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #070B14; /* Match Deep Night Cobalt */
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08); /* Frosted white thumb */
+  border-radius: 9999px;
+  border: 2px solid #070B14; /* Padded floating look */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2563EB; /* Primary Midnight Cobalt Accent on hover */
+}
+
+/* Firefox scrollbar compatibility */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.08) #070B14;
+}
+
+/* Thinner scrollbars for compact inner containers (e.g. navigation list, chat message logs) */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #2563EB;
+}
+
+

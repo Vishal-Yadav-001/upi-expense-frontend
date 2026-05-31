@@ -1,5 +1,4 @@
 "use client";
-
 import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
@@ -7,12 +6,16 @@ interface UIContextType {
   isChatOpen: boolean;
   toggleChat: () => void;
   setChatOpen: (open: boolean) => void;
+  isMobileSidebarOpen: boolean;
+  toggleMobileSidebar: () => void;
+  setMobileSidebarOpen: (open: boolean) => void;
 }
 
 const UIContext = createContext<UIContextType | undefined>(undefined);
 
 export function UIProvider({ children }: { children: ReactNode }) {
   const [isChatOpen, setChatOpen] = useState(false);
+  const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const pathname = usePathname();
 
   // Automatically close chat when navigating away from dashboard
@@ -22,10 +25,25 @@ export function UIProvider({ children }: { children: ReactNode }) {
     }
   }, [pathname, isChatOpen]);
 
+  // Automatically close mobile sidebar drawer when pathname changes
+  useEffect(() => {
+    setMobileSidebarOpen(false);
+  }, [pathname]);
+
   const toggleChat = () => setChatOpen((prev) => !prev);
+  const toggleMobileSidebar = () => setMobileSidebarOpen((prev) => !prev);
 
   return (
-    <UIContext.Provider value={{ isChatOpen, toggleChat, setChatOpen }}>
+    <UIContext.Provider 
+      value={{ 
+        isChatOpen, 
+        toggleChat, 
+        setChatOpen,
+        isMobileSidebarOpen,
+        toggleMobileSidebar,
+        setMobileSidebarOpen
+      }}
+    >
       {children}
     </UIContext.Provider>
   );
@@ -38,3 +56,4 @@ export function useUI() {
   }
   return context;
 }
+

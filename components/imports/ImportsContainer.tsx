@@ -107,7 +107,8 @@ export function ImportsContainer() {
         style={{ scrollbarGutter: "stable" }}
         className="bg-card/40 border border-border/50 backdrop-blur-md rounded-2xl overflow-hidden shadow-xl"
       >
-        <table className="w-full text-left border-collapse table-fixed">
+        {/* 1. Desktop HTML Table Audit Ledger */}
+        <table className="w-full text-left border-collapse table-fixed hidden md:table">
           <thead>
             <tr className="border-b border-border/30 bg-panel/30">
               <th className="px-6 py-4 text-[10px] font-bold text-foreground/40 uppercase tracking-widest w-[35%]">File Name</th>
@@ -210,6 +211,79 @@ export function ImportsContainer() {
             })}
           </tbody>
         </table>
+
+        {/* 2. Mobile Adaptive Card List */}
+        <div className="block md:hidden divide-y divide-border/20">
+          {data?.importBatches.map((batch: ImportBatch) => {
+            const isFailed = batch.status === "FAILED";
+            return (
+              <div 
+                key={batch.id} 
+                className={cn(
+                  "p-4 space-y-3 hover:bg-white/[0.01] transition-colors",
+                  isFailed && "bg-destructive/[0.02]"
+                )}
+              >
+                {/* Top Row: File Name & Status */}
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <FileText size={15} className={cn("shrink-0", isFailed ? "text-destructive/40" : "text-accent")} />
+                    <span className={cn(
+                      "text-xs font-semibold truncate",
+                      isFailed ? "text-destructive/70" : "text-foreground"
+                    )} title={batch.originalFileName}>
+                      {batch.originalFileName}
+                    </span>
+                  </div>
+                  <div className="shrink-0 text-right">
+                    {batch.status === "SUCCESS" || batch.status === "COMPLETED" ? (
+                      <span className="inline-flex items-center gap-1 text-[8px] font-bold text-teal bg-teal-soft/10 px-2 py-0.5 rounded-full uppercase border border-teal/15">
+                        Success
+                      </span>
+                    ) : batch.status === "PROCESSING" ? (
+                      <span className="inline-flex items-center gap-1 text-[8px] font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full uppercase border border-amber-500/15">
+                        Processing
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 text-[8px] font-bold text-destructive bg-destructive/10 px-2 py-0.5 rounded-full uppercase border border-destructive/20">
+                        Error
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Middle Row: Breakdown Badge */}
+                <div className="flex items-center gap-1.5 font-sans font-medium text-[9px]">
+                  <span className="bg-accent/10 border border-accent/20 text-accent font-extrabold px-1.5 py-0.5 rounded">
+                    {batch.transactionCount} Found
+                  </span>
+                  <span className="text-foreground/20 font-bold">→</span>
+                  <span className="bg-teal-soft/10 border border-teal/20 text-teal font-extrabold px-1.5 py-0.5 rounded">
+                    {batch.importedCount} New
+                  </span>
+                  <span className="text-foreground/20 font-bold">|</span>
+                  <span className="bg-amber-500/10 border border-amber-500/20 text-amber-400 font-extrabold px-1.5 py-0.5 rounded">
+                    {batch.skippedCount} Dup
+                  </span>
+                </div>
+
+                {/* Bottom Row: Source, Date */}
+                <div className="flex items-center justify-between text-[10px] text-foreground/50">
+                  <span className="font-extrabold text-foreground/40 uppercase tracking-wider bg-white/5 border border-border/40 px-2 py-0.5 rounded font-sans text-[8px]">
+                    {batch.source}
+                  </span>
+                  <span className="font-sans">
+                    {new Date(batch.createdAt).toLocaleDateString("en-IN", { 
+                      month: 'short', 
+                      day: 'numeric', 
+                      year: 'numeric'
+                    })}
+                  </span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

@@ -56,12 +56,12 @@ export default function RootLayout({
         <PrivacyProvider>
           <ApolloWrapper>
             <UIProvider>
-              <div className="flex h-screen overflow-hidden">
+              <div className="flex h-screen overflow-hidden relative">
                 <Sidebar />
                 {chat}
                 <div className="flex-1 flex flex-col overflow-hidden">
                   <Topbar />
-                  <main className="flex-1 overflow-y-auto p-6 bg-background">
+                  <main className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 bg-background">
                     {children}
                   </main>
                 </div>
