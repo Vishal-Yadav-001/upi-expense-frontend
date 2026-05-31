@@ -68,30 +68,45 @@ export function AnalyticsContainer() {
 
   if (summaries.length === 0) {
     return (
-      <div className="p-12 border border-border/50 border-dashed rounded-3xl bg-card/25 text-foreground/20 text-center flex flex-col items-center justify-center min-h-[320px] relative overflow-hidden">
-        <div className="absolute inset-0 bg-radial-gradient from-accent/5 via-transparent to-transparent opacity-30 blur-2xl pointer-events-none" />
-        
-        <motion.div
-          animate={{ y: [0, -8, 0] }}
-          transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-          className="mb-4 text-accent/30 w-14 h-14 rounded-full bg-accent/5 border border-accent/15 flex items-center justify-center shadow-lg shadow-accent/5"
-        >
-          <BarChart3 size={24} />
-        </motion.div>
-        
-        <p className="text-sm font-bold text-foreground">No {periodType.toLowerCase()} summary data available.</p>
-        <p className="text-[10px] uppercase tracking-widest mt-1.5 text-foreground/30 max-w-xs font-medium font-sans leading-relaxed">
-          Upload bank or wallet statements to generate deep financial analytics insights
-        </p>
-        
-        <div className="mt-6">
-          <Link
-            href="/imports"
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-accent hover:bg-accent/90 text-background rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all shadow-lg shadow-accent/15 hover:shadow-accent/25 hover:-translate-y-0.5 cursor-pointer"
+      <div className="space-y-8 animate-in fade-in duration-300">
+        {/* Dynamic Title & Controls Header Row */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-border/10 pb-6">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 bg-accent/10 text-accent rounded-xl border border-accent/20">
+              <TrendingUp size={22} />
+            </div>
+            <div>
+              <h2 className="text-xl font-bold tracking-tight text-foreground font-heading">Analytics Engine</h2>
+              <p className="text-[10px] text-foreground/40 font-bold uppercase tracking-[0.2em]">Deep Insights & Summaries</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="p-12 border border-border/50 border-dashed rounded-3xl bg-card/25 text-foreground/20 text-center flex flex-col items-center justify-center min-h-[320px] relative overflow-hidden">
+          <div className="absolute inset-0 bg-radial-gradient from-accent/5 via-transparent to-transparent opacity-30 blur-2xl pointer-events-none" />
+          
+          <motion.div
+            animate={{ y: [0, -8, 0] }}
+            transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+            className="mb-4 text-accent/30 w-14 h-14 rounded-full bg-accent/5 border border-accent/15 flex items-center justify-center shadow-lg shadow-accent/5"
           >
-            <span>Analyze Statements</span>
-            <ArrowRight size={12} />
-          </Link>
+            <BarChart3 size={24} />
+          </motion.div>
+          
+          <p className="text-sm font-bold text-foreground">No {periodType.toLowerCase()} summary data available.</p>
+          <p className="text-[10px] uppercase tracking-widest mt-1.5 text-foreground/30 max-w-xs font-medium font-sans leading-relaxed">
+            Upload bank or wallet statements to generate deep financial analytics insights
+          </p>
+          
+          <div className="mt-6">
+            <Link
+              href="/imports"
+              className="inline-flex items-center gap-1.5 px-4 py-2 bg-accent hover:bg-accent/90 text-background rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all shadow-lg shadow-accent/15 hover:shadow-accent/25 hover:-translate-y-0.5 cursor-pointer"
+            >
+              <span>Analyze Statements</span>
+              <ArrowRight size={12} />
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -99,8 +114,19 @@ export function AnalyticsContainer() {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
-      {/* Dynamic Header Period Controls */}
-      <div className="flex items-center justify-end gap-2.5 mt-0 lg:-mt-20 relative z-20 mb-6 lg:mb-0">
+      {/* Dynamic Title & Controls Header Row */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-border/10 pb-6">
+        <div className="flex items-center gap-3">
+          <div className="p-2.5 bg-accent/10 text-accent rounded-xl border border-accent/20">
+            <TrendingUp size={22} />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold tracking-tight text-foreground font-heading">Analytics Engine</h2>
+            <p className="text-[10px] text-foreground/40 font-bold uppercase tracking-[0.2em]">Deep Insights & Summaries</p>
+          </div>
+        </div>
+
+        {/* Controls */}
         <div className="flex items-center bg-panel border border-border/60 p-1 rounded-xl shrink-0">
           <motion.button
             whileTap={{ scale: 0.98 }}
