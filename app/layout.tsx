@@ -4,6 +4,7 @@ import "./globals.css";
 import { ApolloWrapper } from "@/components/providers/ApolloWrapper";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Topbar } from "@/components/layout/Topbar";
+import { ClerkProvider } from "@clerk/nextjs";
 import { PrivacyProvider } from "@/context/PrivacyContext";
 import { UIProvider } from "@/context/UIContext";
 import { PinnedInsightsProvider } from "@/context/PinnedInsightsContext";
@@ -54,6 +55,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
+        <ClerkProvider>
         <PrivacyProvider>
           <ApolloWrapper>
             <UIProvider>
@@ -72,6 +74,7 @@ export default function RootLayout({
             </UIProvider>
           </ApolloWrapper>
         </PrivacyProvider>
+        </ClerkProvider>
       </body>
     </html>
   );

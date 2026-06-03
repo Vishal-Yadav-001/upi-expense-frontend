@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Sparkles, Menu } from "lucide-react";
+import { SignInButton, UserButton, Show } from "@clerk/nextjs";
 import { useUI } from "@/context/UIContext";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
@@ -96,6 +97,26 @@ export function Topbar() {
           <Sparkles className="w-3 h-3" />
           <span>Ask AI</span>
         </motion.button>
+
+        <div className="h-4 w-px bg-border/40 mx-1 hidden sm:block" />
+        
+        {/* Clerk Authentication */}
+        <Show when="signed-in">
+          <div className="flex items-center hover:scale-105 transition-transform">
+            <UserButton afterSignOutUrl="/" appearance={{
+              elements: {
+                userButtonAvatarBox: "w-8 h-8 rounded-xl border border-white/10 shadow-lg shadow-black/20"
+              }
+            }} />
+          </div>
+        </Show>
+        <Show when="signed-out">
+          <SignInButton mode="modal">
+            <button className="px-4 py-1.5 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl text-[10px] uppercase tracking-wider transition-all font-sans cursor-pointer border border-white/5 outline-none shrink-0 shadow-md">
+              Sign In
+            </button>
+          </SignInButton>
+        </Show>
       </div>
     </header>
   );

@@ -16,6 +16,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { useMutation } from "@apollo/client/react";
 import { SUBMIT_FEEDBACK } from "@/lib/queries";
+import { useAuth } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
 
 const container = {
@@ -37,6 +38,7 @@ export function FeedbackContainer() {
   const [rating, setRating] = useState<number>(0);
   const [hoverRating, setHoverRating] = useState<number>(0);
   const [isSuccess, setIsSuccess] = useState(false);
+  const { userId } = useAuth();
 
   const [submitFeedback, { loading, error }] = useMutation(SUBMIT_FEEDBACK, {
     onCompleted: () => {
@@ -83,7 +85,7 @@ export function FeedbackContainer() {
     await submitFeedback({
       variables: {
         input: {
-          sessionId: typeof window !== "undefined" ? localStorage.getItem("upi_session_id") || "anonymous" : "anonymous",
+          sessionId: userId || "anonymous",
           message: message || undefined,
           rating: rating > 0 ? rating : undefined,
           context: JSON.stringify({

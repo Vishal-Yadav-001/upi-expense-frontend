@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import { FileUp, Loader2, AlertCircle, X, Shield, ShieldOff } from "lucide-react";
 import { usePrivacy } from "@/context/PrivacyContext";
-import { getSessionId } from "@/lib/session";
+import { useAuth } from "@clerk/nextjs";
 
 interface PDFUploadProps {
   onUploadSuccess?: (data: { totalParsed?: number }) => void;
@@ -14,6 +14,7 @@ export const PDFUpload = ({ onUploadSuccess }: PDFUploadProps) => {
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { isPrivacyEnabled, setPrivacyEnabled, hasHydrated } = usePrivacy();
+  const { getToken } = useAuth();
   const inputId = "upi-statement-upload";
   const titleId = "upi-statement-upload-title";
   const descriptionId = "upi-statement-upload-description";
@@ -41,12 +42,14 @@ export const PDFUpload = ({ onUploadSuccess }: PDFUploadProps) => {
 
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+      const token = await getToken();
+      
       const response = await fetch(`${apiUrl}/api/upload-upi-pdf`, {
         method: "POST",
         body: formData,
         headers: {
           "X-PDF-Source": "SUPER_MONEY",
-          "X-Session-ID": getSessionId(),
+          "Authorization": token ? `Bearer ${token}` : "",
         },
       });
 

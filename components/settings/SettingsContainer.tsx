@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from "react";
 import { Shield, RefreshCw, Trash2, Cpu, CreditCard, Sparkles, AlertTriangle, Check, Loader2, Info, Eye, EyeOff } from "lucide-react";
 import { usePrivacy } from "@/context/PrivacyContext";
-import { SettingsSection } from "./SettingsSection";
 import { useDashboard } from "@/hooks/useDashboard";
 import { getStoredGeminiApiKey, getStoredGeminiModel, saveGeminiSettings, GEMINI_MODEL_OPTIONS } from "@/lib/ai-settings";
+import { useAuth } from "@clerk/nextjs";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -15,8 +15,8 @@ export function SettingsContainer() {
 
   // Local state for API & Data resets
   const [isClearing, setIsClearing] = useState(false);
-  const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [showWipeConfirm, setShowWipeConfirm] = useState(false);
+  const { getToken } = useAuth();
 
   // Budget states
   const [budgetVal, setBudgetVal] = useState<string>("");
@@ -79,21 +79,15 @@ export function SettingsContainer() {
     }
   }, [monthlyBudget]);
 
-  const handleResetSession = () => {
-    localStorage.removeItem("upi_session_id");
-    window.location.reload();
-  };
-
   const handleClearAllData = async () => {
     setIsClearing(true);
     try {
-      const sessionId = localStorage.getItem("upi_session_id");
-      if (sessionId) {
+      const token = await getToken();
+      if (token) {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-        // FIXED path to call the designated /clear endpoint
         const response = await fetch(`${apiUrl}/api/session/clear`, {
           method: "DELETE",
-          headers: { "X-Session-ID": sessionId }
+          headers: { "Authorization": `Bearer ${token}` }
         });
         if (!response.ok) throw new Error("Failed to clear server data");
       }
@@ -366,60 +360,12 @@ export function SettingsContainer() {
         iconClassName="bg-destructive/10 border-destructive/20 text-destructive"
       >
         <div className="space-y-4">
-          
-          {/* Start New Session Trigger */}
-          <div className="border border-border/40 rounded-xl overflow-hidden bg-panel/20">
-            <button 
-              onClick={() => {
-                setShowResetConfirm(!showResetConfirm);
-                setShowWipeConfirm(false);
-              }}
-              className="w-full flex items-center justify-between p-3.5 hover:bg-white/5 transition-all group outline-none"
-            >
-              <div className="flex items-center gap-3 text-foreground/60 group-hover:text-white transition-colors">
-                <RefreshCw size={15} />
-                <span className="text-xs font-bold uppercase tracking-wider">Start New Session</span>
-              </div>
-            </button>
-            
-            <AnimatePresence>
-              {showResetConfirm && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="bg-amber-500/5 border-t border-amber-500/10 p-4 space-y-3"
-                >
-                  <p className="text-xs text-amber-200/70 font-sans flex items-start gap-2 leading-relaxed">
-                    <AlertTriangle size={14} className="text-amber-400 shrink-0 mt-0.5" />
-                    Starting a new session will clear your chat logs and generate a fresh session ID in your browser. Uploaded statements remain safe on the server.
-                  </p>
-                  <div className="flex gap-2 justify-end">
-                    <button
-                      onClick={() => setShowResetConfirm(false)}
-                      className="px-3.5 py-1.5 bg-white/5 hover:bg-white/10 text-foreground/60 hover:text-white rounded-lg text-[10px] font-bold uppercase transition-colors cursor-pointer"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={handleResetSession}
-                      className="px-3.5 py-1.5 bg-amber-500 text-background hover:bg-amber-600 rounded-lg text-[10px] font-bold uppercase transition-colors cursor-pointer"
-                    >
-                      Confirm Reset
-                    </button>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
 
           {/* Clear All Data Trigger */}
           <div className="border border-destructive/25 rounded-xl overflow-hidden bg-destructive/[0.03]">
             <button 
               onClick={() => {
                 setShowWipeConfirm(!showWipeConfirm);
-                setShowResetConfirm(false);
               }}
               disabled={isClearing}
               className="w-full flex items-center justify-between p-3.5 hover:bg-destructive/10 transition-all group outline-none"
@@ -469,7 +415,7 @@ export function SettingsContainer() {
       <div className="p-4 bg-accent/5 border border-accent/10 rounded-xl flex gap-3">
         <Info size={18} className="text-accent shrink-0" />
         <p className="text-xs text-foreground/40 leading-relaxed font-sans font-medium">
-          Your financial statements are parsed, securely masked, and fully scoped to your browser session ID. 
+          Your financial statements are parsed, securely masked, and fully scoped to your secure user account. 
           Executing a permanent data wipe clears all server statement indexing layers and database tables.
         </p>
       </div>

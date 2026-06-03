@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { X, Send, Star, CheckCircle2, AlertCircle } from "lucide-react";
 import { useMutation } from "@apollo/client/react";
 import { SUBMIT_FEEDBACK } from "@/lib/queries";
+import { useAuth } from "@clerk/nextjs";
 
 interface FeedbackModalProps {
   isOpen: boolean;
@@ -19,6 +20,7 @@ export const FeedbackModal = ({ isOpen, onClose }: FeedbackModalProps) => {
   const [message, setMessage] = useState("");
   const [rating, setRating] = useState<number>(0);
   const [isSuccess, setIsSuccess] = useState(false);
+  const { userId } = useAuth();
 
   const [submitFeedback, { loading, error }] = useMutation(SUBMIT_FEEDBACK, {
     onCompleted: () => {
@@ -47,7 +49,7 @@ export const FeedbackModal = ({ isOpen, onClose }: FeedbackModalProps) => {
     await submitFeedback({
       variables: {
         input: {
-          sessionId: localStorage.getItem("upi_session_id") || "anonymous",
+          sessionId: userId || "anonymous",
           message,
           rating: rating > 0 ? rating : undefined,
           context: JSON.stringify({
