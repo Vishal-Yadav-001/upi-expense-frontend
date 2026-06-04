@@ -7,7 +7,6 @@ import { useState } from "react";
 export const useSync = () => {
   const [syncAIPatterns, { loading }] = useMutation(SYNC_AI_PATTERNS, {
     refetchQueries: [
-      { query: SYNC_AI_PATTERNS }, // Self (if needed)
       "GetDashboardData",
       { query: GET_SUMMARIES, variables: { type: "MONTHLY", limit: 6 } },
       "GetAvailableCategories"
