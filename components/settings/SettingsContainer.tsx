@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Shield, RefreshCw, Trash2, Cpu, CreditCard, Sparkles, AlertTriangle, Check, Loader2, Info, Eye, EyeOff } from "lucide-react";
 import { usePrivacy } from "@/context/PrivacyContext";
+import { SettingsSection } from "./SettingsSection";
 import { useDashboard } from "@/hooks/useDashboard";
 import { getStoredGeminiApiKey, getStoredGeminiModel, saveGeminiSettings, GEMINI_MODEL_OPTIONS } from "@/lib/ai-settings";
 import { useAuth } from "@clerk/nextjs";

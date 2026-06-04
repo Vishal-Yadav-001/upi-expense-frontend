@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { FileUp, Loader2, AlertCircle, X, Shield, ShieldOff } from "lucide-react";
+import { Loader2, AlertCircle, X, Shield, ShieldOff, FileUp } from "lucide-react";
 import { usePrivacy } from "@/context/PrivacyContext";
 import { useAuth } from "@clerk/nextjs";
+import { getStoredGeminiApiKey } from "@/lib/ai-settings";
 
 interface PDFUploadProps {
   onUploadSuccess?: (data: { totalParsed?: number }) => void;
@@ -43,6 +44,7 @@ export const PDFUpload = ({ onUploadSuccess }: PDFUploadProps) => {
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
       const token = await getToken();
+      const customApiKey = getStoredGeminiApiKey();
       
       const response = await fetch(`${apiUrl}/api/upload-upi-pdf`, {
         method: "POST",
@@ -50,6 +52,7 @@ export const PDFUpload = ({ onUploadSuccess }: PDFUploadProps) => {
         headers: {
           "X-PDF-Source": "SUPER_MONEY",
           "Authorization": token ? `Bearer ${token}` : "",
+          ...(customApiKey ? { "X-Gemini-API-Key": customApiKey } : {})
         },
       });
 
