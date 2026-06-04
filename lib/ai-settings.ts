@@ -1,4 +1,4 @@
-export const DEFAULT_GEMINI_MODEL = "gemini-2.5-flash";
+const DEFAULT_GEMINI_MODEL = "gemini-2.5-flash";
 
 const GEMINI_MODEL_STORAGE_KEY = "upi_gemini_model";
 const GEMINI_API_KEY_STORAGE_KEY = "upi_gemini_api_key";

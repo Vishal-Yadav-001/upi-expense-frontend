@@ -124,16 +124,6 @@ export const GET_IMPORT_BATCHES = gql`
   }
 `;
 
-export const CATEGORIZE_PAYEE = gql`
-  mutation CategorizePayee($payeeId: ID!, $category: String!) {
-    categorizePayee(payeeId: $payeeId, category: $category) {
-      id
-      category
-      confidence
-    }
-  }
-`;
-
 export const ASK_AI = gql`
   mutation AskAI($question: String!, $history: [ChatMessage], $model: String, $apiKey: String) {
     askAI(question: $question, history: $history, model: $model, apiKey: $apiKey) {
