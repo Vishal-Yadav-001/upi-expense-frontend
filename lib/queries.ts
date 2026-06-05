@@ -3,7 +3,7 @@ import { gql } from "@apollo/client";
 export interface DashboardData {
   me?: {
     id: string;
-    name: string;
+    name: string | null;
     monthlyBudget: number | null;
   } | null;
   monthlySpend: {
