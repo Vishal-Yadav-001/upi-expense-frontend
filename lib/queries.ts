@@ -183,21 +183,23 @@ export const SYNC_AI_PATTERNS = gql`
   }
 `;
 
-export interface TransactionsLedgerData {
-  transactions: {
+export interface TransactionRow {
+  id: string;
+  amount: number;
+  direction: string;
+  date: string;
+  status: string;
+  payee?: {
     id: string;
-    amount: number;
-    direction: string;
-    date: string;
-    status: string;
-    payee?: {
-      id: string;
-      displayName: string;
-      category: string;
-      normalizedName?: string;
-      transactionCount?: number;
-    } | null;
-  }[];
+    displayName: string;
+    category: string;
+    normalizedName?: string;
+    transactionCount?: number;
+  } | null;
+}
+
+export interface TransactionsLedgerData {
+  transactions: TransactionRow[];
 }
 
 export interface SubscriptionsData {
@@ -235,9 +237,12 @@ export interface SubscriptionsData {
   }[];
 }
 
+// Fetches ALL transactions for the session in one shot.
+// Direction / search / date filtering is done client-side by TanStack Table.
+// A high limit (2000) covers any realistic single-user UPI dataset.
 export const GET_TRANSACTIONS_LEDGER = gql`
-  query GetTransactionsLedger($status: TransactionStatus, $direction: TransactionDirection, $fromDate: String, $toDate: String, $limit: Int) {
-    transactions(status: $status, direction: $direction, fromDate: $fromDate, toDate: $toDate, limit: $limit) {
+  query GetTransactionsLedger {
+    transactions(limit: 2000) {
       id
       amount
       direction

@@ -35,6 +35,14 @@ export const ApolloWrapper = ({ children }: { children: ReactNode }) => {
     return new ApolloClient({
       link: authLink.concat(httpLink),
       cache: new InMemoryCache(),
+      defaultOptions: {
+        watchQuery: {
+          // Show cached data immediately on revisit, then silently refetch in background.
+          // This means the transactions page loads instantly when navigating back to it.
+          fetchPolicy: "cache-and-network",
+          nextFetchPolicy: "cache-first", // after first fetch, prefer cache
+        },
+      },
     });
   }, [getToken, userId]);
 
