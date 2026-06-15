@@ -3,16 +3,17 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client/react";
 import { ChevronDown, Search, Plus, Check, Loader2, X } from "lucide-react";
-import { GET_AVAILABLE_CATEGORIES, UPDATE_PAYEE_CATEGORY, GET_SUMMARIES } from "@/lib/queries";
+import { GET_AVAILABLE_CATEGORIES, UPDATE_PAYEE_CATEGORY } from "@/lib/queries";
 import { cn } from "@/lib/utils";
 
 interface CategoryDropdownProps {
   payeeId: string;
   currentCategory: string;
   className?: string;
+  onCategoryChange?: () => void;
 }
 
-export const CategoryDropdown = ({ payeeId, currentCategory, className }: CategoryDropdownProps) => {
+export const CategoryDropdown = ({ payeeId, currentCategory, className, onCategoryChange }: CategoryDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCustomMode, setIsCustomMode] = useState(false);
   const [search, setSearch] = useState("");
@@ -22,9 +23,8 @@ export const CategoryDropdown = ({ payeeId, currentCategory, className }: Catego
   const { data } = useQuery<any>(GET_AVAILABLE_CATEGORIES);
   const [updateCategory, { loading: updating }] = useMutation(UPDATE_PAYEE_CATEGORY, {
     refetchQueries: [
-      "GetDashboardData", 
+      "GetDashboardData",
       "GetAvailableCategories",
-      { query: GET_SUMMARIES, variables: { type: "MONTHLY", limit: 6 } }
     ],
     awaitRefetchQueries: true,
   });
@@ -54,6 +54,7 @@ export const CategoryDropdown = ({ payeeId, currentCategory, className }: Catego
       await updateCategory({
         variables: { payeeId, category: category.trim().toUpperCase() },
       });
+      onCategoryChange?.();
       setIsOpen(false);
       setIsCustomMode(false);
       setSearch("");

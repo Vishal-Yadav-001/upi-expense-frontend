@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { Message } from "@/hooks/useChat";
 import { motion } from "framer-motion";
-import { User, Bot, Pin } from "lucide-react";
+import { User, Bot, Pin, Copy, Check } from "lucide-react";
 import { clsx } from "clsx";
 import { usePrivacy } from "@/context/PrivacyContext";
 import { usePinnedInsights, PinnedChartType } from "@/context/PinnedInsightsContext";
@@ -38,6 +39,29 @@ const PinButton = ({ type, label, data }: { type: PinnedChartType; label: string
       )}
     >
       <Pin size={14} className={clsx(pinned && "fill-accent")} />
+    </button>
+  );
+};
+
+const CopyButton = ({ text, isUser }: { text: string; isUser: boolean }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <button
+      onClick={handleCopy}
+      className={clsx(
+        "flex items-center gap-1 text-[10px] transition-opacity duration-200 opacity-0 group-hover:opacity-100 cursor-pointer mt-1 px-1",
+        isUser ? "text-primary/60 hover:text-primary self-end" : "text-foreground/40 hover:text-foreground/80 self-start"
+      )}
+    >
+      {copied ? <Check size={12} /> : <Copy size={12} />}
+      {copied ? "Copied" : "Copy"}
     </button>
   );
 };
@@ -79,12 +103,12 @@ export const ChatMessage = ({ message }: { message: Message }) => {
       >
         {isUser ? <User size={18} /> : <Bot size={18} />}
       </div>
-      <div className="flex flex-col gap-2 max-w-[85%] min-w-0">
+      <div className={clsx("flex flex-col max-w-[85%] min-w-0 group", isUser ? "items-end" : "items-start")}>
         <div
           className={clsx(
             "px-4 py-2.5 text-sm leading-relaxed font-sans shadow-sm whitespace-pre-wrap break-words w-fit overflow-hidden",
             isUser
-              ? "bg-primary text-primary-foreground rounded-2xl rounded-tr-none self-end"
+              ? "bg-primary text-primary-foreground rounded-2xl rounded-tr-none"
               : "bg-card border border-border text-foreground rounded-2xl rounded-tl-none"
           )}
         >
@@ -98,6 +122,8 @@ export const ChatMessage = ({ message }: { message: Message }) => {
             )
           ))}
         </div>
+        
+        <CopyButton text={message.content} isUser={isUser} />
 
         {/* AI Artifacts with Pin buttons */}
         {!isUser && message.data && (

@@ -46,6 +46,7 @@ export function TransactionsContainer() {
 
   const { isPrivacyEnabled, hasHydrated } = usePrivacy();
   const { sync, isSyncing } = useSync();
+  const [pendingSyncCount, setPendingSyncCount] = useState(0);
 
   // Fetch ALL transactions once — no direction/limit variable.
   // Filtering, sorting, pagination all happen client-side via TanStack Table.
@@ -144,7 +145,11 @@ export function TransactionsContainer() {
         cell: ({ row }) => {
           const tx = row.original;
           return tx.payee?.id ? (
-            <CategoryDropdown payeeId={tx.payee.id} currentCategory={tx.payee.category ?? "UNCATEGORIZED"} />
+            <CategoryDropdown
+              payeeId={tx.payee.id}
+              currentCategory={tx.payee.category ?? "UNCATEGORIZED"}
+              onCategoryChange={() => setPendingSyncCount((c) => c + 1)}
+            />
           ) : (
             <span className="text-xs px-2 py-0.5 rounded-md bg-white/5 border border-white/5 text-foreground/50">
               Uncategorized
@@ -244,17 +249,32 @@ export function TransactionsContainer() {
 
           <motion.button
             whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-            onClick={sync}
+            onClick={async () => {
+              await sync();
+              setPendingSyncCount(0);
+            }}
             disabled={isSyncing || !!error || !data || rawTransactions.length === 0}
             className={cn(
-              "flex items-center gap-2 px-4 py-2 rounded-xl border transition-all text-xs font-bold uppercase tracking-wider cursor-pointer",
-              isSyncing ? "bg-teal/20 border-teal/50 text-teal animate-pulse" : "bg-teal/10 border-teal/20 text-teal hover:bg-teal/20",
+              "relative flex items-center gap-2 px-4 py-2 rounded-xl border transition-all text-xs font-bold uppercase tracking-wider cursor-pointer",
+              pendingSyncCount > 0 && !isSyncing
+                ? "bg-amber-500/15 border-amber-500/40 text-amber-400 hover:bg-amber-500/25"
+                : isSyncing ? "bg-teal/20 border-teal/50 text-teal animate-pulse" : "bg-teal/10 border-teal/20 text-teal hover:bg-teal/20",
               (isSyncing || !!error || !data || rawTransactions.length === 0) && "opacity-40 cursor-not-allowed pointer-events-none border-teal/10"
             )}
           >
             {isSyncing
-              ? <><Loader2 size={14} className="animate-spin" /><span>Syncing AI...</span></>
-              : <><RefreshCw size={14} /><span>Sync AI</span></>}
+              ? <><Loader2 size={14} className="animate-spin" /><span>Syncing...</span></>
+              : pendingSyncCount > 0
+                ? <><RefreshCw size={14} /><span>Sync AI · {pendingSyncCount} pending</span></>
+                : <><RefreshCw size={14} /><span>Sync AI</span></>}
+            {pendingSyncCount > 0 && !isSyncing && (
+              <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-60" />
+                <span className="relative inline-flex rounded-full h-4 w-4 bg-amber-500 text-[8px] text-black font-black items-center justify-center">
+                  {pendingSyncCount}
+                </span>
+              </span>
+            )}
           </motion.button>
         </div>
       </div>
@@ -321,7 +341,7 @@ export function TransactionsContainer() {
           </div>
 
           {/* Summary Bar — shown when search or filter is active */}
-          {showSummary && !loading && (
+          {showSummary && !isInitialLoading && (
             <motion.div
               initial={{ opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}
