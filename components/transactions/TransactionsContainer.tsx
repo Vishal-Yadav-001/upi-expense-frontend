@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import {
   useReactTable,
   getCoreRowModel,
@@ -48,15 +48,39 @@ export function TransactionsContainer() {
   const { sync, isSyncing } = useSync();
   const [pendingSyncCount, setPendingSyncCount] = useState(0);
 
-  // Fetch ALL transactions once — no direction/limit variable.
-  // Filtering, sorting, pagination all happen client-side via TanStack Table.
-  const { data, error, refetch, networkStatus } = useQuery<TransactionsLedgerData>(
+  const hasFetchedRest = useRef(false);
+  const [isBackgroundFetching, setIsBackgroundFetching] = useState(false);
+  const [currentLimit, setCurrentLimit] = useState(25);
+
+  const { data, error, refetch, networkStatus, fetchMore } = useQuery<TransactionsLedgerData>(
     GET_TRANSACTIONS_LEDGER,
-    { notifyOnNetworkStatusChange: true }
+    { 
+      variables: { limit: 25, offset: 0 },
+      notifyOnNetworkStatusChange: true 
+    }
   );
 
+  useEffect(() => {
+    if (data?.transactions && data.transactions.length === 25 && !hasFetchedRest.current) {
+      hasFetchedRest.current = true;
+      setIsBackgroundFetching(true);
+      fetchMore({
+        variables: { limit: 2000, offset: 25 },
+        updateQuery: (prev, { fetchMoreResult }) => {
+          if (!fetchMoreResult) return prev;
+          return {
+            transactions: [...prev.transactions, ...fetchMoreResult.transactions]
+          };
+        }
+      }).then(() => {
+        setCurrentLimit(2000);
+      }).finally(() => {
+        setIsBackgroundFetching(false);
+      });
+    }
+  }, [data, fetchMore]);
+
   // Only show loading spinner on first load (no data yet) or explicit manual refetch.
-  // cache-and-network does a silent background refetch — don't spin for that.
   const isInitialLoading = networkStatus === NetworkStatus.loading;
   const isManualRefetching = networkStatus === NetworkStatus.refetch;
 
@@ -239,7 +263,7 @@ export function TransactionsContainer() {
         <div className="flex items-center gap-3">
           <motion.button
             whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-            onClick={() => refetch()}
+            onClick={() => refetch({ limit: currentLimit, offset: 0 })}
             disabled={isManualRefetching}
             className="p-2 bg-white/5 border border-border hover:bg-white/10 text-foreground/60 hover:text-white rounded-xl transition-all cursor-pointer disabled:opacity-50"
             title="Reload Transactions"
@@ -340,8 +364,20 @@ export function TransactionsContainer() {
             </div>
           </div>
 
+          {/* Background Loading Indicator */}
+          {isBackgroundFetching && (
+            <motion.div
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-center gap-3 px-5 py-3 bg-amber-500/10 border border-amber-500/20 backdrop-blur-md rounded-2xl text-xs text-amber-400"
+            >
+              <Loader2 size={14} className="animate-spin" />
+              <span className="font-bold tracking-wider uppercase">Fetching full transaction history...</span>
+            </motion.div>
+          )}
+
           {/* Summary Bar — shown when search or filter is active */}
-          {showSummary && !isInitialLoading && (
+          {showSummary && !isInitialLoading && !isBackgroundFetching && (
             <motion.div
               initial={{ opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}

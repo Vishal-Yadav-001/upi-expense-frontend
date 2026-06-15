@@ -1,5 +1,5 @@
 import { useState, useSyncExternalStore } from "react";
-import { useMutation } from "@apollo/client/react";
+import { useMutation, useApolloClient } from "@apollo/client/react";
 import { ASK_AI } from "@/lib/queries";
 import { getStoredGeminiApiKey, getStoredGeminiModel } from "@/lib/ai-settings";
 
@@ -24,6 +24,8 @@ export const useChat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [askAI, { loading }] = useMutation<AskAIData>(ASK_AI);
   const isMounted = useSyncExternalStore(subscribe, () => true, () => false);
+
+  const client = useApolloClient();
 
   const getAskAIVariables = (question: string) => {
     const model = getStoredGeminiModel();
@@ -58,6 +60,11 @@ export const useChat = () => {
       const data = response.data;
       
       if (!data) throw new Error("No data received");
+
+      // Silently sync the UI if the AI updated the budget
+      if (data.askAI.toolsUsed?.includes("set_user_budget")) {
+        client.refetchQueries({ include: ["GetDashboardData"] });
+      }
 
       const assistantMessage: Message = {
         id: window.crypto.randomUUID(),
@@ -98,6 +105,11 @@ export const useChat = () => {
       const data = response.data;
       
       if (!data) throw new Error("No data received");
+
+      // Silently sync the UI if the AI updated the budget
+      if (data.askAI.toolsUsed?.includes("set_user_budget")) {
+        client.refetchQueries({ include: ["GetDashboardData"] });
+      }
 
       const assistantMessage: Message = {
         id: window.crypto.randomUUID(),

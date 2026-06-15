@@ -241,8 +241,8 @@ export interface SubscriptionsData {
 // Direction / search / date filtering is done client-side by TanStack Table.
 // A high limit (2000) covers any realistic single-user UPI dataset.
 export const GET_TRANSACTIONS_LEDGER = gql`
-  query GetTransactionsLedger {
-    transactions(limit: 2000) {
+  query GetTransactionsLedger($limit: Int, $offset: Int) {
+    transactions(limit: $limit, offset: $offset) {
       id
       amount
       direction
